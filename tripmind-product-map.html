@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TripMind — Карта компонентов продукта</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="light"]{
+  --bg:#f5f4f0;--surface:#faf9f6;--surface2:#ffffff;--border:rgba(0,0,0,0.08);
+  --text:#1a1814;--muted:#6b6a66;--faint:#b0afa9;
+  --teal:#016870;--teal-l:#cde4e2;--teal-d:#0a4e54;
+  --orange:#c85c00;--orange-l:#f5ddc8;
+  --blue:#005f8c;--blue-l:#c5d9e8;
+  --purple:#6b31a8;--purple-l:#ddd0ed;
+  --green:#3a6e1a;--green-l:#d3e0c9;
+  --gold:#b88200;--gold-l:#ede0c0;
+  --red:#991e2a;--red-l:#e8cdd0;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.08),0 2px 4px rgba(0,0,0,.04);
+  --shadow-lg:0 12px 32px rgba(0,0,0,.10);
+  --r:10px;--r-sm:6px;
+  --font-body:'Inter',sans-serif;
+  --font-display:'Instrument Serif',Georgia,serif;
+}
+[data-theme="dark"]{
+  --bg:#131210;--surface:#1a1917;--surface2:#201f1c;--border:rgba(255,255,255,0.08);
+  --text:#d0cfc9;--muted:#7a7976;--faint:#4a4946;
+  --teal:#4a96a2;--teal-l:#213537;--teal-d:#6dbbc8;
+  --orange:#e08040;--orange-l:#3d2810;
+  --blue:#4f8fbe;--blue-l:#1a3045;
+  --purple:#9660d0;--purple-l:#2d1e45;
+  --green:#65a040;--green-l:#1d2d10;
+  --gold:#d4a030;--gold-l:#332810;
+  --red:#d05060;--red-l:#3a1018;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3);--shadow-md:0 4px 12px rgba(0,0,0,.4);--shadow-lg:0 12px 32px rgba(0,0,0,.5);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{font-family:var(--font-body);font-size:14px;background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh}
+
+/* === HEADER === */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:32px;height:32px}
+.logo-name{font-family:var(--font-display);font-size:20px;color:var(--text);letter-spacing:-0.3px}
+.logo-tag{font-size:11px;color:var(--teal);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-left:4px;padding:2px 7px;background:var(--teal-l);border-radius:20px}
+.header-right{display:flex;align-items:center;gap:12px}
+.header-title{font-size:13px;color:var(--muted);font-weight:500}
+button{cursor:pointer;border:none;background:none;font-family:inherit;font-size:inherit}
+.theme-toggle{width:36px;height:36px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .18s ease}
+.theme-toggle:hover{color:var(--text);background:var(--bg)}
+
+/* === LAYOUT === */
+.layout{display:flex;gap:0;height:calc(100vh - 57px)}
+.sidebar{width:280px;min-width:280px;background:var(--surface);border-right:1px solid var(--border);overflow-y:auto;padding:20px 0}
+.main{flex:1;overflow-y:auto;padding:28px 32px}
+
+/* === SIDEBAR === */
+.sidebar-section{padding:0 16px 16px}
+.sidebar-label{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);margin-bottom:10px;padding:0 4px}
+.seg-btn{width:100%;text-align:left;padding:9px 12px;border-radius:var(--r-sm);font-size:13px;font-weight:500;color:var(--muted);display:flex;align-items:center;gap:8px;transition:all .15s ease;cursor:pointer}
+.seg-btn:hover{background:var(--bg);color:var(--text)}
+.seg-btn.active{background:var(--teal-l);color:var(--teal-d)}
+[data-theme="dark"] .seg-btn.active{background:var(--teal-l);color:var(--teal)}
+.seg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sidebar-divider{height:1px;background:var(--border);margin:12px 16px}
+.legend-item{display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12px;color:var(--muted)}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px}
+.stat-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px}
+.stat-num{font-size:22px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;line-height:1}
+.stat-label{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* === MAIN === */
+.page-title{font-family:var(--font-display);font-size:28px;color:var(--text);margin-bottom:6px;line-height:1.2}
+.page-sub{font-size:14px;color:var(--muted);margin-bottom:28px;max-width:72ch}
+.zone-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;margin-top:32px}
+.zone-header:first-of-type{margin-top:0}
+.zone-pill{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:3px 10px;border-radius:20px}
+.zone-title{font-size:15px;font-weight:700;color:var(--text)}
+.zone-desc{font-size:12px;color:var(--muted)}
+.components-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:8px}
+
+/* === COMPONENT CARD === */
+.comp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm);transition:box-shadow .18s ease,transform .18s ease;cursor:pointer;position:relative}
+.comp-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.comp-card.hidden{display:none}
+.comp-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.comp-name{font-size:14px;font-weight:700;color:var(--text);line-height:1.3}
+.comp-badge{font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:2px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-left:8px;margin-top:1px}
+.comp-icon{font-size:20px;margin-bottom:8px}
+.comp-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:12px}
+.comp-features{display:flex;flex-direction:column;gap:4px}
+.feat{display:flex;align-items:flex-start;gap:6px;font-size:11.5px;color:var(--muted)}
+.feat-dot{width:4px;height:4px;border-radius:50%;margin-top:5px;flex-shrink:0;background:var(--faint)}
+.feat-txt{line-height:1.4}
+.comp-footer{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:5px}
+.seg-tag{font-size:10px;padding:2px 7px;border-radius:12px;font-weight:600}
+.comp-connections{margin-top:8px;font-size:11px;color:var(--faint)}
+.conn-label{font-weight:600;color:var(--muted)}
+
+/* === INFRA SECTION === */
+.infra-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:8px}
+.infra-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.infra-name{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--text)}
+.infra-stack{display:flex;flex-wrap:wrap;gap:4px}
+.stack-tag{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500;background:var(--bg);border:1px solid var(--border);color:var(--muted)}
+
+/* === DETAIL PANEL === */
+.detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.detail-overlay.open{display:flex}
+.detail-panel{background:var(--surface);border-radius:14px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);padding:28px}
+.detail-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:18px}
+.detail-panel{position:relative}
+.detail-close:hover{color:var(--text)}
+.detail-name{font-family:var(--font-display);font-size:22px;color:var(--text);margin-bottom:4px}
+.detail-zone{font-size:12px;font-weight:600;margin-bottom:16px}
+.detail-section{margin-bottom:18px}
+.detail-section-title{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.detail-text{font-size:13px;color:var(--muted);line-height:1.6}
+.detail-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.detail-list li{font-size:13px;color:var(--muted);display:flex;gap:8px;line-height:1.4}
+.detail-list li::before{content:"→";color:var(--teal);flex-shrink:0;font-weight:600}
+.detail-tags{display:flex;flex-wrap:wrap;gap:6px}
+.detail-tag{font-size:11px;padding:3px 9px;border-radius:12px;font-weight:500}
+
+/* === JOURNEY MAP === */
+.journey-section{margin-top:32px}
+.journey-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px}
+.journey-flow{display:flex;flex-wrap:wrap;gap:0;align-items:center;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow-x:auto}
+.journey-step{display:flex;flex-direction:column;align-items:center;min-width:100px;text-align:center;position:relative}
+.journey-node{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:6px;flex-shrink:0}
+.journey-label{font-size:10px;font-weight:600;color:var(--muted);line-height:1.3;max-width:90px}
+.journey-arrow{font-size:18px;color:var(--faint);padding:0 4px;align-self:flex-start;margin-top:16px}
+.journey-note{font-size:9px;color:var(--faint);margin-top:2px;max-width:90px}
+
+/* === SCROLL INDICATOR === */
+.scroll-top{position:fixed;bottom:24px;right:24px;width:40px;height:40px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md);opacity:0;transition:opacity .2s;font-size:16px;z-index:50}
+.scroll-top.visible{opacity:1}
+
+@media(max-width:768px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;min-width:0;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .main{padding:16px}
+  .components-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <svg class="logo-icon" viewBox="0 0 32 32" fill="none" aria-label="TripMind logo">
+      <rect width="32" height="32" rx="8" fill="#016870"/>
+      <path d="M8 16 Q16 7 24 16 Q16 25 8 16Z" fill="none" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="16" cy="16" r="3.5" fill="#fff"/>
+      <path d="M16 5v3M16 24v3M5 16h3M24 16h3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+    </svg>
+    <span class="logo-name">TripMind</span>
+    <span class="logo-tag">Карта продукта</span>
+  </div>
+  <div class="header-right">
+    <span class="header-title">Компоненты продукта · Customer Journey</span>
+    <button class="theme-toggle" data-theme-toggle aria-label="Переключить тему">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Фильтр по сегменту</div>
+    <button class="seg-btn active" data-filter="all" onclick="filterCards('all',this)">
+      <span class="seg-dot" style="background:var(--teal)"></span>Все сегменты
+    </button>
+    <button class="seg-btn" data-filter="solo" onclick="filterCards('solo',this)">
+      <span class="seg-dot" style="background:var(--orange)"></span>Самостоятельные путешественники
+    </button>
+    <button class="seg-btn" data-filter="auto" onclick="filterCards('auto',this)">
+      <span class="seg-dot" style="background:var(--blue)"></span>Автопутешественники
+    </button>
+    <button class="seg-btn" data-filter="group" onclick="filterCards('group',this)">
+      <span class="seg-dot" style="background:var(--purple)"></span>Организаторы групп
+    </button>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Зоны продукта</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--teal)"></span>Вход и онбординг</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--orange)"></span>AI-Планирование</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--blue)"></span>Бронирование и логистика</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--purple)"></span>Совместное планирование</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span>Подготовка к поездке</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--gold)"></span>Во время поездки</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--red)"></span>Backend и AI-ядро</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Статистика</div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-num">20</div><div class="stat-label">компонентов</div></div>
+      <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">сегмента</div></div>
+      <div class="stat-box"><div class="stat-num">7</div><div class="stat-label">зон</div></div>
+      <div class="stat-box"><div class="stat-num">11</div><div class="stat-label">проблем закрыто</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main" id="main-content">
+  <h1 class="page-title">Карта компонентов продукта TripMind</h1>
+  <p class="page-sub">Визуализация всей инфраструктуры продукта — от первого касания до завершения поездки. Каждый компонент отвечает за закрытие конкретной проблемы потребительского сегмента.</p>
+
+  <!-- CUSTOMER JOURNEY -->
+  <div class="journey-section">
+    <div class="journey-title">Customer Journey — путь клиента через продукт</div>
+    <div class="journey-flow">
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--teal-l)">🔍</div>
+        <div class="journey-label" style="color:var(--teal-d)">Открытие</div>
+        <div class="journey-note">Лендинг, соцсети, сарафан</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--teal-l)">👤</div>
+        <div class="journey-label" style="color:var(--teal-d)">Регистрация</div>
+        <div class="journey-note">Onboarding, профиль</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--orange-l)">🤖</div>
+        <div class="journey-label" style="color:var(--orange)">AI-запрос</div>
+        <div class="journey-note">Чат, маршрут, идея</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--orange-l)">🗺️</div>
+        <div class="journey-label" style="color:var(--orange)">Маршрут</div>
+        <div class="journey-note">Карта, редактор, POI</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--blue-l)">✈️</div>
+        <div class="journey-label" style="color:var(--blue)">Бронирование</div>
+        <div class="journey-note">Авиа, отель, авто</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--green-l)">📋</div>
+        <div class="journey-label" style="color:var(--green)">Подготовка</div>
+        <div class="journey-note">Чек-лист, документы</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--gold-l)">📍</div>
+        <div class="journey-label" style="color:var(--gold)">В дороге</div>
+        <div class="journey-note">Навигация, офлайн</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--purple-l)">⭐</div>
+        <div class="journey-label" style="color:var(--purple)">После</div>
+        <div class="journey-note">Воспоминания, шеринг</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZONE 1: ВХОД И ОНБОРДИНГ -->
+  <div class="zone-header" style="margin-top:32px">
+    <span class="zone-pill" style="background:var(--teal-l);color:var(--teal-d)">Зона 1</span>
+    <div>
+      <div class="zone-title">Вход и онбординг</div>
+      <div class="zone-desc">Первое касание пользователя с продуктом — от лендинга до заполнения профиля</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" data-zone="entry" onclick="openDetail('landing')">
+      <div class="comp-icon">🏠</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Лендинг и маркетинговый сайт</div>
+        <span class="comp-badge" style="background:var(--teal-l);color:var(--teal-d)">Entry</span>
+      </div>
+      <div class="comp-desc">Первое касание. Объясняет ценность TripMind, показывает ключевые сценарии через живые демо и CTA на регистрацию.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Hero-блок с AI-демо маршрута в реальном времени</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Секция «Как это работает» с анимацией 3 шагов</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Блок сравнения с TripIt, Wanderlog, ChatGPT</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Отзывы из CustDev и beta-тестеров</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">CTA на регистрацию + Telegram-бот</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" data-zone="entry" onclick="openDetail('auth')">
+      <div class="comp-icon">🔐</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Регистрация и авторизация</div>
+        <span class="comp-badge" style="background:var(--teal-l);color:var(--teal-d)">Entry</span>
+      </div>
+      <div class="comp-desc">Быстрый вход через Telegram OAuth, Google, Apple. Минимальный friction — не более 3 экранов до первого маршрута.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Telegram OAuth / Google / Apple Sign-In</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Email + пароль (резервный способ)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Восстановление пароля и 2FA</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Переход к онбордингу после первого входа</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" data-zone="entry" onclick="openDetail('onboarding')">
+      <div class="comp-icon">🎯</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Онбординг и профиль путешественника</div>
+        <span class="comp-badge" style="background:var(--teal-l);color:var(--teal-d)">Entry</span>
+      </div>
+      <div class="comp-desc">3-шаговый wizard: выбор стиля путешествий, типичных направлений, интересов. Данные персонализируют AI-рекомендации.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Wizard: стиль, интересы, бюджет, тип поездок</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Профиль: фото, bio, история поездок</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Паспортные данные (зашифровано, опционально)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Настройки уведомлений и приватности</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Выбор роли: соло / авто / организатор</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 2: AI-ПЛАНИРОВАНИЕ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--orange-l);color:var(--orange)">Зона 2</span>
+    <div>
+      <div class="zone-title">AI-Планирование маршрута</div>
+      <div class="zone-desc">Ключевая ценность продукта — от AI-чата до финального маршрута на карте</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" data-zone="planning" onclick="openDetail('airoute')">
+      <div class="comp-icon">🤖</div>
+      <div class="comp-card-top">
+        <div class="comp-name">AI-Маршрутизатор (Core)</div>
+        <span class="comp-badge" style="background:var(--orange-l);color:var(--orange)">MVP Core</span>
+      </div>
+      <div class="comp-desc">Главный AI-модуль. Multi-Agent Orchestration на LangGraph: Route Agent, POI Agent, Checklist Agent, Document Agent. Генерирует полный маршрут за 15–20 сек.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">NLP-разбор запроса пользователя (LLM)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Генерация маршрута по дням с POI</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Travel Knowledge Graph — 190+ стран</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Учёт бюджета, стиля, сезона</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Точность рекомендаций ≥85%</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Входы: профиль, запрос, фильтры → Выходы: маршрут, карта, чек-лист</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+    <div class="comp-card" data-segments="solo" data-zone="planning" onclick="openDetail('discover')">
+      <div class="comp-icon">🔭</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Модуль разведки и открытия мест</div>
+        <span class="comp-badge" style="background:var(--orange-l);color:var(--orange)">Discovery</span>
+      </div>
+      <div class="comp-desc">Для автопутешественников и соло: интерактивная карта «что рядом» с AI-фильтрами. Находит hidden gems за пределами must-see списков.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Карта с кластеризацией POI по категориям</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">AI-рейтинг «для вас» по профилю</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Фильтры: бюджет, время, тип, рейтинг</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Режим «по пути» для авто-маршрутов</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Сохранение в wishlist / добавление в маршрут</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+      </div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" data-zone="planning" onclick="openDetail('editor')">
+      <div class="comp-icon">✏️</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Интерактивный редактор маршрута</div>
+        <span class="comp-badge" style="background:var(--orange-l);color:var(--orange)">Editor</span>
+      </div>
+      <div class="comp-desc">Drag-and-drop редактирование AI-маршрута. Пользователь меняет порядок, добавляет/удаляет места, AI автоматически пересчитывает логику и время.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Drag-and-drop по дням и временным слотам</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Карта синхронизируется в реальном времени</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">AI-подсказки при конфликтах расписания</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Добавление личных заметок к точкам</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Экспорт в PDF, Google Calendar, .ics</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+    <div class="comp-card" data-segments="auto" data-zone="planning" onclick="openDetail('automode')">
+      <div class="comp-icon">🚗</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Режим «Авто-маршрут»</div>
+        <span class="comp-badge" style="background:var(--blue-l);color:var(--blue)">Auto-Mode</span>
+      </div>
+      <div class="comp-desc">Специализированный модуль для автопутешественников. Оптимизирует маршрут с учётом трафика, заправок, парковок, мест для ночлега вдоль дороги.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Расчёт по алгоритму Dijkstra/ACO</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Заправки, стоянки, ночлег вдоль пути</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Оценка расхода топлива и бюджета</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Интеграция с Google Maps Navigation API</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Режим «остановка по желанию» с POI радаром</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+      </div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,group" data-zone="planning" onclick="openDetail('personalcab')">
+      <div class="comp-icon">📂</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Личный кабинет путешественника</div>
+        <span class="comp-badge" style="background:var(--orange-l);color:var(--orange)">Dashboard</span>
+      </div>
+      <div class="comp-desc">Центральный хаб пользователя. Все поездки, черновики, wishlist и история — в одном месте с удобной навигацией.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Список текущих и прошлых поездок</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Wishlist мест и направлений</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Статистика поездок: страны, км, бюджет</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Черновики и шаблоны маршрутов</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Быстрый доступ к активной поездке</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 3: БРОНИРОВАНИЕ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--blue-l);color:var(--blue)">Зона 3</span>
+    <div>
+      <div class="zone-title">Бронирование и логистика</div>
+      <div class="zone-desc">Агрегация предложений и deep-link интеграции с OTA-сервисами</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" data-zone="booking" onclick="openDetail('booking')">
+      <div class="comp-icon">🏨</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Агрегатор бронирований</div>
+        <span class="comp-badge" style="background:var(--blue-l);color:var(--blue)">Booking</span>
+      </div>
+      <div class="comp-desc">Единая точка для подбора и бронирования: авиа, отели, авто, экскурсии. Deep-links в Aviasales, Booking.com, Airbnb, Ostrovok без смены контекста.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Поиск авиабилетов через Aviasales API</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Отели: Booking.com, Ostrovok, Airbnb</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Экскурсии: Tripster, GetYourGuide</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Deep-links с предзаполненными данными</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Умная таблица расходов с AI-прогнозом бюджета</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Сохранение ссылок подтверждений</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,group" data-zone="booking" onclick="openDetail('budget')">
+      <div class="comp-icon">💰</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Умная таблица бюджета</div>
+        <span class="comp-badge" style="background:var(--blue-l);color:var(--blue)">Budget</span>
+      </div>
+      <div class="comp-desc">Автоматически формируемая таблица расходов на основе маршрута. Заменяет Excel-таблицы, которые пользователи ведут вручную (250–400 строк).</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Автоимпорт из бронирований и маршрута</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Категории: транспорт, жильё, еда, развлечения</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">AI-прогноз общих расходов</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Разделение расходов в группе (split)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Экспорт в Excel / PDF</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 4: СОВМЕСТНОЕ ПЛАНИРОВАНИЕ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--purple-l);color:var(--purple)">Зона 4</span>
+    <div>
+      <div class="zone-title">Совместное планирование</div>
+      <div class="zone-desc">Real-time коллаборация для групп и семейных поездок</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="group" data-zone="collab" onclick="openDetail('collab')">
+      <div class="comp-icon">👥</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Модуль совместного планирования</div>
+        <span class="comp-badge" style="background:var(--purple-l);color:var(--purple)">Collab</span>
+      </div>
+      <div class="comp-desc">Real-time workspace для группы: все участники видят изменения мгновенно. Заменяет Google Docs + Telegram-переписку + Excel.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Совместное редактирование маршрута (WebSocket)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Система голосования за места (лайки/дизлайки)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Роли: организатор, участник, гость</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Комментарии и реакции к точкам маршрута</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">История изменений с указанием автора</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Приглашение по ссылке / Telegram / email</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+    <div class="comp-card" data-segments="group" data-zone="collab" onclick="openDetail('familyroute')">
+      <div class="comp-icon">👨‍👩‍👧</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Семейный / групповой AI-маршрутизатор</div>
+        <span class="comp-badge" style="background:var(--purple-l);color:var(--purple)">Family</span>
+      </div>
+      <div class="comp-desc">AI учитывает preferences каждого участника группы и генерирует маршрут, максимально удовлетворяющий все стороны (family-friendly алгоритм).</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Сбор предпочтений каждого участника</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Family-friendly фильтрация POI</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Балансировка интересов (collaborative filtering)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Учёт возраста детей, мобильности</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 5: ПОДГОТОВКА К ПОЕЗДКЕ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--green-l);color:var(--green)">Зона 5</span>
+    <div>
+      <div class="zone-title">Подготовка к поездке</div>
+      <div class="zone-desc">Документы, чек-листы, здоровье, визы, страховки</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" data-zone="prep" onclick="openDetail('checklist')">
+      <div class="comp-icon">✅</div>
+      <div class="comp-card-top">
+        <div class="comp-name">AI-Чек-лист подготовки</div>
+        <span class="comp-badge" style="background:var(--green-l);color:var(--green)">Checklist</span>
+      </div>
+      <div class="comp-desc">Персонализированный список задач для подготовки к конкретному маршруту: визы, прививки, вещи, страховка — с дедлайнами и напоминаниями.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">AI-генерация чек-листа на основе маршрута</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Разделы: документы, здоровье, вещи, деньги</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Дедлайны: «сделать за N дней до вылета»</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Push/Telegram напоминания (−45, −14, −7 дней)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Отметка выполненного, прогресс-бар</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,group" data-zone="prep" onclick="openDetail('docs')">
+      <div class="comp-icon">📄</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Хранилище документов и визового контроля</div>
+        <span class="comp-badge" style="background:var(--green-l);color:var(--green)">Docs</span>
+      </div>
+      <div class="comp-desc">Безопасное хранение паспортов, виз, страховок, билетов с умными напоминаниями об истечении срока и требованиях направления.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Загрузка и хранение документов (зашифровано)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Проверка визовых требований для страны</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">AI-парсинг данных из фото паспорта</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Напоминания об истечении паспорта/визы</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Офлайн-доступ к документам</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" data-zone="prep" onclick="openDetail('notifications')">
+      <div class="comp-icon">🔔</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Adaptive Reminder System</div>
+        <span class="comp-badge" style="background:var(--green-l);color:var(--green)">Push</span>
+      </div>
+      <div class="comp-desc">Умная система уведомлений: не спамит, а отправляет нужное в нужный момент. Telegram-бот + Push + Email.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Telegram-бот как основной канал</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Push-уведомления (Web + Mobile)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Адаптивное расписание по активности</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Алерты: изменение цен, погода, события</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Настройка частоты и типов уведомлений</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 6: ВО ВРЕМЯ ПОЕЗДКИ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--gold-l);color:var(--gold)">Зона 6</span>
+    <div>
+      <div class="zone-title">Во время поездки</div>
+      <div class="zone-desc">Навигация, офлайн-режим, ситуативная помощь и live-данные</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" data-zone="ontrip" onclick="openDetail('nav')">
+      <div class="comp-icon">🗺️</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Навигация и офлайн-карты</div>
+        <span class="comp-badge" style="background:var(--gold-l);color:var(--gold)">Navigation</span>
+      </div>
+      <div class="comp-desc">Интерактивная карта маршрута с офлайн-доступом. Интеграция с Google Maps Navigation для пошаговых указаний.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Маршрут на карте с точками и временем</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Офлайн-загрузка карт региона</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Открытие в Google Maps / 2GIS / Naver</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Актуальные часы работы и цены (live)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">QR-код маршрута для офлайн-доступа</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" data-zone="ontrip" onclick="openDetail('livedata')">
+      <div class="comp-icon">⚡</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Live-данные и ситуационный модуль</div>
+        <span class="comp-badge" style="background:var(--gold-l);color:var(--gold)">Live</span>
+      </div>
+      <div class="comp-desc">Real-time данные из внешних API: погода, курсы валют, транспортные задержки, VPN-рекомендации, эпид-обстановка (WHO/CDC).</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Погода (OpenWeatherMap), прогноз на 7 дней</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Курсы валют (ECB real-time)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Транспортные алерты и замены</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">VPN-рекомендации по стране</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Медицинские предупреждения (WHO/CDC)</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 7: BACKEND И AI-ЯДРО -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--red-l);color:var(--red)">Зона 7</span>
+    <div>
+      <div class="zone-title">Backend-инфраструктура и AI-ядро</div>
+      <div class="zone-desc">Невидимые компоненты, обеспечивающие работу всего продукта</div>
+    </div>
+  </div>
+  <div class="infra-grid">
+
+    <div class="infra-card">
+      <div class="infra-name">🧠 Multi-Agent AI Orchestrator</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">LangGraph-оркестратор для Route, POI, Checklist, Document агентов</div>
+      <div class="infra-stack">
+        <span class="stack-tag">LangGraph</span><span class="stack-tag">LLM (GPT/Claude)</span><span class="stack-tag">Python</span><span class="stack-tag">FastAPI</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">🌐 Travel Knowledge Graph</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">OWL2-онтология + RAG-pipeline TravelRAG, 190+ стран, POI-база</div>
+      <div class="infra-stack">
+        <span class="stack-tag">Neo4j / RDF</span><span class="stack-tag">OWL2</span><span class="stack-tag">RAG</span><span class="stack-tag">Foursquare API</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">🔌 Real-Time API Orchestration</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Единая точка интеграции с внешними сервисами</div>
+      <div class="infra-stack">
+        <span class="stack-tag">Booking API</span><span class="stack-tag">Aviasales</span><span class="stack-tag">Google Maps</span><span class="stack-tag">OpenWeatherMap</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">🗄️ Backend & Data Layer</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Основной бэкенд, БД, хранилище сессий и документов</div>
+      <div class="infra-stack">
+        <span class="stack-tag">FastAPI</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">Redis</span><span class="stack-tag">S3-совместимое хранилище</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">⚛️ Frontend Web App</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">SPA-приложение, PWA для офлайн-доступа</div>
+      <div class="infra-stack">
+        <span class="stack-tag">React</span><span class="stack-tag">TypeScript</span><span class="stack-tag">PWA</span><span class="stack-tag">WebSocket</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">🤖 Telegram Bot</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Основной канал уведомлений + Mini App для мобильного доступа</div>
+      <div class="infra-stack">
+        <span class="stack-tag">Telegram Bot API</span><span class="stack-tag">Telegram Mini App</span><span class="stack-tag">OAuth</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">🔒 Auth & Security</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Аутентификация, шифрование документов, GDPR-compliance</div>
+      <div class="infra-stack">
+        <span class="stack-tag">JWT</span><span class="stack-tag">OAuth 2.0</span><span class="stack-tag">AES-256</span><span class="stack-tag">GDPR</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">📊 ML & Feedback Loop</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Дообучение модели на основе поведения пользователей</div>
+      <div class="infra-stack">
+        <span class="stack-tag">Content-based filtering</span><span class="stack-tag">Collaborative filtering</span><span class="stack-tag">A/B тесты</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="height:48px"></div>
+</main>
+</div>
+
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detailPanel">
+    <button class="detail-close" onclick="closeDetailBtn()">✕</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<!-- SCROLL TOP -->
+<button class="scroll-top" id="scrollTop" onclick="scrollToTop()" aria-label="Наверх">↑</button>
+
+<script>
+// Theme toggle
+(function(){
+  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
+  let d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  r.setAttribute('data-theme',d);
+  if(t)t.addEventListener('click',()=>{
+    d=d==='dark'?'light':'dark';
+    r.setAttribute('data-theme',d);
+    t.innerHTML=d==='dark'
+      ?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      :'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  });
+})();
+
+// Filter
+function filterCards(seg, btn) {
+  document.querySelectorAll('.seg-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.comp-card').forEach(card=>{
+    if(seg==='all'){card.classList.remove('hidden');return;}
+    const segs=(card.dataset.segments||'').split(',');
+    card.classList.toggle('hidden',!segs.includes(seg));
+  });
+}
+
+// Detail data
+const details = {
+  landing:{name:'Лендинг и маркетинговый сайт',zone:'Зона 1 — Вход и онбординг',
+    problem:'Пользователь не понимает, чем TripMind отличается от ChatGPT и Wanderlog. Нет наглядного демо.',
+    solution:'Интерактивный лендинг с живым AI-демо маршрута, блоком сравнения конкурентов и CTA на регистрацию.',
+    inputs:['Анонимный пользователь из органики/рекламы'],
+    outputs:['Регистрация','Переход в Telegram-бот','Подписка на newsletter'],
+    jtbd:'Когда я вижу новый travel-инструмент, хочу за 30 сек понять — он лучше ChatGPT или нет?',
+    quality:'Загрузка LCP < 1.5 сек. Core Web Vitals: зелёная зона. A/B тест CTA ежеквартально.',
+    result:'Конверсия в регистрацию ≥ 8%. CAC снижается на 15-20% за счёт органики.'},
+
+  auth:{name:'Регистрация и авторизация',zone:'Зона 1 — Вход и онбординг',
+    problem:'Friction при регистрации снижает конверсию. Пользователи бросают форму после 2-го экрана.',
+    solution:'One-click вход через Telegram, Google или Apple. Резервный Email+пароль. Не более 3 кликов до первого маршрута.',
+    inputs:['Лендинг / реферальная ссылка','Telegram OAuth callback','Google / Apple ID'],
+    outputs:['Создан профиль пользователя','Начат онбординг','JWT токен'],
+    jtbd:'Хочу зарегистрироваться без заполнения форм — просто нажать «Войти через Telegram».',
+    quality:'Time-to-registered < 30 сек. Восстановление пароля < 2 мин. 2FA опционально.',
+    result:'Конверсия «лендинг → зарегистрированный» ≥ 55%. Доля Telegram OAuth: 70%+.'},
+
+  onboarding:{name:'Онбординг и профиль путешественника',zone:'Зона 1 — Вход и онбординг',
+    problem:'Без данных о пользователе AI даёт generic-рекомендации. Пользователи хотят персонализацию с первого маршрута.',
+    solution:'3-шаговый wizard сразу после регистрации: стиль, интересы, типичный бюджет, предпочтения транспорта.',
+    inputs:['Завершённая регистрация'],
+    outputs:['Заполненный профиль путешественника','Первый AI-запрос (авто-предложение)'],
+    jtbd:'Хочу настроить один раз — и пусть AI всегда знает мои предпочтения.',
+    quality:'Completion rate wizard ≥ 80%. Время прохождения < 2 мин.',
+    result:'Релевантность первого AI-маршрута +40% vs без профиля. CSAT после онбординга ≥ 4.5/5.'},
+
+  airoute:{name:'AI-Маршрутизатор (Core)',zone:'Зона 2 — AI-Планирование',
+    problem:'Пользователи тратят 15-20 часов на планирование поездки. ChatGPT даёт текст, не структуру. Wanderlog не учитывает контекст.',
+    solution:'Multi-Agent Orchestration: Route Agent строит маршрут, POI Agent подбирает места из Knowledge Graph, Checklist Agent формирует задачи.',
+    inputs:['Профиль пользователя','Текстовый / голосовой запрос','Фильтры: даты, бюджет, интересы'],
+    outputs:['Структурированный маршрут по дням','Карта с точками','AI-чек-лист','Рекомендации по бронированию'],
+    jtbd:'Когда я еду в Таиланд на 10 дней, хочу получить готовый маршрут за 15 секунд, не за 2 часа.',
+    quality:'Генерация маршрута < 15 сек. Точность рекомендаций ≥ 85% (по feedback). Uptime 99.9%.',
+    result:'Экономия 12-18 часов планирования. Точность ≥ 85%. NPS ≥ 50. CSI ≥ 4.5/5.'},
+
+  discover:{name:'Модуль разведки и открытия мест',zone:'Зона 2 — AI-Планирование',
+    problem:'«Гугл показывает одни и те же места. Хочу найти что-то настоящее, как у местных».',
+    solution:'AI-карта с персонализированным рейтингом POI, фильтрами по стилю и режимом «по пути» для авто-маршрутов.',
+    inputs:['Маршрут / локация пользователя','Профиль (стиль, интересы)'],
+    outputs:['Список рекомендованных POI','Добавление в маршрут / wishlist'],
+    jtbd:'Хочу найти места, которые оценят именно люди с моим вкусом, а не массовый турист.',
+    quality:'Покрытие 190+ стран. Обновление данных ≤ 24 ч. Фильтры отрабатывают < 0.5 сек.',
+    result:'75-80% пользователей добавляют ≥ 1 место из рекомендаций. Средний чек тура +8%.'},
+
+  editor:{name:'Интерактивный редактор маршрута',zone:'Зона 2 — AI-Планирование',
+    problem:'AI-маршрут не всегда идеален. Пользователь хочет поменять порядок и добавить личные места без потери логики.',
+    solution:'Drag-and-drop редактор с синхронизированной картой. AI автоматически пересчитывает расписание при изменениях.',
+    inputs:['AI-сгенерированный маршрут'],
+    outputs:['Отредактированный маршрут','PDF/ics экспорт','Совместный доступ (ссылка)'],
+    jtbd:'Хочу взять AI-маршрут за основу и скорректировать его под себя — удобно и быстро.',
+    quality:'Drag-drop latency < 100ms. Экспорт PDF < 3 сек. Автосохранение каждые 30 сек.',
+    result:'Retention D30 +25% у пользователей, использующих редактор. 65% делают ≥ 2 правки.'},
+
+  automode:{name:'Режим «Авто-маршрут»',zone:'Зона 2 — AI-Планирование',
+    problem:'«Классические планировщики не понимают авто-логику: мне нужны заправки, парковки, ночлег вдоль дороги».',
+    solution:'Специализированный модуль с алгоритмом Dijkstra/ACO, интеграцией с Google Maps и расчётом расхода топлива.',
+    inputs:['Точки А и Б','Тип авто (опционально)','Предпочтения: скорость / живописность'],
+    outputs:['Оптимальный маршрут с остановками','Карта заправок и ночлега','Бюджет поездки'],
+    jtbd:'Когда еду на авто из Москвы в Крым, хочу знать лучшие места для остановки, не только дорогу.',
+    quality:'Расчёт маршрута < 5 сек. Актуальность данных о заправках ≤ 6 ч. Точность расхода топлива ±10%.',
+    result:'Экономия топлива 8-12%. Снижение времени на поиск ночлега с 45 до 5 мин.'},
+
+  personalcab:{name:'Личный кабинет путешественника',zone:'Зона 2 — AI-Планирование',
+    problem:'Поездки, черновики и wishlist разбросаны по вкладкам. Нет единого места.',
+    solution:'Dashboard с картотекой поездок, wishlist, статистикой и быстрым доступом к активному маршруту.',
+    inputs:['Данные пользователя','Все поездки и маршруты'],
+    outputs:['Открытие конкретной поездки','Создание новой','Поделиться маршрутом'],
+    jtbd:'Хочу видеть все свои прошлые поездки и черновики в одном месте, как в фотоальбоме.',
+    quality:'Загрузка кабинета < 1 сек. Поддержка ≥ 50 поездок без деградации UX.',
+    result:'DAU/MAU > 0.35 у пользователей с заполненным кабинетом. Retention D90 +30%.'},
+
+  booking:{name:'Агрегатор бронирований',zone:'Зона 3 — Бронирование и логистика',
+    problem:'Пользователь открывает 10+ вкладок: Aviasales, Booking, Airbnb, Tripster. Теряет контекст маршрута.',
+    solution:'Единая страница подбора с deep-links в OTA-сервисы. Данные маршрута предзаполняют поисковые формы.',
+    inputs:['Маршрут с датами и локациями','Количество участников'],
+    outputs:['Редиректы в OTA с предзаполненными данными','Сохранённые ссылки бронирований'],
+    jtbd:'Хочу из маршрута в один клик перейти к поиску отелей с уже заполненными датами и городом.',
+    quality:'Deep-link работает ≥ 99% времени. Актуальность API < 15 мин задержки.',
+    result:'Снижение времени бронирования с 2-4 ч до 30-60 мин. Аффилиатная выручка: 8-12% от транзакций.'},
+
+  budget:{name:'Умная таблица бюджета',zone:'Зона 3 — Бронирование и логистика',
+    problem:'«Я веду Excel на 250 строк для каждой поездки. Это занимает 2-3 часа».',
+    solution:'Автоматически формируемая таблица на основе маршрута и бронирований. AI прогнозирует общие расходы.',
+    inputs:['Подтверждения бронирований','Маршрут с локациями'],
+    outputs:['Таблица расходов','Прогноз бюджета','Экспорт Excel/PDF','Split для группы'],
+    jtbd:'Хочу видеть все расходы поездки автоматически, без ручного ввода в Excel.',
+    quality:'Автозаполнение из email-подтверждений точность ≥ 90%. Экспорт < 2 сек.',
+    result:'Экономия 2-3 ч на ведение бюджета. 80% пользователей не открывают Excel после внедрения.'},
+
+  collab:{name:'Модуль совместного планирования',zone:'Зона 4 — Совместное планирование',
+    problem:'«Мы 3 недели согласовываем маршрут в Telegram. У каждого своя версия Google Docs».',
+    solution:'Real-time workspace с WebSocket: все видят изменения мгновенно. Система голосования сокращает споры.',
+    inputs:['Организатор создаёт поездку','Приглашение участников по ссылке/Telegram'],
+    outputs:['Согласованный маршрут','Разделённый бюджет','Общий чек-лист'],
+    jtbd:'Когда организую поездку для 6 человек, хочу чтобы все согласовывали маршрут в одном месте.',
+    quality:'WebSocket latency < 200ms. Поддержка ≥ 20 участников. Offline-синхронизация при восстановлении сети.',
+    result:'Снижение времени согласования с 3 недель до 2-3 дней. CSAT группового модуля ≥ 4.7/5.'},
+
+  familyroute:{name:'Семейный / групповой AI-маршрутизатор',zone:'Зона 4 — Совместное планирование',
+    problem:'«AI строит маршрут под одного. Мне нужно учесть, что с нами едут дети и пожилые родители».',
+    solution:'AI собирает предпочтения каждого участника и строит маршрут-компромисс с family-friendly алгоритмом.',
+    inputs:['Профили всех участников','Возраст детей / особые потребности'],
+    outputs:['Family-friendly маршрут','Список POI с пометками доступности'],
+    jtbd:'Хочу маршрут, который понравится и детям, и взрослым, и бабушке с ограниченной мобильностью.',
+    quality:'Family-friendly фильтрация точность ≥ 88%. Обработка до 15 участников.',
+    result:'Удовлетворённость группового сегмента +35% vs базового маршрутизатора.'},
+
+  checklist:{name:'AI-Чек-лист подготовки',zone:'Зона 5 — Подготовка к поездке',
+    problem:'«Я всегда что-то забываю: то визу, то прививки, то страховку. Узнаю в аэропорту».',
+    solution:'AI генерирует персонализированный чек-лист на основе маршрута с дедлайнами и напоминаниями.',
+    inputs:['Финальный маршрут','Профиль и гражданство пользователя'],
+    outputs:['Чек-лист с дедлайнами','Push/Telegram напоминания','Прогресс выполнения'],
+    jtbd:'Когда даты поездки подтверждены, хочу получить готовый список задач с дедлайнами.',
+    quality:'Генерация чек-листа < 5 сек. Push-доставка ≥ 99.5%. Кастомизация любого пункта.',
+    result:'Снижение «забытых задач» с 50% до < 8%. 85% пользователей завершают чек-лист до поездки.'},
+
+  docs:{name:'Хранилище документов и визового контроля',zone:'Зона 5 — Подготовка к поездке',
+    problem:'«Я держу сканы паспортов в Telegram себе. Очень неудобно найти нужный документ в аэропорту».',
+    solution:'Безопасное зашифрованное хранилище с AI-парсингом данных из фото и умными напоминаниями.',
+    inputs:['Фото/скан документа','Данные маршрута (для визовых требований)'],
+    outputs:['Структурированная база документов','Напоминания об истечении','Офлайн-доступ'],
+    jtbd:'Хочу сохранить все документы один раз и иметь доступ даже без интернета.',
+    quality:'AES-256 шифрование. Офлайн < 5 сек загрузки. Парсинг паспорта точность ≥ 92%.',
+    result:'0 потерянных документов среди пользователей. Скорость поиска документа: 3 сек vs 5 мин раньше.'},
+
+  notifications:{name:'Adaptive Reminder System',zone:'Зона 5 — Подготовка к поездке',
+    problem:'«Стандартные напоминания — спам. Я их игнорирую. Но потом забываю важное».',
+    solution:'Умная система: отправляет нужное в нужный момент. Основной канал — Telegram-бот, синхронизированный с профилем.',
+    inputs:['Маршрут с датами','Прогресс чек-листа','Поведение пользователя'],
+    outputs:['Telegram-сообщения','Push-уведомления','Email-дайджест'],
+    jtbd:'Хочу получать только важные уведомления — и ровно когда они нужны, не раньше и не позже.',
+    quality:'Open rate Telegram > 60%. Push CTR > 15%. Не более 2 уведомлений/день в спокойный период.',
+    result:'On-time task completion +55%. Unsubscribe rate < 3%.'},
+
+  nav:{name:'Навигация и офлайн-карты',zone:'Зона 6 — Во время поездки',
+    problem:'«В роуминге дорого, а без интернета карты не работают. Приходится скачивать Maps.me».',
+    solution:'Маршрут доступен офлайн. Интеграция с Google Maps / 2GIS / Naver для навигации.',
+    inputs:['Финальный маршрут','Геолокация пользователя (опционально)'],
+    outputs:['Офлайн-карта с точками','Открытие в навигаторе','QR-код для доступа'],
+    jtbd:'Хочу иметь весь маршрут в телефоне офлайн, чтобы не переплачивать за роуминг.',
+    quality:'Офлайн-загрузка региона < 30 сек. Актуальность POI ≤ 24 ч. Размер кэша < 50 МБ.',
+    result:'80% пользователей используют офлайн-режим в поездке. Жалобы на «потерялся» −70%.'},
+
+  livedata:{name:'Live-данные и ситуационный модуль',zone:'Зона 6 — Во время поездки',
+    problem:'«В поездке узнаю о проблемах постфактум: объект закрыт, или курс поменялся, или нужна прививка».',
+    solution:'Real-time агрегация данных из внешних API с push-алертами при критических изменениях.',
+    inputs:['Маршрут с локациями','Подписки на категории алертов'],
+    outputs:['Push при изменениях','Актуальные данные на карте','Рекомендации по адаптации'],
+    jtbd:'Хочу узнать о закрытии музея или изменении обстановки до того, как приеду, а не стоя перед закрытой дверью.',
+    quality:'API-обновления: погода 3 ч, курс 1 ч, транспорт 15 мин, мед. данные 24 ч.',
+    result:'Предотвращение «сюрпризов» в 85% случаев. Дополнительная лояльность: NPS +8 пунктов.'}
+};
+
+function openDetail(id) {
+  const d = details[id];
+  if(!d) return;
+  const html = `
+    <div class="detail-name">${d.name}</div>
+    <div class="detail-zone" style="color:var(--teal)">${d.zone}</div>
+    <div class="detail-section">
+      <div class="detail-section-title">Проблема потребителя</div>
+      <div class="detail-text">${d.problem}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">User Story / Предлагаемое решение</div>
+      <div class="detail-text"><em style="color:var(--muted)">${d.jtbd}</em></div>
+      <div class="detail-text" style="margin-top:8px">${d.solution}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Входы компонента</div>
+      <ul class="detail-list">${d.inputs.map(i=>`<li>${i}</li>`).join('')}</ul>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Выходы компонента</div>
+      <ul class="detail-list">${d.outputs.map(i=>`<li>${i}</li>`).join('')}</ul>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Верхнеуровневые требования к качеству</div>
+      <div class="detail-text">${d.quality}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Конечный результат / Эффекты</div>
+      <div class="detail-text">${d.result}</div>
+    </div>
+  `;
+  document.getElementById('detailContent').innerHTML = html;
+  document.getElementById('detailOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail(e) {
+  if(e.target === document.getElementById('detailOverlay')) closeDetailBtn();
+}
+function closeDetailBtn() {
+  document.getElementById('detailOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Scroll top
+const main = document.getElementById('main-content');
+const scrollBtn = document.getElementById('scrollTop');
+main.addEventListener('scroll', ()=>{
+  scrollBtn.classList.toggle('visible', main.scrollTop > 300);
+});
+function scrollToTop(){main.scrollTo({top:0,behavior:'smooth'});}
+
+// Keyboard close
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetailBtn();});
+</script>
+</body>
+</html>
