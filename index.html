@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TripMind — Карта компонентов продукта</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="light"]{
+  --bg:#f5f4f0;--surface:#faf9f6;--surface2:#ffffff;--border:rgba(0,0,0,0.08);
+  --text:#1a1814;--muted:#6b6a66;--faint:#b0afa9;
+  --teal:#016870;--teal-l:#cde4e2;--teal-d:#0a4e54;
+  --orange:#c85c00;--orange-l:#f5ddc8;
+  --blue:#005f8c;--blue-l:#c5d9e8;
+  --purple:#6b31a8;--purple-l:#ddd0ed;
+  --green:#3a6e1a;--green-l:#d3e0c9;
+  --gold:#b88200;--gold-l:#ede0c0;
+  --red:#991e2a;--red-l:#e8cdd0;
+  --ml-accent:#8b5cf6;--ml-bg:#f3f0ff;--ml-border:#ddd6fe;
+  --rule-accent:#0891b2;--rule-bg:#ecfeff;--rule-border:#a5f3fc;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.08),0 2px 4px rgba(0,0,0,.04);
+  --shadow-lg:0 12px 32px rgba(0,0,0,.10);
+  --r:10px;--r-sm:6px;
+  --font-body:'Inter',sans-serif;
+  --font-display:'Instrument Serif',Georgia,serif;
+}
+[data-theme="dark"]{
+  --bg:#131210;--surface:#1a1917;--surface2:#201f1c;--border:rgba(255,255,255,0.08);
+  --text:#d0cfc9;--muted:#7a7976;--faint:#4a4946;
+  --teal:#4a96a2;--teal-l:#213537;--teal-d:#6dbbc8;
+  --orange:#e08040;--orange-l:#3d2810;
+  --blue:#4f8fbe;--blue-l:#1a3045;
+  --purple:#9660d0;--purple-l:#2d1e45;
+  --green:#65a040;--green-l:#1d2d10;
+  --gold:#d4a030;--gold-l:#332810;
+  --red:#d05060;--red-l:#3a1018;
+  --ml-accent:#a78bfa;--ml-bg:#1e1535;--ml-border:#4c1d95;
+  --rule-accent:#22d3ee;--rule-bg:#0c2a30;--rule-border:#155e75;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3);--shadow-md:0 4px 12px rgba(0,0,0,.4);--shadow-lg:0 12px 32px rgba(0,0,0,.5);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{font-family:var(--font-body);font-size:14px;background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh}
+
+/* === HEADER === */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:32px;height:32px}
+.logo-name{font-family:var(--font-display);font-size:20px;color:var(--text);letter-spacing:-0.3px}
+.logo-tag{font-size:11px;color:var(--teal);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-left:4px;padding:2px 7px;background:var(--teal-l);border-radius:20px}
+.header-right{display:flex;align-items:center;gap:12px}
+.header-title{font-size:13px;color:var(--muted);font-weight:500}
+button{cursor:pointer;border:none;background:none;font-family:inherit;font-size:inherit}
+.theme-toggle{width:36px;height:36px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .18s ease}
+.theme-toggle:hover{color:var(--text);background:var(--bg)}
+
+/* === LAYOUT === */
+.layout{display:flex;gap:0;height:calc(100vh - 57px)}
+.sidebar{width:280px;min-width:280px;background:var(--surface);border-right:1px solid var(--border);overflow-y:auto;padding:20px 0}
+.main{flex:1;overflow-y:auto;padding:28px 32px}
+
+/* === SIDEBAR === */
+.sidebar-section{padding:0 16px 16px}
+.sidebar-label{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);margin-bottom:10px;padding:0 4px}
+.seg-btn{width:100%;text-align:left;padding:9px 12px;border-radius:var(--r-sm);font-size:13px;font-weight:500;color:var(--muted);display:flex;align-items:center;gap:8px;transition:all .15s ease;cursor:pointer}
+.seg-btn:hover{background:var(--bg);color:var(--text)}
+.seg-btn.active{background:var(--teal-l);color:var(--teal-d)}
+[data-theme="dark"] .seg-btn.active{background:var(--teal-l);color:var(--teal)}
+.seg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sidebar-divider{height:1px;background:var(--border);margin:12px 16px}
+.legend-item{display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12px;color:var(--muted)}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px}
+.stat-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px}
+.stat-num{font-size:22px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;line-height:1}
+.stat-label{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* === ML LEGEND === */
+.ml-legend{display:flex;flex-direction:column;gap:6px;padding:0 16px}
+.ml-legend-item{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}
+.ml-tag-demo{font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:2px 6px;border-radius:10px;white-space:nowrap}
+
+/* === MAIN === */
+.page-title{font-family:var(--font-display);font-size:28px;color:var(--text);margin-bottom:6px;line-height:1.2}
+.page-sub{font-size:14px;color:var(--muted);margin-bottom:28px;max-width:72ch}
+.zone-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;margin-top:32px}
+.zone-header:first-of-type{margin-top:0}
+.zone-pill{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:3px 10px;border-radius:20px}
+.zone-title{font-size:15px;font-weight:700;color:var(--text)}
+.zone-desc{font-size:12px;color:var(--muted)}
+.components-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:8px}
+
+/* === COMPONENT CARD === */
+.comp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm);transition:box-shadow .18s ease,transform .18s ease;cursor:pointer;position:relative}
+.comp-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.comp-card.hidden{display:none}
+.comp-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.comp-name{font-size:14px;font-weight:700;color:var(--text);line-height:1.3}
+.comp-badge{font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:2px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-left:8px;margin-top:1px}
+.comp-icon{font-size:20px;margin-bottom:8px}
+.comp-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:12px}
+.comp-features{display:flex;flex-direction:column;gap:4px}
+.feat{display:flex;align-items:flex-start;gap:6px;font-size:11.5px;color:var(--muted)}
+.feat-dot{width:4px;height:4px;border-radius:50%;margin-top:5px;flex-shrink:0;background:var(--faint)}
+.feat-txt{line-height:1.4}
+.comp-footer{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.seg-tag{font-size:10px;padding:2px 7px;border-radius:12px;font-weight:600}
+
+/* === ML / RULE-BASED TAGS ON CARDS === */
+.tech-tag{font-size:9px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;padding:2px 7px;border-radius:10px;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.tech-tag.ml{background:var(--ml-bg);color:var(--ml-accent);border:1px solid var(--ml-border)}
+.tech-tag.rule{background:var(--rule-bg);color:var(--rule-accent);border:1px solid var(--rule-border)}
+.tech-tag.none{background:var(--bg);color:var(--faint);border:1px solid var(--border)}
+.tech-tag-icon{font-size:10px}
+
+/* === CONNECTION BADGE ON CARDS === */
+.comp-connections{margin-top:8px;font-size:10.5px;color:var(--faint);line-height:1.4}
+.conn-arrow{color:var(--teal);font-weight:700;margin:0 2px}
+
+/* === INTERCONNECTIONS DIAGRAM === */
+.interconnect-section{margin-top:32px;margin-bottom:8px}
+.interconnect-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+.interconnect-sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+.flow-diagram{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px;overflow-x:auto}
+.flow-row{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:nowrap;min-width:max-content;margin:0 auto}
+.flow-node{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:110px;max-width:130px;position:relative}
+.flow-node-box{padding:10px 12px;border-radius:var(--r-sm);border:1.5px solid var(--border);background:var(--surface2);font-size:11px;font-weight:600;color:var(--text);line-height:1.3;width:100%;transition:box-shadow .15s}
+.flow-node-box:hover{box-shadow:var(--shadow-md)}
+.flow-node-sub{font-size:9px;color:var(--faint);margin-top:3px;font-weight:400}
+.flow-node-ml{margin-top:4px}
+.flow-arrow{display:flex;flex-direction:column;align-items:center;min-width:50px;color:var(--faint);position:relative}
+.flow-arrow-line{font-size:16px;font-weight:700;color:var(--teal);letter-spacing:-2px}
+.flow-arrow-label{font-size:8px;color:var(--muted);white-space:nowrap;max-width:70px;text-align:center;line-height:1.2}
+.flow-branch{display:flex;flex-direction:column;align-items:center;gap:8px;margin:16px 0}
+.flow-branch-row{display:flex;align-items:center;gap:0;justify-content:center}
+.flow-vert-arrow{color:var(--teal);font-size:14px;font-weight:700}
+.flow-vert-label{font-size:8px;color:var(--muted);text-align:center}
+
+/* === INFRA SECTION === */
+.infra-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:8px}
+.infra-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.infra-name{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--text)}
+.infra-stack{display:flex;flex-wrap:wrap;gap:4px}
+.stack-tag{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500;background:var(--bg);border:1px solid var(--border);color:var(--muted)}
+
+/* === DETAIL PANEL === */
+.detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.detail-overlay.open{display:flex}
+.detail-panel{background:var(--surface);border-radius:14px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);padding:28px;position:relative}
+.detail-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:18px}
+.detail-close:hover{color:var(--text)}
+.detail-name{font-family:var(--font-display);font-size:22px;color:var(--text);margin-bottom:4px}
+.detail-zone{font-size:12px;font-weight:600;margin-bottom:16px}
+.detail-section{margin-bottom:18px}
+.detail-section-title{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.detail-text{font-size:13px;color:var(--muted);line-height:1.6}
+.detail-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.detail-list li{font-size:13px;color:var(--muted);display:flex;gap:8px;line-height:1.4}
+.detail-list li::before{content:"→";color:var(--teal);flex-shrink:0;font-weight:600}
+.detail-ml-box{background:var(--ml-bg);border:1px solid var(--ml-border);border-radius:var(--r-sm);padding:12px;margin-top:8px}
+.detail-ml-title{font-size:11px;font-weight:700;color:var(--ml-accent);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.detail-ml-text{font-size:12px;color:var(--muted);line-height:1.5}
+.detail-rule-box{background:var(--rule-bg);border:1px solid var(--rule-border);border-radius:var(--r-sm);padding:12px;margin-top:8px}
+.detail-rule-title{font-size:11px;font-weight:700;color:var(--rule-accent);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.detail-rule-text{font-size:12px;color:var(--muted);line-height:1.5}
+.detail-conn-box{margin-top:8px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm)}
+.detail-conn-title{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.detail-conn-text{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* === JOURNEY MAP === */
+.journey-section{margin-top:32px}
+.journey-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px}
+.journey-flow{display:flex;flex-wrap:wrap;gap:0;align-items:center;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow-x:auto}
+.journey-step{display:flex;flex-direction:column;align-items:center;min-width:100px;text-align:center;position:relative}
+.journey-node{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:6px;flex-shrink:0}
+.journey-label{font-size:10px;font-weight:600;color:var(--muted);line-height:1.3;max-width:90px}
+.journey-arrow{font-size:18px;color:var(--faint);padding:0 4px;align-self:flex-start;margin-top:16px}
+.journey-note{font-size:9px;color:var(--faint);margin-top:2px;max-width:90px}
+.journey-ml-dot{width:6px;height:6px;border-radius:50%;background:var(--ml-accent);margin-top:3px}
+
+/* === SCROLL === */
+.scroll-top{position:fixed;bottom:24px;right:24px;width:40px;height:40px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md);opacity:0;transition:opacity .2s;font-size:16px;z-index:50}
+.scroll-top.visible{opacity:1}
+
+@media(max-width:768px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;min-width:0;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .main{padding:16px}
+  .components-grid{grid-template-columns:1fr}
+  .flow-diagram{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <svg class="logo-icon" viewBox="0 0 32 32" fill="none" aria-label="TripMind logo">
+      <rect width="32" height="32" rx="8" fill="#016870"/>
+      <path d="M8 16 Q16 7 24 16 Q16 25 8 16Z" fill="none" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="16" cy="16" r="3.5" fill="#fff"/>
+      <path d="M16 5v3M16 24v3M5 16h3M24 16h3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+    </svg>
+    <span class="logo-name">TripMind</span>
+    <span class="logo-tag">Карта продукта v2</span>
+  </div>
+  <div class="header-right">
+    <span class="header-title">Компоненты · Взаимосвязи · ML-точки</span>
+    <button class="theme-toggle" data-theme-toggle aria-label="Переключить тему">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Фильтр по сегменту</div>
+    <button class="seg-btn active" data-filter="all" onclick="filterCards('all',this)">
+      <span class="seg-dot" style="background:var(--teal)"></span>Все сегменты
+    </button>
+    <button class="seg-btn" data-filter="solo" onclick="filterCards('solo',this)">
+      <span class="seg-dot" style="background:var(--orange)"></span>Самостоятельные путешественники
+    </button>
+    <button class="seg-btn" data-filter="auto" onclick="filterCards('auto',this)">
+      <span class="seg-dot" style="background:var(--blue)"></span>Автопутешественники
+    </button>
+    <button class="seg-btn" data-filter="group" onclick="filterCards('group',this)">
+      <span class="seg-dot" style="background:var(--purple)"></span>Организаторы групп
+    </button>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Зоны продукта</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--teal)"></span>Вход и онбординг</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--orange)"></span>AI-Планирование</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--blue)"></span>Бронирование и логистика</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--purple)"></span>Совместное планирование</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span>Подготовка к поездке</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--gold)"></span>Во время поездки</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--red)"></span>Инфраструктура</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Технологии</div>
+    <div class="ml-legend">
+      <div class="ml-legend-item">
+        <span class="ml-tag-demo" style="background:var(--ml-bg);color:var(--ml-accent);border:1px solid var(--ml-border)">⚡ ML</span>
+        <span>Машинное обучение</span>
+      </div>
+      <div class="ml-legend-item">
+        <span class="ml-tag-demo" style="background:var(--rule-bg);color:var(--rule-accent);border:1px solid var(--rule-border)">⚙ Rules</span>
+        <span>Rule-based + API</span>
+      </div>
+      <div class="ml-legend-item">
+        <span class="ml-tag-demo" style="background:var(--bg);color:var(--faint);border:1px solid var(--border)">— Нет AI</span>
+        <span>Платформенный компонент</span>
+      </div>
+    </div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Статистика</div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-num">20</div><div class="stat-label">компонентов</div></div>
+      <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">сегмента</div></div>
+      <div class="stat-box"><div class="stat-num">7</div><div class="stat-label">зон</div></div>
+      <div class="stat-box"><div class="stat-num">5</div><div class="stat-label">ML-точек</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main" id="main-content">
+  <h1 class="page-title">Карта компонентов продукта TripMind</h1>
+  <p class="page-sub">Визуализация всей инфраструктуры продукта — от первого касания до завершения поездки. Показаны взаимосвязи между компонентами и точки применения ML / rule-based логики.</p>
+
+  <!-- === INTERCONNECTIONS DIAGRAM === -->
+  <div class="interconnect-section">
+    <div class="interconnect-title">Сквозной сценарий MVP — взаимосвязи компонентов</div>
+    <div class="interconnect-sub">Данные передаются по цепочке. Фиолетовым отмечены ML-точки, голубым — rule-based логика, серым — платформенные компоненты без AI.</div>
+    <div class="flow-diagram">
+      <!-- Main flow: top row -->
+      <div class="flow-row">
+        <div class="flow-node">
+          <div class="flow-node-box" style="border-color:var(--teal)">
+            👤 Онбординг
+            <div class="flow-node-sub">Профиль, интересы, стиль</div>
+          </div>
+        </div>
+        <div class="flow-arrow">
+          <div class="flow-arrow-line">→→→</div>
+          <div class="flow-arrow-label">профиль</div>
+        </div>
+        <div class="flow-node">
+          <div class="flow-node-box" style="border-color:var(--ml-accent)">
+            🤖 AI-Маршрутизатор
+            <div class="flow-node-sub">Генерация маршрута</div>
+            <div class="flow-node-ml"><span class="tech-tag ml"><span class="tech-tag-icon">⚡</span>ML</span></div>
+          </div>
+        </div>
+        <div class="flow-arrow">
+          <div class="flow-arrow-line">→→→</div>
+          <div class="flow-arrow-label">маршрут</div>
+        </div>
+        <div class="flow-node">
+          <div class="flow-node-box" style="border-color:var(--ml-accent)">
+            🧠 AI-Персонализация
+            <div class="flow-node-sub">Ранжирование POI</div>
+            <div class="flow-node-ml"><span class="tech-tag ml"><span class="tech-tag-icon">⚡</span>ML</span></div>
+          </div>
+        </div>
+        <div class="flow-arrow">
+          <div class="flow-arrow-line">→→→</div>
+          <div class="flow-arrow-label">рекоменд.</div>
+        </div>
+        <div class="flow-node">
+          <div class="flow-node-box" style="border-color:var(--orange)">
+            ✏️ Редактор
+            <div class="flow-node-sub">Drag-and-drop, варианты</div>
+            <div class="flow-node-ml"><span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span></div>
+          </div>
+        </div>
+        <div class="flow-arrow">
+          <div class="flow-arrow-line">→→→</div>
+          <div class="flow-arrow-label">финальный маршрут</div>
+        </div>
+        <div class="flow-node">
+          <div class="flow-node-box" style="border-color:var(--green)">
+            📋 Хаб поездки
+            <div class="flow-node-sub">Маршрут + чек-лист + брони</div>
+            <div class="flow-node-ml"><span class="tech-tag none">— Нет AI</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Branch: чек-лист -->
+      <div class="flow-branch">
+        <div style="display:flex;align-items:flex-start;gap:0;justify-content:center;width:100%">
+          <div style="width:160px"></div>
+          <div style="width:160px"></div>
+          <div style="display:flex;flex-direction:column;align-items:center;width:130px">
+            <div class="flow-vert-arrow">↓</div>
+            <div class="flow-vert-label">маршрут + профиль</div>
+          </div>
+          <div style="width:50px"></div>
+          <div style="width:130px"></div>
+          <div style="width:50px"></div>
+          <div style="width:130px"></div>
+        </div>
+        <div class="flow-branch-row">
+          <div style="width:160px"></div>
+          <div style="width:160px"></div>
+          <div class="flow-node">
+            <div class="flow-node-box" style="border-color:var(--rule-accent)">
+              ✅ AI-Чек-лист
+              <div class="flow-node-sub">Визы, вещи, здоровье</div>
+              <div class="flow-node-ml"><span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules + API</span></div>
+            </div>
+          </div>
+          <div class="flow-arrow">
+            <div class="flow-arrow-line">→→→</div>
+            <div class="flow-arrow-label">чек-лист → хаб</div>
+          </div>
+          <div class="flow-node">
+            <div class="flow-node-box" style="border-color:var(--rule-accent)">
+              🏨 Бронирования
+              <div class="flow-node-sub">Deep links, бюджет</div>
+              <div class="flow-node-ml"><span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span></div>
+            </div>
+          </div>
+          <div class="flow-arrow">
+            <div class="flow-arrow-line">→→→</div>
+            <div class="flow-arrow-label">брони → хаб</div>
+          </div>
+          <div class="flow-node">
+            <div class="flow-node-box" style="border-color:var(--ml-accent)">
+              🔭 Разведка мест
+              <div class="flow-node-sub">Рекомендации POI</div>
+              <div class="flow-node-ml"><span class="tech-tag ml"><span class="tech-tag-icon">⚡</span>ML</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER JOURNEY -->
+  <div class="journey-section">
+    <div class="journey-title">Customer Journey — путь клиента через продукт</div>
+    <div class="journey-flow">
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--teal-l)">🔍</div>
+        <div class="journey-label" style="color:var(--teal-d)">Открытие</div>
+        <div class="journey-note">Лендинг, соцсети</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--teal-l)">👤</div>
+        <div class="journey-label" style="color:var(--teal-d)">Регистрация</div>
+        <div class="journey-note">Onboarding, профиль</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--orange-l)">🤖</div>
+        <div class="journey-label" style="color:var(--orange)">AI-маршрут</div>
+        <div class="journey-note">Генерация + POI</div>
+        <div class="journey-ml-dot" title="ML-точка"></div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--orange-l)">🧠</div>
+        <div class="journey-label" style="color:var(--orange)">Персонализация</div>
+        <div class="journey-note">Рекомендации, feedback</div>
+        <div class="journey-ml-dot" title="ML-точка"></div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--orange-l)">✏️</div>
+        <div class="journey-label" style="color:var(--orange)">Редактор</div>
+        <div class="journey-note">Drag-drop, варианты</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--blue-l)">✈️</div>
+        <div class="journey-label" style="color:var(--blue)">Бронирование</div>
+        <div class="journey-note">Deep links</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--green-l)">📋</div>
+        <div class="journey-label" style="color:var(--green)">Подготовка</div>
+        <div class="journey-note">Чек-лист, документы</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--gold-l)">📍</div>
+        <div class="journey-label" style="color:var(--gold)">В дороге</div>
+        <div class="journey-note">Навигация, офлайн</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--purple-l)">⭐</div>
+        <div class="journey-label" style="color:var(--purple)">После</div>
+        <div class="journey-note">Feedback → обучение ML</div>
+        <div class="journey-ml-dot" title="Данные для ML"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZONE 1: ВХОД И ОНБОРДИНГ -->
+  <div class="zone-header" style="margin-top:32px">
+    <span class="zone-pill" style="background:var(--teal-l);color:var(--teal-d)">Зона 1</span>
+    <div>
+      <div class="zone-title">Вход и онбординг</div>
+      <div class="zone-desc">Первое касание пользователя с продуктом — от лендинга до заполнения профиля</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" onclick="openDetail('landing')">
+      <div class="comp-icon">🏠</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Лендинг и маркетинговый сайт</div>
+        <span class="comp-badge" style="background:var(--teal-l);color:var(--teal-d)">Entry</span>
+      </div>
+      <div class="comp-desc">Первое касание. Объясняет ценность TripMind, показывает ключевые сценарии через живые демо и CTA на регистрацию.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Hero-блок с AI-демо маршрута</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Блок сравнения с TripIt, Wanderlog, ChatGPT</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">CTA на регистрацию + Telegram-бот</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag none">— Нет AI</span>
+      </div>
+      <div class="comp-connections">→ Регистрация → Онбординг</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" onclick="openDetail('auth')">
+      <div class="comp-icon">🔐</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Регистрация и авторизация</div>
+        <span class="comp-badge" style="background:var(--teal-l);color:var(--teal-d)">Entry</span>
+      </div>
+      <div class="comp-desc">Быстрый вход через Telegram OAuth, Google, Apple. Минимальный friction — не более 3 экранов до первого маршрута.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Telegram OAuth / Google / Apple Sign-In</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Восстановление пароля и 2FA (масштабирование)</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag none">— Нет AI</span>
+      </div>
+      <div class="comp-connections">← Лендинг → Онбординг</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" onclick="openDetail('onboarding')">
+      <div class="comp-icon">🎯</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Онбординг и профиль путешественника</div>
+        <span class="comp-badge" style="background:var(--teal-l);color:var(--teal-d)">Entry</span>
+      </div>
+      <div class="comp-desc">3-шаговый wizard: выбор стиля путешествий, интересов, бюджета. Данные используются ML-модулем персонализации.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Wizard: стиль, интересы, бюджет, роль</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Профиль: фото, история поездок, здоровье</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Данные передаются в AI-маршрутизатор и чек-лист</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag none">— Нет AI</span>
+      </div>
+      <div class="comp-connections">← Регистрация → AI-Маршрутизатор, AI-Персонализация</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 2: AI-ПЛАНИРОВАНИЕ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--orange-l);color:var(--orange)">Зона 2</span>
+    <div>
+      <div class="zone-title">AI-Планирование маршрута</div>
+      <div class="zone-desc">Ключевая ценность продукта — от AI-генерации до финального маршрута на карте</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" onclick="openDetail('airoute')">
+      <div class="comp-icon">🤖</div>
+      <div class="comp-card-top">
+        <div class="comp-name">AI-Маршрутизатор (Core)</div>
+        <span class="comp-badge" style="background:var(--orange-l);color:var(--orange)">MVP Core</span>
+      </div>
+      <div class="comp-desc">Главный модуль. Генерирует маршрут по дням с POI. ML-модуль ранжирования POI + rule-based оптимизация порядка точек (TSP-эвристика).</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">ML: ранжирование POI по профилю (acceptance rate ≥35%)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: оптимизация маршрута (расстояния, часы работы)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">API: Google Places, OpenWeatherMap, Foursquare</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Вход: профиль → Выход: маршрут → чек-лист, хаб</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag ml"><span class="tech-tag-icon">⚡</span>ML + Rules</span>
+      </div>
+      <div class="comp-connections">← Онбординг → Редактор, Чек-лист, Персонализация, Разведка</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" onclick="openDetail('personalization')">
+      <div class="comp-icon">🧠</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Модуль AI-персонализации</div>
+        <span class="comp-badge" style="background:var(--ml-bg);color:var(--ml-accent);border:1px solid var(--ml-border)">ML Core</span>
+      </div>
+      <div class="comp-desc">Основная ML-точка проекта. Collaborative filtering + обучение на feedback. Выдаёт ранжированные рекомендации с текстовыми объяснениями.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">ML: collaborative filtering по профилю и истории</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Feedback-цикл: «подходит» / «не подходит»</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: шаблонные объяснения решений AI</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Метрика: CTR ≥35% к 6-й поездке</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag ml"><span class="tech-tag-icon">⚡</span>ML</span>
+      </div>
+      <div class="comp-connections">← Профиль, История → Маршрутизатор, Разведка, Чек-лист</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo" onclick="openDetail('discover')">
+      <div class="comp-icon">🔭</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Модуль разведки и открытия мест</div>
+        <span class="comp-badge" style="background:var(--orange-l);color:var(--orange)">Discovery</span>
+      </div>
+      <div class="comp-desc">AI-рекомендации POI для каждого города маршрута. Content-based + collaborative filtering. На MVP — агрегация рейтингов Google Places.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">ML: рекомендации POI по профилю (масштабирование)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules MVP: фильтрация по рейтингу, расстоянию, часам</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Топ-5 мест для каждого дня маршрута</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Добавление в маршрут одним тапом</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="tech-tag ml"><span class="tech-tag-icon">⚡</span>ML (масшт.)</span>
+      </div>
+      <div class="comp-connections">← Маршрут + Профиль → Редактор, Хаб поездки</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" onclick="openDetail('editor')">
+      <div class="comp-icon">✏️</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Интерактивный редактор маршрута</div>
+        <span class="comp-badge" style="background:var(--orange-l);color:var(--orange)">Editor</span>
+      </div>
+      <div class="comp-desc">Drag-and-drop редактирование маршрута. Объяснения AI-решений (шаблонная генерация). Генерация 2–3 вариантов.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: инкрементальный пересчёт (TSP-эвристика)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: шаблонные объяснения решений</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: параметрическая генерация вариантов</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Экспорт в PDF, undo/redo</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span>
+      </div>
+      <div class="comp-connections">← AI-Маршрутизатор → Хаб, Чек-лист, Бронирования</div>
+    </div>
+
+    <div class="comp-card" data-segments="auto" onclick="openDetail('automode')">
+      <div class="comp-icon">🚗</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Режим «Авто-маршрут»</div>
+        <span class="comp-badge" style="background:var(--blue-l);color:var(--blue)">Auto-Mode</span>
+      </div>
+      <div class="comp-desc">Расчёт плеч, ночёвок, бензина. Rule-based алгоритм + API карт и АЗС. ML не требуется.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: алгоритм расчёта плеч (≤400 км/день)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">API: Яндекс.Карты, Google Maps, цены АЗС</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Калькулятор бензина и ночёвок</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Ползунок «плотность дня»: 200–500 км</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules + API</span>
+      </div>
+      <div class="comp-connections">← Маршрутизатор → Чек-лист, Бронирования</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,group" onclick="openDetail('personalcab')">
+      <div class="comp-icon">📂</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Хаб поездки (Единая платформа)</div>
+        <span class="comp-badge" style="background:var(--orange-l);color:var(--orange)">Dashboard</span>
+      </div>
+      <div class="comp-desc">Центральный хаб: маршрут + чек-лист + бронирования + заметки в одном интерфейсе. Платформенный компонент, ML отсутствует.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Все поездки, черновики, wishlist</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Офлайн-доступ, синхронизация устройств</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Экспорт PDF, импорт бронирований из email</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag none">— Нет AI</span>
+      </div>
+      <div class="comp-connections">← Маршрутизатор, Чек-лист, Бронирования → Навигация</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,group" onclick="openDetail('smarttable')">
+      <div class="comp-icon">📊</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Умная таблица поездки</div>
+        <span class="comp-badge" style="background:var(--orange-l);color:var(--orange)">Table</span>
+      </div>
+      <div class="comp-desc">Привычный табличный вид (день → город → отель) с AI-заполнением и картой. Импорт из Excel.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">ML: AI-заполнение из модуля персонализации</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: парсинг Excel, синхронизация с картой</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Автоматический чек-лист из данных таблицы</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag ml"><span class="tech-tag-icon">⚡</span>ML + Rules</span>
+      </div>
+      <div class="comp-connections">← Excel импорт, Персонализация → Хаб, Чек-лист</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 3: БРОНИРОВАНИЕ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--blue-l);color:var(--blue)">Зона 3</span>
+    <div>
+      <div class="zone-title">Бронирование и логистика</div>
+      <div class="zone-desc">Агрегация предложений и deep-link интеграции с OTA-сервисами</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" onclick="openDetail('booking')">
+      <div class="comp-icon">🏨</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Агрегатор бронирований</div>
+        <span class="comp-badge" style="background:var(--blue-l);color:var(--blue)">Booking</span>
+      </div>
+      <div class="comp-desc">Deep-links в Booking.com, Ostrovok, Airbnb с предзаполненными параметрами. Семейные фильтры и калькулятор бюджета.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: предзаполнение параметров из маршрута</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: калькулятор семейного бюджета</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Подтверждения → Хаб поездки</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span>
+      </div>
+      <div class="comp-connections">← Маршрут (даты, города) → Хаб поездки</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,group" onclick="openDetail('budget')">
+      <div class="comp-icon">💰</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Умная таблица бюджета</div>
+        <span class="comp-badge" style="background:var(--blue-l);color:var(--blue)">Budget</span>
+      </div>
+      <div class="comp-desc">Автоматически формируемая таблица расходов на основе маршрута и бронирований.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: автоимпорт из бронирований</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Разделение расходов в группе (split)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Экспорт в Excel / PDF</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span>
+      </div>
+      <div class="comp-connections">← Бронирования, Маршрут → Хаб поездки</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 4: СОВМЕСТНОЕ ПЛАНИРОВАНИЕ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--purple-l);color:var(--purple)">Зона 4</span>
+    <div>
+      <div class="zone-title">Совместное планирование</div>
+      <div class="zone-desc">Real-time коллаборация для групп и семейных поездок</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="group" onclick="openDetail('collab')">
+      <div class="comp-icon">👥</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Модуль совместного планирования</div>
+        <span class="comp-badge" style="background:var(--purple-l);color:var(--purple)">Collab</span>
+      </div>
+      <div class="comp-desc">Real-time workspace (WebSocket). Голосование за активности, распределение задач из чек-листа. ML не требуется.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: WebSocket-синхронизация, голосование</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Роли: организатор, участник</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Назначение задач из чек-листа</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span>
+      </div>
+      <div class="comp-connections">← Маршрут организатора → Согласованный маршрут, Хаб</div>
+    </div>
+
+    <div class="comp-card" data-segments="group" onclick="openDetail('familyroute')">
+      <div class="comp-icon">👨‍👩‍👧</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Семейный / групповой AI-маршрутизатор</div>
+        <span class="comp-badge" style="background:var(--purple-l);color:var(--purple)">Family</span>
+      </div>
+      <div class="comp-desc">Балансировка нагрузки (≤3 POI/день с детьми), family-friendly фильтр. Rule-based правила + потенциальная ML-точка на масштабировании.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: балансировка ≤3 POI/день, чередование</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: family-friendly фильтр (теги Google Places)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">ML (масшт.): оптимизация под множество профилей</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span>
+      </div>
+      <div class="comp-connections">← Профили участников → Сбалансированный маршрут → Хаб</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 5: ПОДГОТОВКА К ПОЕЗДКЕ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--green-l);color:var(--green)">Зона 5</span>
+    <div>
+      <div class="zone-title">Подготовка к поездке</div>
+      <div class="zone-desc">Документы, чек-листы, здоровье, визы, страховки</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" onclick="openDetail('checklist')">
+      <div class="comp-icon">✅</div>
+      <div class="comp-card-top">
+        <div class="comp-name">AI-Чек-лист подготовки</div>
+        <span class="comp-badge" style="background:var(--green-l);color:var(--green)">Checklist</span>
+      </div>
+      <div class="comp-desc">Персонализированный чек-лист: визы, вещи, здоровье, организация. Rule-based генерация на основе маршрута + API данных.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: визы, дедлайны — база данных + API</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: погода → одежда (температурные диапазоны)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Push-напоминания (−45, −14, −7 дней)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Статусы, дедлайны, критичность задач</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules + API</span>
+      </div>
+      <div class="comp-connections">← Маршрут + Профиль → Хаб поездки, Напоминания</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,group" onclick="openDetail('docs')">
+      <div class="comp-icon">📄</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Хранилище документов и визового контроля</div>
+        <span class="comp-badge" style="background:var(--green-l);color:var(--green)">Docs</span>
+      </div>
+      <div class="comp-desc">Безопасное хранение паспортов, виз, страховок. AI-парсинг из фото, напоминания об истечении.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: проверка визовых требований по стране</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">ML: OCR-парсинг паспорта из фото</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Офлайн-доступ к документам</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules + OCR</span>
+      </div>
+      <div class="comp-connections">← Маршрут → Чек-лист, Хаб поездки</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" onclick="openDetail('notifications')">
+      <div class="comp-icon">🔔</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Adaptive Reminder System</div>
+        <span class="comp-badge" style="background:var(--green-l);color:var(--green)">Push</span>
+      </div>
+      <div class="comp-desc">Умная система уведомлений: Telegram-бот + Push + Email. Адаптивное расписание.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: расписание по дедлайнам чек-листа</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Telegram-бот, Push, Email</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Алерты: изменение цен, погода</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span>
+      </div>
+      <div class="comp-connections">← Чек-лист, Live-данные → Пользователь</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 6: ВО ВРЕМЯ ПОЕЗДКИ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--gold-l);color:var(--gold)">Зона 6</span>
+    <div>
+      <div class="zone-title">Во время поездки</div>
+      <div class="zone-desc">Навигация, офлайн-режим, ситуативная помощь и live-данные</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" onclick="openDetail('nav')">
+      <div class="comp-icon">🗺️</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Навигация и офлайн-карты</div>
+        <span class="comp-badge" style="background:var(--gold-l);color:var(--gold)">Navigation</span>
+      </div>
+      <div class="comp-desc">Маршрут на карте с офлайн-доступом. Интеграция с Google Maps / 2GIS.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Офлайн-загрузка карт региона</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Открытие в навигаторе</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Актуальные часы работы (live)</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag none">— Нет AI</span>
+      </div>
+      <div class="comp-connections">← Хаб поездки → Пользователь в дороге</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" onclick="openDetail('livedata')">
+      <div class="comp-icon">⚡</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Live-данные и ситуационный модуль</div>
+        <span class="comp-badge" style="background:var(--gold-l);color:var(--gold)">Live</span>
+      </div>
+      <div class="comp-desc">Real-time данные: погода, курсы валют, транспорт, VPN-рекомендации, эпид-обстановка.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">API: OpenWeatherMap, ECB, WHO/CDC</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Push-алерты при критических изменениях</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Рекомендации по адаптации маршрута</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules + API</span>
+      </div>
+      <div class="comp-connections">← Маршрут → Напоминания, Карта</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 7: ИНФРАСТРУКТУРА -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--red-l);color:var(--red)">Зона 7</span>
+    <div>
+      <div class="zone-title">Инфраструктура и обеспечивающий слой</div>
+      <div class="zone-desc">Невидимые компоненты, обеспечивающие работу продукта. AI-ядро распределено по клиентским компонентам.</div>
+    </div>
+  </div>
+  <div class="infra-grid">
+
+    <div class="infra-card">
+      <div class="infra-name">🧠 ML-модуль персонализации</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Основная ML-точка: collaborative filtering, обучение на feedback. Обслуживает маршрутизатор, разведку мест, умную таблицу.</div>
+      <div class="infra-stack">
+        <span class="stack-tag" style="background:var(--ml-bg);color:var(--ml-accent);border-color:var(--ml-border)">ML Core</span>
+        <span class="stack-tag">Collaborative Filtering</span><span class="stack-tag">A/B тесты</span><span class="stack-tag">Python</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">🔌 API Orchestration Layer</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Единая точка интеграции с внешними сервисами</div>
+      <div class="infra-stack">
+        <span class="stack-tag">Google Places</span><span class="stack-tag">OpenWeatherMap</span><span class="stack-tag">Booking API</span><span class="stack-tag">Aviasales</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">🗄️ Backend & Data Layer</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Основной бэкенд, БД, хранилище</div>
+      <div class="infra-stack">
+        <span class="stack-tag">FastAPI</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">Redis</span><span class="stack-tag">S3</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">⚛️ Frontend Web App</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">SPA-приложение, PWA для офлайн-доступа</div>
+      <div class="infra-stack">
+        <span class="stack-tag">React</span><span class="stack-tag">TypeScript</span><span class="stack-tag">PWA</span><span class="stack-tag">WebSocket</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">🤖 Telegram Bot</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Уведомления + Mini App</div>
+      <div class="infra-stack">
+        <span class="stack-tag">Telegram Bot API</span><span class="stack-tag">Mini App</span><span class="stack-tag">OAuth</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">🔒 Auth & Security</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Аутентификация, шифрование, 152-ФЗ</div>
+      <div class="infra-stack">
+        <span class="stack-tag">JWT</span><span class="stack-tag">OAuth 2.0</span><span class="stack-tag">AES-256</span><span class="stack-tag">152-ФЗ</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="height:48px"></div>
+</main>
+</div>
+
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detailPanel">
+    <button class="detail-close" onclick="closeDetailBtn()">✕</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<!-- SCROLL TOP -->
+<button class="scroll-top" id="scrollTop" onclick="scrollToTop()" aria-label="Наверх">↑</button>
+
+<script>
+// Theme toggle
+(function(){
+  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
+  let d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  r.setAttribute('data-theme',d);
+  if(t)t.addEventListener('click',()=>{
+    d=d==='dark'?'light':'dark';
+    r.setAttribute('data-theme',d);
+    t.innerHTML=d==='dark'
+      ?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      :'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  });
+})();
+
+// Filter
+function filterCards(seg, btn) {
+  document.querySelectorAll('.seg-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.comp-card').forEach(card=>{
+    if(seg==='all'){card.classList.remove('hidden');return;}
+    const segs=(card.dataset.segments||'').split(',');
+    card.classList.toggle('hidden',!segs.includes(seg));
+  });
+}
+
+// Detail data — updated to match БФТ v2
+const details = {
+  landing:{name:'Лендинг и маркетинговый сайт',zone:'Зона 1 — Вход и онбординг',
+    problem:'Пользователь не понимает, чем TripMind отличается от ChatGPT и Wanderlog.',
+    solution:'Интерактивный лендинг с живым AI-демо маршрута, блоком сравнения конкурентов и CTA.',
+    inputs:['Анонимный пользователь из органики/рекламы'],
+    outputs:['Регистрация','Переход в Telegram-бот'],
+    jtbd:'Когда я вижу новый travel-инструмент, хочу за 30 сек понять — он лучше ChatGPT?',
+    quality:'Загрузка LCP < 1.5 сек. Core Web Vitals: зелёная зона.',
+    result:'Конверсия в регистрацию ≥ 8%.',
+    ml_type:'none',ml_detail:'',
+    connections:'Лендинг → Регистрация → Онбординг'},
+
+  auth:{name:'Регистрация и авторизация',zone:'Зона 1 — Вход и онбординг',
+    problem:'Friction при регистрации снижает конверсию.',
+    solution:'One-click вход через Telegram, Google, Apple. Не более 3 кликов до маршрута.',
+    inputs:['Лендинг / реферальная ссылка','Telegram OAuth'],
+    outputs:['Профиль пользователя','Начат онбординг','JWT токен'],
+    jtbd:'Хочу зарегистрироваться без форм — просто «Войти через Telegram».',
+    quality:'Time-to-registered < 30 сек.',
+    result:'Конверсия «лендинг → зарег.» ≥ 55%.',
+    ml_type:'none',ml_detail:'',
+    connections:'← Лендинг → Онбординг'},
+
+  onboarding:{name:'Онбординг и профиль путешественника',zone:'Зона 1 — Вход и онбординг',
+    problem:'Без данных о пользователе AI даёт generic-рекомендации.',
+    solution:'3-шаговый wizard: стиль, интересы, бюджет. Данные сразу используются ML-модулем персонализации.',
+    inputs:['Завершённая регистрация'],
+    outputs:['Профиль путешественника → AI-Маршрутизатор','Профиль → Модуль AI-персонализации'],
+    jtbd:'Хочу настроить один раз — и пусть AI знает мои предпочтения.',
+    quality:'Completion rate ≥ 80%. Время < 2 мин.',
+    result:'Релевантность первого маршрута +40% vs без профиля.',
+    ml_type:'none',ml_detail:'Данные профиля являются входом для ML-модуля персонализации. Сам онбординг — платформенный компонент без ML.',
+    connections:'← Регистрация → AI-Маршрутизатор, AI-Персонализация, Чек-лист'},
+
+  airoute:{name:'AI-Маршрутизатор (Core)',zone:'Зона 2 — AI-Планирование',
+    problem:'Маршрут по дням с учётом десятков факторов занимает 10–15 часов ручной работы.',
+    solution:'ML-модуль ранжирования POI + rule-based оптимизация порядка точек (TSP-эвристика) + API (погода, расписания).',
+    inputs:['Профиль пользователя из онбординга','Параметры поездки: города, даты, интересы, темп'],
+    outputs:['Маршрут по дням на карте → Редактор','Маршрут → AI-Чек-лист','Маршрут → Бронирования','Маршрут → Модуль разведки'],
+    jtbd:'Я как самостоятельный путешественник хочу ввести параметры поездки и получить готовый маршрут по дням с визуализацией на карте.',
+    quality:'MVP: генерация ≤15 сек для 15 точек. Доля ручных правок ≤30%. 20 приоритетных направлений. Масштабирование: ≤10 сек, ≤20% правок, 100+ направлений.',
+    result:'Сокращение планирования с 10–15ч до 3–5ч. Acceptance rate POI ≥35%. Доля завершённых сценариев ≥60%.',
+    ml_type:'ml',
+    ml_detail:'ML-модуль ранжирования POI: вход — профиль, история, feedback; выход — ранжированный список POI; метрика — acceptance rate ≥35%.',
+    rule_detail:'Оптимизация порядка точек — TSP-эвристика (rule-based). Погода, расписания — API (OpenWeatherMap, Google Places).',
+    connections:'← Онбординг (профиль) → Редактор, Чек-лист, Бронирования, Разведка, Персонализация'},
+
+  personalization:{name:'Модуль AI-персонализации',zone:'Зона 2 — AI-Планирование',
+    problem:'Существующие «единые решения» не работают — пробовали и разочаровались (TripIt, Wanderlog).',
+    solution:'Collaborative filtering + обучение на feedback пользователя. Выдача ранжированных рекомендаций с текстовыми объяснениями причин выбора.',
+    inputs:['Профиль пользователя','История поездок','Принятые/отклонённые рекомендации','Контекст поездки'],
+    outputs:['Ранжированный список рекомендованных POI','Приоритетные действия по подготовке','Текстовые объяснения: «Рекомендуем музей — вы 3 раза выбирали художественные музеи»'],
+    jtbd:'Я как путешественник хочу получить персонализированные рекомендации с объяснением логики выбора.',
+    quality:'MVP: ≤30% правок (cold start), объяснимость ≥70%. Масштабирование: CTR ≥35% к 6-й поездке, объяснимость ≥90%.',
+    result:'Acceptance rate ≥20% (MVP), ≥35% (после 3+ поездок). Конверсия в принятый маршрут ≥40%.',
+    ml_type:'ml',
+    ml_detail:'Основная ML-точка проекта. Collaborative filtering по похожим пользователям. Обучение на feedback после каждой поездки. Метрики: acceptance rate, CTR, доля ручных правок.',
+    rule_detail:'Объяснения решений AI — шаблонная генерация текста на основе правил и атрибутов (rule-based). Фильтрация по часам работы — rule-based + API.',
+    connections:'← Профиль, История → Маршрутизатор, Разведка мест, Умная таблица, Чек-лист'},
+
+  discover:{name:'Модуль разведки и открытия мест',zone:'Зона 2 — AI-Планирование',
+    problem:'Разведка незнакомых мест: TripAdvisor не структурирован, YouTube требует ручной работы.',
+    solution:'AI-рекомендации POI для каждого города маршрута. На MVP — агрегация рейтингов Google Places (rule-based). На масштабировании — content-based + collaborative filtering.',
+    inputs:['Маршрут (города, дни)','Профиль (стиль, интересы)','Данные Google Places / Foursquare'],
+    outputs:['Топ-5 мест для каждого дня','Карточки: фото, рейтинг, часы','Добавление в маршрут одним тапом'],
+    jtbd:'Я как путешественник хочу получить структурированный список POI, персонализированный под мой стиль.',
+    quality:'MVP: релевантность ≥60%, 20 направлений, загрузка ≤3 сек. Масштабирование: ≥80%, 50M+ POI, NLP-анализ отзывов.',
+    result:'Сокращение разведки с 3–5ч до 30–60 мин. Доля добавленных POI ≥25%. CSAT ≥75%.',
+    ml_type:'ml',
+    ml_detail:'ML (масштабирование): content-based + collaborative filtering на основе профиля и feedback. На MVP — агрегация рейтингов из Google Places (rule-based).',
+    rule_detail:'Фильтрация по расстоянию, часам работы, рейтингу — rule-based.',
+    connections:'← Маршрут + Профиль + Персонализация → Редактор, Хаб поездки'},
+
+  editor:{name:'Интерактивный редактор маршрута',zone:'Зона 2 — AI-Планирование',
+    problem:'AI-решения (ChatGPT) работают как «чёрный ящик» без возможности контроля.',
+    solution:'Drag-and-drop на карте + объяснения AI-решений (шаблонные тексты) + 2–3 варианта маршрута.',
+    inputs:['AI-сгенерированный маршрут из маршрутизатора'],
+    outputs:['Финализированный маршрут → Хаб поездки','Маршрут → Чек-лист','Экспорт PDF'],
+    jtbd:'Я как опытный путешественник хочу видеть маршрут на карте с возможностью редактирования и понимать логику AI.',
+    quality:'MVP: drag-drop ≤300 мс, пересчёт ≤5 сек, объяснения ≥50%. Масштабирование: ≤200 мс, ≤3 сек, ≥90%.',
+    result:'Конверсия «сгенерированный → принятый» ≥75%. Среднее количество правок ≤5.',
+    ml_type:'rule',
+    ml_detail:'',
+    rule_detail:'Инкрементальный пересчёт — rule-based оптимизация (TSP). Объяснения — шаблонная генерация текста. Варианты — параметрическая генерация (разный темп → разные маршруты).',
+    connections:'← AI-Маршрутизатор → Хаб поездки, Чек-лист, Бронирования'},
+
+  automode:{name:'Режим «Авто-маршрут»',zone:'Зона 2 — AI-Планирование',
+    problem:'Расчёт логистики между городами (плечи, бензин, ночёвки) — ручная кропотливая работа.',
+    solution:'Rule-based алгоритм расчёта плеч + API карт и АЗС. ML не требуется.',
+    inputs:['Города маршрута, тип авто, средний расход'],
+    outputs:['Автомаршрут с плечами → Чек-лист','Точки ночёвок → Бронирования','Бюджет → Хаб'],
+    jtbd:'Я как автопутешественник хочу получить оптимизированный маршрут с расчётом плеч и затрат на бензин.',
+    quality:'MVP: погрешность ≤5%, расчёт ≤20 сек, ≥90% маршрутов ≤400 км/день. Масштабирование: цены АЗС ≤1ч, ≤15 сек.',
+    result:'Экономия 8–12ч. Доля «реалистичных» маршрутов ≥75%. Конверсия в бронирование ≥20%.',
+    ml_type:'rule',
+    ml_detail:'',
+    rule_detail:'Расчёт плеч, ночёвок, бензина — rule-based алгоритм + API (Яндекс.Карты, Google Maps, цены АЗС). ML не требуется.',
+    connections:'← Маршрутизатор (города) → Чек-лист, Бронирования жилья'},
+
+  personalcab:{name:'Хаб поездки (Единая платформа)',zone:'Зона 2 — AI-Планирование',
+    problem:'Переключение между 10+ приложениями — потеря времени, дублирование, потеря данных.',
+    solution:'Единый интерфейс: маршрут + чек-лист + бронирования + заметки. Офлайн. Экспорт PDF.',
+    inputs:['Маршрут из редактора','Чек-лист','Подтверждения бронирований','Заметки'],
+    outputs:['Единый dashboard поездки','PDF-экспорт','Push-напоминания','Данные → Навигация'],
+    jtbd:'Я как путешественник хочу видеть маршрут, бронирования, чек-лист и заметки в одном интерфейсе.',
+    quality:'MVP: загрузка ≤2 сек, офлайн 100%, синхронизация ≤3 сек. Масштабирование: ≤1.5 сек, 2FA, NPS ≥60.',
+    result:'Сервисов: с 10–15 до 1. Доля сценариев без выхода в другие сервисы ≥60%. Retention ≥40%.',
+    ml_type:'none',ml_detail:'Платформенный инфраструктурный компонент. ML отсутствует.',
+    connections:'← Маршрутизатор, Чек-лист, Бронирования, Редактор → Навигация, PDF-экспорт'},
+
+  smarttable:{name:'Умная таблица поездки',zone:'Зона 2 — AI-Планирование',
+    problem:'Имеющиеся инструменты (Excel, Google Tasks) работают, но не интегрированы.',
+    solution:'Табличный вид (день → город → отель) + AI-заполнение из модуля персонализации + карта + импорт из Excel.',
+    inputs:['Excel-файл (импорт) или создание с нуля','Рекомендации из модуля персонализации'],
+    outputs:['Маршрут на карте','Автоматический чек-лист','Экспорт PDF'],
+    jtbd:'Я как путешественник, привыкший к Excel, хочу вести план в табличном формате с AI-подсказками.',
+    quality:'MVP: парсинг ≥80% шаблонов, синхронизация ≤2 сек, освоение ≤15 мин. Масштабирование: ≥90%, ≤1 сек.',
+    result:'Переход с Excel: ≥40% после 1-й поездки. Сокращение ручных операций с 2–3ч до <15 мин.',
+    ml_type:'ml',
+    ml_detail:'AI-заполнение ячеек — ML-модуль рекомендаций (тот же, что в модуле персонализации).',
+    rule_detail:'Импорт/парсинг Excel — rule-based парсер. Синхронизация таблица↔карта — rule-based.',
+    connections:'← Excel, Персонализация → Хаб поездки, Чек-лист'},
+
+  booking:{name:'Агрегатор бронирований',zone:'Зона 3 — Бронирование и логистика',
+    problem:'Бронирование для нескольких человек — сравнение вариантов, учёт разных потребностей.',
+    solution:'Deep links на Booking/Ostrovok/Airbnb с предзаполненными параметрами. Семейные фильтры. Калькулятор бюджета.',
+    inputs:['Точки ночёвок из маршрута','Количество участников, дети'],
+    outputs:['Ссылки на бронирование → OTA','Подтверждения → Хаб поездки'],
+    jtbd:'Я как организатор семейной поездки хочу подобрать жильё с семейными фильтрами прямо из маршрута.',
+    quality:'MVP: Booking + Ostrovok, предзаполнение 100%, RUB/EUR/USD. Масштабирование: + Airbnb, Marriott, real-time цены.',
+    result:'Перебронирования: с 12 до ≤3. Поиск жилья: с 4–6ч до 30–60 мин. Конверсия deep link ≥15%.',
+    ml_type:'rule',ml_detail:'',
+    rule_detail:'Предзаполнение параметров, фильтрация, калькулятор — rule-based логика. Сортировка по релевантности — потенциальная ML-точка (масштабирование).',
+    connections:'← Маршрут (даты, города, участники) → Хаб поездки (подтверждения)'},
+
+  budget:{name:'Умная таблица бюджета',zone:'Зона 3 — Бронирование и логистика',
+    problem:'Ведение Excel-бюджета на 250 строк занимает 2-3 часа.',
+    solution:'Автоматическая таблица на основе маршрута и бронирований. Split для группы.',
+    inputs:['Подтверждения бронирований','Маршрут с локациями'],
+    outputs:['Таблица расходов','Экспорт Excel/PDF','Split для группы → Хаб'],
+    jtbd:'Хочу видеть все расходы автоматически, без ручного ввода.',
+    quality:'Автозаполнение из email: точность ≥ 90%. Экспорт < 2 сек.',
+    result:'Экономия 2-3 ч. 80% не открывают Excel после внедрения.',
+    ml_type:'rule',ml_detail:'',
+    rule_detail:'Автоимпорт из бронирований, категоризация расходов — rule-based.',
+    connections:'← Бронирования, Маршрут → Хаб поездки'},
+
+  collab:{name:'Модуль совместного планирования',zone:'Зона 4 — Совместное планирование',
+    problem:'Планирование для группы — информация теряется в чатах, согласование хаотичное.',
+    solution:'Real-time workspace (WebSocket). Голосование за активности. Распределение задач из чек-листа.',
+    inputs:['Маршрут организатора','Приглашение участников по ссылке/email'],
+    outputs:['Согласованный маршрут → Хаб','Распределённые задачи → Чек-лист'],
+    jtbd:'Я как организатор групповой поездки хочу пригласить участников в единое пространство планирования.',
+    quality:'MVP: задержка ≤1 сек, до 10 участников. Масштабирование: ≤500 мс, до 20, 99.9% uptime.',
+    result:'Сообщения в чатах: −60%. Автоматизировано ≥50% координации. CSAT организатора ≥80%.',
+    ml_type:'rule',ml_detail:'',
+    rule_detail:'Синхронизация, голосование, назначение задач — rule-based + WebSocket. ML не требуется.',
+    connections:'← Маршрут организатора → Согласованный маршрут → Хаб, Чек-лист'},
+
+  familyroute:{name:'Семейный / групповой AI-маршрутизатор',zone:'Зона 4 — Совместное планирование',
+    problem:'Маршрут не учитывает потребности всех участников (дети устают, разные интересы).',
+    solution:'Балансировка нагрузки (≤3 POI/день с детьми), family-friendly фильтр на основе тегов Google Places, чередование дней.',
+    inputs:['Профили всех участников (возраст, интересы)','Базовый маршрут из маршрутизатора'],
+    outputs:['Сбалансированный маршрут → Хаб','Метки: «для детей 5–10 лет»'],
+    jtbd:'Я как организатор семейной поездки хочу задать профиль каждого участника и получить маршрут для всех.',
+    quality:'MVP: family-friendly ≥80%, балансировка ≥90%, генерация ≤20 сек. Масштабирование: ≥90%, ≥95%, ≤15 сек.',
+    result:'«Лучше, чем сам»: ≥60% (MVP), ≥80% (масшт.). Изменения после согласования ≤2.',
+    ml_type:'rule',
+    ml_detail:'',
+    rule_detail:'Балансировка (≤3 POI/день, чередование) — rule-based правила. Family-friendly фильтр — теги из Google Places (rule-based). Компромисс интересов группы — потенциальная ML-точка (масштабирование).',
+    connections:'← Профили участников + Маршрутизатор → Сбалансированный маршрут → Хаб'},
+
+  checklist:{name:'AI-Чек-лист подготовки',zone:'Зона 5 — Подготовка к поездке',
+    problem:'Забытые детали подготовки приводят к ошибкам и потерям 2–5 тыс. руб./поездку.',
+    solution:'Rule-based генерация чек-листа: визы (база + API), погода→одежда (температурные диапазоны), push-напоминания.',
+    inputs:['Завершённый маршрут','Профиль пользователя (гражданство, здоровье)'],
+    outputs:['Чек-лист (4 блока: документы, вещи, здоровье, организация) → Хаб','Push-напоминания → Reminder System'],
+    jtbd:'Я как путешественник хочу получить автоматический чек-лист подготовки на основе маршрута.',
+    quality:'MVP: визы ≥95% для 20 направлений, генерация ≤5 сек, push ≥95%. Масштабирование: 190+ стран, ≥99%, ≥98%.',
+    result:'«Забытые» элементы: с 30–40% до <10%. Завершённые чек-листы ≥50%. CSAT ≥80%.',
+    ml_type:'rule',
+    ml_detail:'',
+    rule_detail:'Визы, дедлайны — rule-based база + API консульских данных. Погода→одежда — rule-based (температурные диапазоны → категории). Персонализация приоритетов — потенциальная ML-точка (масштабирование).',
+    connections:'← Маршрут + Профиль → Хаб поездки, Reminder System'},
+
+  docs:{name:'Хранилище документов и визового контроля',zone:'Зона 5 — Подготовка к поездке',
+    problem:'Сканы паспортов в Telegram — неудобно искать в аэропорту.',
+    solution:'Зашифрованное хранилище с OCR-парсингом из фото и напоминаниями об истечении.',
+    inputs:['Фото/скан документа','Данные маршрута для визовых требований'],
+    outputs:['База документов → Хаб поездки','Напоминания → Reminder System','Офлайн-доступ'],
+    jtbd:'Хочу сохранить документы один раз и иметь доступ офлайн.',
+    quality:'AES-256 шифрование. Офлайн < 5 сек. OCR точность ≥ 92%.',
+    result:'0 потерянных документов. Поиск: 3 сек vs 5 мин.',
+    ml_type:'rule',ml_detail:'',
+    rule_detail:'Визовые требования — rule-based база. OCR-парсинг — внешний ML-сервис (не собственная модель).',
+    connections:'← Маршрут → Чек-лист, Хаб поездки'},
+
+  notifications:{name:'Adaptive Reminder System',zone:'Зона 5 — Подготовка к поездке',
+    problem:'Стандартные напоминания — спам. Игнорируются. Но потом забывается важное.',
+    solution:'Расписание по дедлайнам чек-листа. Telegram-бот + Push + Email.',
+    inputs:['Маршрут с датами','Прогресс чек-листа','Live-данные'],
+    outputs:['Telegram-сообщения','Push-уведомления → Пользователь'],
+    jtbd:'Хочу получать только важные уведомления — ровно когда они нужны.',
+    quality:'Telegram open rate > 60%. Push CTR > 15%. ≤2 уведомления/день.',
+    result:'On-time task completion +55%. Unsubscribe < 3%.',
+    ml_type:'rule',ml_detail:'',
+    rule_detail:'Расписание уведомлений — rule-based (дедлайны чек-листа, обратный отсчёт).',
+    connections:'← Чек-лист, Live-данные → Пользователь (Telegram, Push, Email)'},
+
+  nav:{name:'Навигация и офлайн-карты',zone:'Зона 6 — Во время поездки',
+    problem:'В роуминге дорого, а без интернета карты не работают.',
+    solution:'Маршрут офлайн. Интеграция с Google Maps / 2GIS.',
+    inputs:['Финальный маршрут из Хаба поездки','Геолокация (опционально)'],
+    outputs:['Офлайн-карта с точками','Открытие в навигаторе'],
+    jtbd:'Хочу иметь весь маршрут офлайн.',
+    quality:'Офлайн-загрузка < 30 сек. POI ≤ 24 ч. Кэш < 50 МБ.',
+    result:'80% используют офлайн. Жалобы «потерялся» −70%.',
+    ml_type:'none',ml_detail:'Платформенный компонент. ML отсутствует.',
+    connections:'← Хаб поездки (маршрут) → Пользователь в дороге'},
+
+  livedata:{name:'Live-данные и ситуационный модуль',zone:'Зона 6 — Во время поездки',
+    problem:'Узнаю о проблемах постфактум: объект закрыт, курс поменялся.',
+    solution:'Real-time агрегация из API (погода, валюта, транспорт). Push-алерты.',
+    inputs:['Маршрут с локациями','Подписки на алерты'],
+    outputs:['Push при изменениях → Reminder System','Данные на карте → Навигация'],
+    jtbd:'Хочу узнать о закрытии музея до того, как приеду.',
+    quality:'Погода 3ч, курс 1ч, транспорт 15 мин.',
+    result:'Предотвращение «сюрпризов» в 85%. NPS +8 пунктов.',
+    ml_type:'rule',ml_detail:'',
+    rule_detail:'Агрегация из внешних API, пороговые алерты — rule-based.',
+    connections:'← Маршрут → Напоминания, Навигация, Карта'}
+};
+
+function openDetail(id) {
+  const d = details[id];
+  if(!d) return;
+
+  let mlSection = '';
+  if(d.ml_type === 'ml') {
+    mlSection = `
+      <div class="detail-section">
+        <div class="detail-section-title">Технология: ML + Rule-based</div>
+        ${d.ml_detail ? `<div class="detail-ml-box"><div class="detail-ml-title">⚡ ML-компонент</div><div class="detail-ml-text">${d.ml_detail}</div></div>` : ''}
+        ${d.rule_detail ? `<div class="detail-rule-box"><div class="detail-rule-title">⚙ Rule-based часть</div><div class="detail-rule-text">${d.rule_detail}</div></div>` : ''}
+      </div>`;
+  } else if(d.ml_type === 'rule') {
+    mlSection = `
+      <div class="detail-section">
+        <div class="detail-section-title">Технология: Rule-based + API</div>
+        ${d.rule_detail ? `<div class="detail-rule-box"><div class="detail-rule-title">⚙ Rule-based</div><div class="detail-rule-text">${d.rule_detail}</div></div>` : ''}
+        ${d.ml_detail ? `<div class="detail-ml-box"><div class="detail-ml-title">⚡ ML-перспектива</div><div class="detail-ml-text">${d.ml_detail}</div></div>` : ''}
+      </div>`;
+  } else if(d.ml_detail) {
+    mlSection = `
+      <div class="detail-section">
+        <div class="detail-section-title">Технология</div>
+        <div class="detail-text">${d.ml_detail}</div>
+      </div>`;
+  }
+
+  const html = `
+    <div class="detail-name">${d.name}</div>
+    <div class="detail-zone" style="color:var(--teal)">${d.zone}</div>
+    <div class="detail-section">
+      <div class="detail-section-title">Проблема потребителя</div>
+      <div class="detail-text">${d.problem}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">User Story / Предлагаемое решение</div>
+      <div class="detail-text"><em style="color:var(--muted)">${d.jtbd}</em></div>
+      <div class="detail-text" style="margin-top:8px">${d.solution}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Входы компонента</div>
+      <ul class="detail-list">${d.inputs.map(i=>`<li>${i}</li>`).join('')}</ul>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Выходы компонента</div>
+      <ul class="detail-list">${d.outputs.map(i=>`<li>${i}</li>`).join('')}</ul>
+    </div>
+    ${mlSection}
+    <div class="detail-section">
+      <div class="detail-section-title">Требования к качеству (MVP / масштабирование)</div>
+      <div class="detail-text">${d.quality}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Конечный результат / Эффекты</div>
+      <div class="detail-text">${d.result}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-conn-box">
+        <div class="detail-conn-title">↔ Взаимосвязи с другими компонентами</div>
+        <div class="detail-conn-text">${d.connections}</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('detailContent').innerHTML = html;
+  document.getElementById('detailOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail(e) {
+  if(e.target === document.getElementById('detailOverlay')) closeDetailBtn();
+}
+function closeDetailBtn() {
+  document.getElementById('detailOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Scroll top
+const main = document.getElementById('main-content');
+const scrollBtn = document.getElementById('scrollTop');
+main.addEventListener('scroll', ()=>{
+  scrollBtn.classList.toggle('visible', main.scrollTop > 300);
+});
+function scrollToTop(){main.scrollTo({top:0,behavior:'smooth'});}
+
+// Keyboard close
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetailBtn();});
+</script>
+</body>
+</html>
