@@ -1,0 +1,2709 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TripMind — Карта компонентов продукта</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="light"]{
+  --bg:#f5f4f0;--surface:#faf9f6;--surface2:#ffffff;--border:rgba(0,0,0,0.08);
+  --text:#1a1814;--muted:#6b6a66;--faint:#b0afa9;
+  --teal:#016870;--teal-l:#cde4e2;--teal-d:#0a4e54;
+  --orange:#c85c00;--orange-l:#f5ddc8;
+  --blue:#005f8c;--blue-l:#c5d9e8;
+  --purple:#6b31a8;--purple-l:#ddd0ed;
+  --green:#3a6e1a;--green-l:#d3e0c9;
+  --gold:#b88200;--gold-l:#ede0c0;
+  --red:#991e2a;--red-l:#e8cdd0;
+  --rose:#b0357a;--rose-l:#f3d6e8;
+  --ml-accent:#8b5cf6;--ml-bg:#f3f0ff;--ml-border:#ddd6fe;
+  --rule-accent:#0891b2;--rule-bg:#ecfeff;--rule-border:#a5f3fc;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.08),0 2px 4px rgba(0,0,0,.04);
+  --shadow-lg:0 12px 32px rgba(0,0,0,.10);
+  --r:10px;--r-sm:6px;
+  --font-body:'Inter',sans-serif;
+  --font-display:'Instrument Serif',Georgia,serif;
+}
+[data-theme="dark"]{
+  --bg:#131210;--surface:#1a1917;--surface2:#201f1c;--border:rgba(255,255,255,0.08);
+  --text:#d0cfc9;--muted:#7a7976;--faint:#4a4946;
+  --teal:#4a96a2;--teal-l:#213537;--teal-d:#6dbbc8;
+  --orange:#e08040;--orange-l:#3d2810;
+  --blue:#4f8fbe;--blue-l:#1a3045;
+  --purple:#9660d0;--purple-l:#2d1e45;
+  --green:#65a040;--green-l:#1d2d10;
+  --gold:#d4a030;--gold-l:#332810;
+  --red:#d05060;--red-l:#3a1018;
+  --rose:#d06aa0;--rose-l:#3a1030;
+  --ml-accent:#a78bfa;--ml-bg:#1e1535;--ml-border:#4c1d95;
+  --rule-accent:#22d3ee;--rule-bg:#0c2a30;--rule-border:#155e75;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3);--shadow-md:0 4px 12px rgba(0,0,0,.4);--shadow-lg:0 12px 32px rgba(0,0,0,.5);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{font-family:var(--font-body);font-size:14px;background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh}
+
+/* === HEADER === */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:32px;height:32px}
+.logo-name{font-family:var(--font-display);font-size:20px;color:var(--text);letter-spacing:-0.3px}
+.logo-tag{font-size:11px;color:var(--teal);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-left:4px;padding:2px 7px;background:var(--teal-l);border-radius:20px}
+.header-right{display:flex;align-items:center;gap:12px}
+.header-title{font-size:13px;color:var(--muted);font-weight:500}
+button{cursor:pointer;border:none;background:none;font-family:inherit;font-size:inherit}
+.theme-toggle{width:36px;height:36px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .18s ease}
+.theme-toggle:hover{color:var(--text);background:var(--bg)}
+
+/* === LAYOUT === */
+.layout{display:flex;gap:0;height:calc(100vh - 57px)}
+.sidebar{width:280px;min-width:280px;background:var(--surface);border-right:1px solid var(--border);overflow-y:auto;padding:20px 0}
+.main{flex:1;overflow-y:auto;padding:28px 32px}
+
+/* === SIDEBAR === */
+.sidebar-section{padding:0 16px 16px}
+.sidebar-label{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);margin-bottom:10px;padding:0 4px}
+.seg-btn{width:100%;text-align:left;padding:9px 12px;border-radius:var(--r-sm);font-size:13px;font-weight:500;color:var(--muted);display:flex;align-items:center;gap:8px;transition:all .15s ease;cursor:pointer}
+.seg-btn:hover{background:var(--bg);color:var(--text)}
+.seg-btn.active{background:var(--teal-l);color:var(--teal-d)}
+[data-theme="dark"] .seg-btn.active{background:var(--teal-l);color:var(--teal)}
+.seg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sidebar-divider{height:1px;background:var(--border);margin:12px 16px}
+.legend-item{display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12px;color:var(--muted)}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px}
+.stat-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px}
+.stat-num{font-size:22px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;line-height:1}
+.stat-label{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* === ML LEGEND === */
+.ml-legend{display:flex;flex-direction:column;gap:6px;padding:0 16px}
+.ml-legend-item{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}
+.ml-tag-demo{font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:2px 6px;border-radius:10px;white-space:nowrap}
+
+/* === MAIN === */
+.page-title{font-family:var(--font-display);font-size:28px;color:var(--text);margin-bottom:6px;line-height:1.2}
+.page-sub{font-size:14px;color:var(--muted);margin-bottom:28px;max-width:72ch}
+.zone-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;margin-top:32px}
+.zone-header:first-of-type{margin-top:0}
+.zone-pill{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:3px 10px;border-radius:20px}
+.zone-title{font-size:15px;font-weight:700;color:var(--text)}
+.zone-desc{font-size:12px;color:var(--muted)}
+.components-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:8px}
+
+/* === COMPONENT CARD === */
+.comp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm);transition:box-shadow .18s ease,transform .18s ease;cursor:pointer;position:relative}
+.comp-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.comp-card.hidden{display:none}
+.comp-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.comp-name{font-size:14px;font-weight:700;color:var(--text);line-height:1.3}
+.comp-badge{font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:2px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-left:8px;margin-top:1px}
+.comp-icon{font-size:20px;margin-bottom:8px}
+.comp-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:12px}
+.comp-features{display:flex;flex-direction:column;gap:4px}
+.feat{display:flex;align-items:flex-start;gap:6px;font-size:11.5px;color:var(--muted)}
+.feat-dot{width:4px;height:4px;border-radius:50%;margin-top:5px;flex-shrink:0;background:var(--faint)}
+.feat-txt{line-height:1.4}
+.comp-footer{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.seg-tag{font-size:10px;padding:2px 7px;border-radius:12px;font-weight:600}
+
+/* === ML / RULE-BASED TAGS ON CARDS === */
+.tech-tag{font-size:9px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;padding:2px 7px;border-radius:10px;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.tech-tag.ml{background:var(--ml-bg);color:var(--ml-accent);border:1px solid var(--ml-border)}
+.tech-tag.rule{background:var(--rule-bg);color:var(--rule-accent);border:1px solid var(--rule-border)}
+.tech-tag.none{background:var(--bg);color:var(--faint);border:1px solid var(--border)}
+.tech-tag-icon{font-size:10px}
+
+/* === MVP PHASE TAG === */
+.phase-tag{position:absolute;top:10px;right:10px;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:10px;z-index:2}
+.phase-tag.mvp{background:#dafbe1;color:#1a7f37;border:1px solid #a6e3b0}
+.phase-tag.post{background:#fff3cd;color:#8a6d3b;border:1px solid #ffe08a}
+[data-theme="dark"] .phase-tag.mvp{background:#1a3320;color:#56d364;border-color:#2e5e3a}
+[data-theme="dark"] .phase-tag.post{background:#332b10;color:#e0b040;border-color:#5e4a1a}
+.comp-card.phase-dimmed{opacity:.55;transform:scale(.98)}
+.comp-card.phase-dimmed:hover{opacity:.85;transform:scale(.99)}
+
+/* === CONNECTION BADGE ON CARDS === */
+.comp-connections{margin-top:8px;font-size:10.5px;color:var(--faint);line-height:1.4}
+.conn-arrow{color:var(--teal);font-weight:700;margin:0 2px}
+
+/* === INTERCONNECTIONS DIAGRAM === */
+.interconnect-section{margin-top:32px;margin-bottom:8px}
+.interconnect-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+.interconnect-sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+.flow-diagram{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px;overflow-x:auto}
+.flow-row{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:nowrap;min-width:max-content;margin:0 auto}
+.flow-node{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:110px;max-width:130px;position:relative}
+.flow-node-box{padding:10px 12px;border-radius:var(--r-sm);border:1.5px solid var(--border);background:var(--surface2);font-size:11px;font-weight:600;color:var(--text);line-height:1.3;width:100%;transition:box-shadow .15s}
+.flow-node-box:hover{box-shadow:var(--shadow-md)}
+.flow-node-sub{font-size:9px;color:var(--faint);margin-top:3px;font-weight:400}
+.flow-node-ml{margin-top:4px}
+.flow-arrow{display:flex;flex-direction:column;align-items:center;min-width:50px;color:var(--faint);position:relative}
+.flow-arrow-line{font-size:16px;font-weight:700;color:var(--teal);letter-spacing:-2px}
+.flow-arrow-label{font-size:8px;color:var(--muted);white-space:nowrap;max-width:70px;text-align:center;line-height:1.2}
+.flow-branch{display:flex;flex-direction:column;align-items:center;gap:8px;margin:16px 0}
+.flow-branch-row{display:flex;align-items:center;gap:0;justify-content:center}
+.flow-vert-arrow{color:var(--teal);font-size:14px;font-weight:700}
+.flow-vert-label{font-size:8px;color:var(--muted);text-align:center}
+
+/* === INFRA SECTION === */
+.infra-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:8px}
+.infra-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.infra-name{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--text)}
+.infra-stack{display:flex;flex-wrap:wrap;gap:4px}
+.stack-tag{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500;background:var(--bg);border:1px solid var(--border);color:var(--muted)}
+
+/* === DETAIL PANEL === */
+.detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.detail-overlay.open{display:flex}
+.detail-panel{background:var(--surface);border-radius:14px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);padding:28px;position:relative}
+.detail-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:18px}
+.detail-close:hover{color:var(--text)}
+.detail-name{font-family:var(--font-display);font-size:22px;color:var(--text);margin-bottom:4px}
+.detail-zone{font-size:12px;font-weight:600;margin-bottom:16px}
+.detail-section{margin-bottom:18px}
+.detail-section-title{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.detail-text{font-size:13px;color:var(--muted);line-height:1.6}
+.detail-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.detail-list li{font-size:13px;color:var(--muted);display:flex;gap:8px;line-height:1.4}
+.detail-list li::before{content:"→";color:var(--teal);flex-shrink:0;font-weight:600}
+.detail-ml-box{background:var(--ml-bg);border:1px solid var(--ml-border);border-radius:var(--r-sm);padding:12px;margin-top:8px}
+.detail-ml-title{font-size:11px;font-weight:700;color:var(--ml-accent);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.detail-ml-text{font-size:12px;color:var(--muted);line-height:1.5}
+.detail-rule-box{background:var(--rule-bg);border:1px solid var(--rule-border);border-radius:var(--r-sm);padding:12px;margin-top:8px}
+.detail-rule-title{font-size:11px;font-weight:700;color:var(--rule-accent);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.detail-rule-text{font-size:12px;color:var(--muted);line-height:1.5}
+.detail-conn-box{margin-top:8px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm)}
+.detail-conn-title{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.detail-conn-text{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* === JOURNEY MAP === */
+.journey-section{margin-top:32px}
+.journey-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px}
+.journey-flow{display:flex;flex-wrap:wrap;gap:0;align-items:center;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow-x:auto}
+.journey-step{display:flex;flex-direction:column;align-items:center;min-width:100px;text-align:center;position:relative}
+.journey-node{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:6px;flex-shrink:0}
+.journey-label{font-size:10px;font-weight:600;color:var(--muted);line-height:1.3;max-width:90px}
+.journey-arrow{font-size:18px;color:var(--faint);padding:0 4px;align-self:flex-start;margin-top:16px}
+.journey-note{font-size:9px;color:var(--faint);margin-top:2px;max-width:90px}
+.journey-ml-dot{width:6px;height:6px;border-radius:50%;background:var(--ml-accent);margin-top:3px}
+
+/* === SCROLL === */
+.scroll-top{position:fixed;bottom:24px;right:24px;width:40px;height:40px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md);opacity:0;transition:opacity .2s;font-size:16px;z-index:50}
+.scroll-top.visible{opacity:1}
+
+/* === MARKET / TAM-SAM-SOM SECTION === */
+.market-funnel{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:24px;position:relative;overflow:hidden}
+.funnel-step{position:relative;padding:20px 18px;text-align:center;border-right:1px solid var(--border)}
+.funnel-step:last-child{border-right:none}
+.funnel-step::after{content:"→";position:absolute;right:-9px;top:50%;transform:translateY(-50%);background:var(--surface);width:18px;height:18px;display:flex;align-items:center;justify-content:center;color:var(--teal);font-weight:700;font-size:14px;border-radius:50%;border:1px solid var(--border);z-index:2}
+.funnel-step:last-child::after{display:none}
+.funnel-tag{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:8px}
+.funnel-tag.tam{background:var(--blue-l);color:var(--blue)}
+.funnel-tag.sam{background:var(--orange-l);color:var(--orange)}
+.funnel-tag.som{background:var(--teal-l);color:var(--teal-d)}
+[data-theme="dark"] .funnel-tag.som{color:var(--teal)}
+.funnel-money{font-family:var(--font-display);font-size:28px;color:var(--text);line-height:1;margin-bottom:4px;letter-spacing:-.5px}
+.funnel-units{font-size:11px;color:var(--muted);margin-bottom:8px;font-variant-numeric:tabular-nums}
+.funnel-method{font-size:11px;color:var(--faint);line-height:1.45;max-width:32ch;margin:0 auto;font-style:italic}
+.funnel-share{font-size:10px;font-weight:700;color:var(--teal);margin-top:6px;letter-spacing:.4px}
+
+/* Niches grid */
+.niche-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm);transition:box-shadow .18s ease,transform .18s ease;position:relative;cursor:pointer}
+.niche-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.niche-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px}
+.niche-num{font-family:var(--font-display);font-size:36px;color:var(--text);line-height:1;letter-spacing:-1px;opacity:.18;position:absolute;right:14px;top:8px;pointer-events:none}
+.niche-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.3;max-width:78%}
+.niche-tag{font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:2px 7px;border-radius:10px;white-space:nowrap}
+.niche-tag.b2c{background:var(--orange-l);color:var(--orange)}
+.niche-tag.b2b{background:var(--rose-l);color:var(--rose)}
+.niche-meta{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0;padding:10px;background:var(--bg);border-radius:var(--r-sm)}
+.niche-meta-item{display:flex;flex-direction:column;gap:2px}
+.niche-meta-label{font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:.4px;font-weight:600}
+.niche-meta-value{font-size:13px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
+.niche-money{font-size:14px;font-weight:700;color:var(--teal-d)}
+[data-theme="dark"] .niche-money{color:var(--teal)}
+.niche-cascade{margin-top:10px;font-size:11px;color:var(--muted);line-height:1.5;display:none}
+.niche-card.expanded .niche-cascade{display:block}
+.niche-cascade-title{font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.cascade-step{display:flex;justify-content:space-between;gap:8px;padding:3px 0;border-bottom:1px dashed var(--border)}
+.cascade-step:last-child{border-bottom:none;font-weight:700;color:var(--text);padding-top:6px}
+.cascade-step-label{flex:1;font-size:11px}
+.cascade-step-val{font-size:11px;font-variant-numeric:tabular-nums;color:var(--text);font-weight:600;white-space:nowrap}
+.niche-channels{margin-top:10px;padding:8px 10px;background:var(--teal-l);border-radius:var(--r-sm);font-size:11px;color:var(--teal-d);line-height:1.5}
+[data-theme="dark"] .niche-channels{color:var(--teal)}
+.niche-channels-title{font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.niche-toggle{margin-top:10px;font-size:11px;color:var(--teal);font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;user-select:none}
+.niche-toggle:hover{color:var(--teal-d)}
+.niche-toggle::before{content:"▸";display:inline-block;transition:transform .18s ease;font-size:9px}
+.niche-card.expanded .niche-toggle::before{transform:rotate(90deg)}
+
+/* Scenario switcher */
+.scenario-switcher{display:flex;gap:6px;margin-bottom:14px;background:var(--surface2);border:1px solid var(--border);padding:4px;border-radius:var(--r);width:fit-content}
+.scenario-btn{padding:8px 14px;font-size:12px;font-weight:600;color:var(--muted);background:none;border:none;border-radius:var(--r-sm);cursor:pointer;transition:all .15s ease;font-family:inherit}
+.scenario-btn:hover{color:var(--text)}
+.scenario-btn.active{background:var(--teal);color:#fff;box-shadow:var(--shadow-sm)}
+.scenario-meta{font-size:11px;color:var(--muted);margin-bottom:14px;padding:10px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);line-height:1.5}
+
+/* SOM bar chart */
+.som-bars{display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px}
+.som-bar-row{display:grid;grid-template-columns:170px 1fr 110px;gap:14px;align-items:center}
+.som-bar-name{font-size:12px;font-weight:600;color:var(--text);line-height:1.3}
+.som-bar-name-sub{font-size:10px;color:var(--faint);font-weight:400;display:block;margin-top:1px}
+.som-bar-track{height:24px;background:var(--bg);border-radius:6px;overflow:hidden;position:relative;display:flex}
+.som-bar-fill{height:100%;display:flex;align-items:center;padding-left:8px;font-size:10px;font-weight:700;color:#fff;transition:width .8s cubic-bezier(.2,.7,.2,1);white-space:nowrap;overflow:hidden}
+.som-bar-fill.subscription{background:var(--teal)}
+.som-bar-fill.partner{background:var(--orange)}
+.som-bar-value{font-size:13px;font-weight:700;color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
+.som-bar-pct{font-size:10px;color:var(--muted);font-weight:500}
+.som-bar-total{margin-top:10px;padding-top:12px;border-top:1px solid var(--border);display:grid;grid-template-columns:170px 1fr 110px;gap:14px;align-items:center}
+.som-bar-total .som-bar-name{font-weight:700;font-size:13px}
+.som-bar-total .som-bar-value{font-size:18px;color:var(--teal-d);font-family:var(--font-display);letter-spacing:-.3px}
+[data-theme="dark"] .som-bar-total .som-bar-value{color:var(--teal)}
+.som-legend{display:flex;gap:14px;margin-top:10px;font-size:11px;color:var(--muted)}
+.som-legend-item{display:flex;align-items:center;gap:6px}
+.som-legend-dot{width:10px;height:10px;border-radius:3px}
+
+/* === SAM Assembly: horizontal stacked bar === */
+.sam-headline{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.sam-headline-left{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sam-total-money{font-family:var(--font-display);font-size:32px;color:var(--text);letter-spacing:-.7px;line-height:1}
+.sam-total-pct{font-size:11px;font-weight:700;color:var(--orange);background:var(--orange-l);padding:3px 10px;border-radius:14px;letter-spacing:.3px}
+.sam-total-units{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sam-stack-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow-sm)}
+.sam-stack{display:flex;height:48px;border-radius:8px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--border);position:relative}
+.sam-stack-seg{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 12px;color:#fff;font-size:11.5px;font-weight:700;line-height:1.15;cursor:pointer;transition:filter .15s ease,transform .15s ease;position:relative;min-width:0;overflow:hidden}
+.sam-stack-seg:hover{filter:brightness(1.1)}
+.sam-stack-seg.active{outline:2px solid var(--text);outline-offset:-3px}
+.sam-stack-seg-pct{font-family:var(--font-display);font-size:16px;letter-spacing:-.3px;line-height:1;margin-bottom:2px}
+.sam-stack-seg-name{font-size:10px;font-weight:600;opacity:.92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.sam-stack-seg-1{background:var(--orange)}
+.sam-stack-seg-2{background:var(--blue)}
+.sam-stack-seg-3{background:var(--purple)}
+.sam-stack-seg-4{background:var(--rose)}
+.sam-stack-axis{display:flex;justify-content:space-between;margin-top:8px;font-size:10px;color:var(--faint);font-variant-numeric:tabular-nums}
+
+/* Detail rows under stack — visible always */
+.sam-details{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:14px}
+.sam-detail{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;border-left:3px solid var(--teal);transition:all .18s ease}
+.sam-detail.b2c-1{border-left-color:var(--orange)}
+.sam-detail.b2c-2{border-left-color:var(--blue)}
+.sam-detail.b2c-3{border-left-color:var(--purple)}
+.sam-detail.b2b{border-left-color:var(--rose)}
+.sam-detail-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:6px}
+.sam-detail-name{font-size:11.5px;font-weight:700;color:var(--text);line-height:1.25}
+.sam-detail-tag{font-size:8.5px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;padding:2px 6px;border-radius:8px;flex-shrink:0;white-space:nowrap}
+.sam-detail-tag.b2c{background:var(--orange-l);color:var(--orange)}
+.sam-detail-tag.b2b{background:var(--rose-l);color:var(--rose)}
+.sam-detail-formula{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.4;margin-bottom:6px}
+.sam-detail-formula b{color:var(--text);font-weight:700}
+.sam-detail-money{font-family:var(--font-display);font-size:20px;letter-spacing:-.3px;line-height:1}
+.sam-detail.b2c-1 .sam-detail-money{color:var(--orange)}
+.sam-detail.b2c-2 .sam-detail-money{color:var(--blue)}
+.sam-detail.b2c-3 .sam-detail-money{color:var(--purple)}
+.sam-detail.b2b .sam-detail-money{color:var(--rose)}
+.sam-detail-share{font-size:10px;color:var(--faint);margin-top:2px}
+
+/* === SAM → SOM Transition: voronka === */
+.transition-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;margin-top:8px;box-shadow:var(--shadow-sm)}
+.transition-row{padding:14px 0;border-bottom:1px dashed var(--border)}
+.transition-row:last-child{border-bottom:none;padding-bottom:0}
+.transition-row:first-child{padding-top:0}
+.transition-row-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.transition-row-name{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.transition-row-cap{font-family:var(--font-display);font-size:22px;letter-spacing:-.3px;line-height:1;color:var(--teal)}
+.transition-row.b2c-1 .transition-row-cap{color:var(--orange)}
+.transition-row.b2c-2 .transition-row-cap{color:var(--blue)}
+.transition-row.b2c-3 .transition-row-cap{color:var(--purple)}
+.transition-row.b2b .transition-row-cap{color:var(--rose)}
+.transition-row-cap-label{font-size:9.5px;color:var(--faint);font-weight:600;letter-spacing:.4px;text-transform:uppercase;display:block;margin-top:1px}
+
+/* Funnel SVG-style with two horizontal bars connected by sloped lines */
+.funnel-pair{position:relative;padding:0;display:flex;flex-direction:column;gap:0}
+.funnel-bar{position:relative;display:flex;align-items:center;height:34px;border-radius:6px;color:#fff;font-size:11px;font-weight:700;padding:0 12px;box-sizing:border-box;overflow:hidden;transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.funnel-bar-sam{background:var(--bg);border:1px solid var(--border);color:var(--muted);justify-content:space-between}
+.funnel-bar-sam-fill{position:absolute;inset:0;background:linear-gradient(90deg,var(--teal-l),var(--teal-l));z-index:0}
+.funnel-bar-sam .funnel-bar-text{position:relative;z-index:1;color:var(--text)}
+.funnel-bar-sam[data-niche="b2c-1"] .funnel-bar-sam-fill{background:linear-gradient(90deg,#fce7d6,#f5ddc8)}
+.funnel-bar-sam[data-niche="b2c-2"] .funnel-bar-sam-fill{background:linear-gradient(90deg,#d8e7f0,#c5d9e8)}
+.funnel-bar-sam[data-niche="b2c-3"] .funnel-bar-sam-fill{background:linear-gradient(90deg,#e8def3,#ddd0ed)}
+.funnel-bar-sam[data-niche="b2b"] .funnel-bar-sam-fill{background:linear-gradient(90deg,#f8e0eb,#f3d6e8)}
+[data-theme="dark"] .funnel-bar-sam[data-niche="b2c-1"] .funnel-bar-sam-fill{background:linear-gradient(90deg,#3d2810,#5a3a18)}
+[data-theme="dark"] .funnel-bar-sam[data-niche="b2c-2"] .funnel-bar-sam-fill{background:linear-gradient(90deg,#1a3045,#27466b)}
+[data-theme="dark"] .funnel-bar-sam[data-niche="b2c-3"] .funnel-bar-sam-fill{background:linear-gradient(90deg,#2d1e45,#46306a)}
+[data-theme="dark"] .funnel-bar-sam[data-niche="b2b"] .funnel-bar-sam-fill{background:linear-gradient(90deg,#3a1030,#572046)}
+.funnel-bar-som{justify-content:space-between;font-size:11.5px}
+.funnel-bar-som[data-niche="b2c-1"]{background:var(--orange)}
+.funnel-bar-som[data-niche="b2c-2"]{background:var(--blue)}
+.funnel-bar-som[data-niche="b2c-3"]{background:var(--purple)}
+.funnel-bar-som[data-niche="b2b"]{background:var(--rose)}
+.funnel-bar-text{display:flex;align-items:center;gap:8px}
+.funnel-bar-label{font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;opacity:.85;white-space:nowrap}
+.funnel-bar-units{font-variant-numeric:tabular-nums;white-space:nowrap}
+.funnel-svg-connector{position:relative;height:14px;margin:-1px 0;pointer-events:none;display:block}
+.funnel-svg-connector svg{display:block;width:100%;height:100%;overflow:visible}
+.funnel-shape{fill:url(#funnel-grad);opacity:.55}
+[data-theme="dark"] .funnel-shape{opacity:.4}
+.transition-rationale{font-size:11px;color:var(--muted);line-height:1.5;margin-top:8px;padding-left:8px;border-left:2px solid var(--border)}
+
+/* Partner commissions breakdown */
+.partner-breakdown{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:var(--r);padding:16px 18px;margin-top:14px}
+.partner-breakdown-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;cursor:pointer;user-select:none}
+.partner-breakdown-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;line-height:1.3}
+.partner-breakdown-icon{font-size:14px}
+.partner-breakdown-toggle{font-size:11px;color:var(--orange);font-weight:600;display:flex;align-items:center;gap:4px;flex-shrink:0}
+.partner-breakdown-toggle::before{content:"▸";display:inline-block;transition:transform .18s ease;font-size:9px}
+.partner-breakdown.expanded .partner-breakdown-toggle::before{transform:rotate(90deg)}
+.partner-breakdown-sub{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:6px;padding-right:80px}
+.partner-breakdown-content{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.partner-breakdown.expanded .partner-breakdown-content{display:block}
+.partner-formula{display:grid;grid-template-columns:1fr auto;gap:6px 14px;font-size:11.5px;color:var(--muted);line-height:1.5;align-items:center}
+.partner-formula-row{display:contents}
+.partner-formula-label{padding:4px 0;border-bottom:1px dashed var(--border)}
+.partner-formula-val{padding:4px 0;border-bottom:1px dashed var(--border);text-align:right;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}
+.partner-formula-row.total .partner-formula-label,.partner-formula-row.total .partner-formula-val{border-bottom:none;font-weight:700;color:var(--orange);padding-top:8px;font-size:13px}
+.partner-sources{margin-top:12px;padding:10px 12px;background:var(--bg);border-radius:var(--r-sm);font-size:11px;color:var(--muted);line-height:1.5}
+.partner-sources-title{font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.partner-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.partner-summary-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;font-size:11px;color:var(--muted);line-height:1.45}
+.partner-summary-card-label{font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.partner-summary-card-val{font-size:14px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;margin-bottom:2px}
+
+/* GTM Timeline */
+.gtm-timeline{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-top:14px}
+.gtm-years{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;position:relative}
+.gtm-year{padding:14px 14px 14px 18px;border-left:3px solid var(--border);position:relative}
+.gtm-year:first-child{border-left-color:var(--teal)}
+.gtm-year:nth-child(2){border-left-color:var(--orange)}
+.gtm-year:last-child{border-left-color:var(--rose)}
+.gtm-year-label{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.gtm-year-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px}
+.gtm-year-niches{display:flex;flex-direction:column;gap:5px;margin-bottom:8px}
+.gtm-niche-pill{font-size:10.5px;padding:3px 9px;border-radius:14px;font-weight:600;display:inline-block;line-height:1.4;width:fit-content}
+.gtm-niche-pill.active{background:var(--teal-l);color:var(--teal-d);border:1px solid var(--teal)}
+[data-theme="dark"] .gtm-niche-pill.active{color:var(--teal)}
+.gtm-niche-pill.scaled{background:var(--orange-l);color:var(--orange);border:1px solid var(--orange)}
+.gtm-niche-pill.starting{background:var(--rose-l);color:var(--rose);border:1px solid var(--rose)}
+.gtm-year-target{font-size:11px;color:var(--muted);margin-top:6px;padding-top:6px;border-top:1px dashed var(--border)}
+.gtm-year-target b{color:var(--text);font-weight:700}
+
+/* Routes / Paths to grow SOM */
+.paths-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:14px}
+.path-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px;font-size:11.5px;color:var(--muted);line-height:1.5}
+.path-card-num{font-family:var(--font-display);font-size:22px;color:var(--teal);line-height:1;margin-bottom:4px}
+.path-card-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:6px}
+
+/* === MOBILE NAV (hamburger + drawer + sticky tabs) === */
+.mobile-menu-btn{display:none;width:36px;height:36px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);align-items:center;justify-content:center;color:var(--text);cursor:pointer}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:90;animation:fadeIn .2s ease}
+.sidebar-overlay.open{display:block}
+.sidebar-close{display:none;position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--muted);font-size:18px;align-items:center;justify-content:center;cursor:pointer;z-index:5}
+
+.mobile-tabs{display:none;position:sticky;top:57px;z-index:50;background:var(--bg);padding:10px 0 8px;margin:-10px -16px 12px;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.mobile-tabs-inner{display:flex;gap:6px;padding:0 16px;width:max-content;min-width:100%}
+.mobile-tab{flex-shrink:0;padding:7px 12px;font-size:12px;font-weight:600;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:18px;cursor:pointer;transition:all .15s ease;display:flex;align-items:center;gap:5px;font-family:inherit}
+.mobile-tab:active,.mobile-tab:hover{background:var(--teal-l);color:var(--teal-d);border-color:var(--teal)}
+[data-theme="dark"] .mobile-tab:active,[data-theme="dark"] .mobile-tab:hover{color:var(--teal)}
+.mobile-tab-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+
+@media(max-width:768px){
+  .layout{flex-direction:column;height:auto;min-height:calc(100vh - 57px)}
+  /* Сайдбар становится off-canvas drawer на мобильном */
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:300px;height:100vh;border-right:1px solid var(--border);border-bottom:none;z-index:100;transform:translateX(-100%);transition:transform .25s ease;box-shadow:var(--shadow-lg);padding-top:60px;overflow-y:auto}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-close{display:flex}
+  .header-title{display:none}
+  .mobile-menu-btn{display:flex}
+  .main{padding:16px;overflow-y:visible;flex:1 1 auto;min-height:0}
+  body{overflow-x:hidden}
+  body.sidebar-open{overflow:hidden}
+  .components-grid{grid-template-columns:1fr}
+  .flow-diagram{padding:16px}
+  .market-funnel{grid-template-columns:1fr;gap:12px;padding:16px}
+  .funnel-step{border-right:none;border-bottom:1px solid var(--border);padding:14px 8px}
+  .funnel-step:last-child{border-bottom:none}
+  .funnel-step::after{content:"↓";right:50%;top:auto;bottom:-9px;transform:translateX(50%)}
+  .funnel-money{font-size:24px}
+  .gtm-years{grid-template-columns:1fr}
+  .som-bar-row,.som-bar-total{grid-template-columns:1fr;gap:6px}
+  .som-bar-value{text-align:left;font-size:14px}
+  .som-bar-track{height:22px}
+  .som-bar-total .som-bar-value{font-size:20px}
+  .gtm-year{padding:14px 14px 14px 16px}
+  .niche-meta{gap:10px;padding:8px}
+  .niche-meta-value{font-size:12px}
+  .mobile-tabs{display:block}
+  .page-title{font-size:22px;margin-top:4px}
+  .page-sub{font-size:13px;margin-bottom:14px}
+  .scenario-switcher{width:100%}
+  .scenario-btn{flex:1;padding:8px 10px;font-size:11.5px}
+  .scroll-top{bottom:16px;right:16px}
+  .interconnect-section{margin-top:20px}
+  /* Скрываем «больше» в footer-плашке сметы для мобильного */
+  .infra-grid{grid-template-columns:1fr;gap:10px}
+  .paths-grid{grid-template-columns:1fr}
+  .partner-breakdown-sub{padding-right:0}
+  .partner-summary-grid{grid-template-columns:1fr}
+  .partner-formula{grid-template-columns:1fr;gap:0}
+  .partner-formula-row{display:flex;justify-content:space-between;border-bottom:1px dashed var(--border);padding:4px 0}
+  .partner-formula-label,.partner-formula-val{border-bottom:none;padding:0}
+
+  /* Mobile: SAM stacked bar — компактнее */
+  .sam-headline{flex-direction:column;align-items:flex-start}
+  .sam-total-money{font-size:26px}
+  .sam-stack-wrap{padding:14px}
+  .sam-stack{height:42px}
+  .sam-stack-seg{padding:0 8px}
+  .sam-stack-seg-pct{font-size:13px}
+  .sam-stack-seg-name{font-size:9px}
+  .sam-details{grid-template-columns:1fr;gap:8px}
+  .sam-detail-money{font-size:18px}
+
+  /* Mobile: Funnel transition — компактнее */
+  .transition-block{padding:14px}
+  .transition-row-head{flex-wrap:wrap}
+  .transition-row-cap{font-size:18px}
+  .funnel-bar{height:30px;font-size:10.5px;padding:0 9px}
+  .funnel-bar-label{font-size:8.5px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <svg class="logo-icon" viewBox="0 0 32 32" fill="none" aria-label="TripMind logo">
+      <rect width="32" height="32" rx="8" fill="#016870"/>
+      <path d="M8 16 Q16 7 24 16 Q16 25 8 16Z" fill="none" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="16" cy="16" r="3.5" fill="#fff"/>
+      <path d="M16 5v3M16 24v3M5 16h3M24 16h3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+    </svg>
+    <span class="logo-name">TripMind</span>
+    <span class="logo-tag">Карта продукта v4</span>
+  </div>
+  <div class="header-right">
+    <span class="header-title">Компоненты · Взаимосвязи · ML-точки</span>
+    <button class="theme-toggle" data-theme-toggle aria-label="Переключить тему">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+    <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Открыть меню">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- Overlay for mobile sidebar -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <button class="sidebar-close" onclick="toggleSidebar()" aria-label="Закрыть меню">✕</button>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Фильтр по сегменту</div>
+    <button class="seg-btn active" data-filter="all" onclick="filterCards('all',this)">
+      <span class="seg-dot" style="background:var(--teal)"></span>Все сегменты
+    </button>
+    <button class="seg-btn" data-filter="solo" onclick="filterCards('solo',this)">
+      <span class="seg-dot" style="background:var(--orange)"></span>Самостоятельные путешественники
+    </button>
+    <button class="seg-btn" data-filter="auto" onclick="filterCards('auto',this)">
+      <span class="seg-dot" style="background:var(--blue)"></span>Автопутешественники
+    </button>
+    <button class="seg-btn" data-filter="group" onclick="filterCards('group',this)">
+      <span class="seg-dot" style="background:var(--purple)"></span>Организаторы групп
+    </button>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Фаза разработки</div>
+    <button class="seg-btn active" data-phase-filter="all" onclick="filterPhase('all',this)">
+      <span class="seg-dot" style="background:var(--teal)"></span>Все компоненты
+    </button>
+    <button class="seg-btn" data-phase-filter="mvp" onclick="filterPhase('mvp',this)">
+      <span class="seg-dot" style="background:#1a7f37"></span>MVP — первая волна
+    </button>
+    <button class="seg-btn" data-phase-filter="post" onclick="filterPhase('post',this)">
+      <span class="seg-dot" style="background:#8a6d3b"></span>Post-MVP — масштабирование
+    </button>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Зоны продукта</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--teal)"></span>Вход и онбординг</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--orange)"></span>AI-Планирование</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--blue)"></span>Бронирование и логистика</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--purple)"></span>Совместное планирование</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span>Подготовка к поездке</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--gold)"></span>Во время поездки</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--rose)"></span>Коммерческий контур</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--red)"></span>Инфраструктура</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Технологии</div>
+    <div class="ml-legend">
+      <div class="ml-legend-item">
+        <span class="ml-tag-demo" style="background:var(--ml-bg);color:var(--ml-accent);border:1px solid var(--ml-border)">⚡ ML</span>
+        <span>Машинное обучение</span>
+      </div>
+      <div class="ml-legend-item">
+        <span class="ml-tag-demo" style="background:var(--rule-bg);color:var(--rule-accent);border:1px solid var(--rule-border)">⚙ Rules</span>
+        <span>Rule-based + API</span>
+      </div>
+      <div class="ml-legend-item">
+        <span class="ml-tag-demo" style="background:var(--bg);color:var(--faint);border:1px solid var(--border)">— Нет AI</span>
+        <span>Платформенный компонент</span>
+      </div>
+    </div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Статистика</div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-num">21</div><div class="stat-label">компонентов</div></div>
+      <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">сегмента</div></div>
+      <div class="stat-box"><div class="stat-num">8</div><div class="stat-label">зон</div></div>
+      <div class="stat-box"><div class="stat-num">5</div><div class="stat-label">ML-точек</div></div>
+    </div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Навигация</div>
+    <button class="seg-btn" onclick="scrollToSection('flow-diagram-anchor')">
+      <span class="seg-dot" style="background:var(--teal)"></span>Сценарий MVP
+    </button>
+    <button class="seg-btn" onclick="scrollToSection('journey-anchor')">
+      <span class="seg-dot" style="background:var(--purple)"></span>Customer Journey
+    </button>
+    <button class="seg-btn" onclick="scrollToSection('market-anchor')">
+      <span class="seg-dot" style="background:var(--orange)"></span>Расчёт рынка (TAM/SAM/SOM)
+    </button>
+    <button class="seg-btn" onclick="scrollToSection('zones-anchor')">
+      <span class="seg-dot" style="background:var(--green)"></span>Зоны продукта (8 зон)
+    </button>
+    <button class="seg-btn" onclick="scrollToSection('infra-anchor')">
+      <span class="seg-dot" style="background:var(--red)"></span>Инфраструктура и смета
+    </button>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main" id="main-content">
+  <h1 class="page-title">Карта компонентов продукта TripMind</h1>
+  <p class="page-sub">Визуализация всей инфраструктуры продукта — от первого касания до завершения поездки. Показаны взаимосвязи между компонентами, точки применения ML / rule-based логики и коммерческий контур монетизации.</p>
+
+  <!-- Mobile sticky tabs (видны только на мобильном) -->
+  <nav class="mobile-tabs" aria-label="Навигация по разделам">
+    <div class="mobile-tabs-inner">
+      <button class="mobile-tab" onclick="scrollToSection('flow-diagram-anchor')">
+        <span class="mobile-tab-dot" style="background:var(--teal)"></span>Сценарий
+      </button>
+      <button class="mobile-tab" onclick="scrollToSection('journey-anchor')">
+        <span class="mobile-tab-dot" style="background:var(--purple)"></span>Journey
+      </button>
+      <button class="mobile-tab" onclick="scrollToSection('market-anchor')">
+        <span class="mobile-tab-dot" style="background:var(--orange)"></span>Рынок
+      </button>
+      <button class="mobile-tab" onclick="scrollToSection('zones-anchor')">
+        <span class="mobile-tab-dot" style="background:var(--green)"></span>Зоны
+      </button>
+      <button class="mobile-tab" onclick="scrollToSection('infra-anchor')">
+        <span class="mobile-tab-dot" style="background:var(--red)"></span>Инфраструктура
+      </button>
+    </div>
+  </nav>
+
+  <!-- === INTERCONNECTIONS DIAGRAM === -->
+  <div class="interconnect-section" id="flow-diagram-anchor">
+    <div class="interconnect-title">Сквозной сценарий MVP — взаимосвязи компонентов</div>
+    <div class="interconnect-sub">Данные передаются по цепочке. Фиолетовым отмечены ML-точки, голубым — rule-based логика, серым — платформенные компоненты без AI.</div>
+    <div class="flow-diagram">
+      <!-- Main flow: top row -->
+      <div class="flow-row">
+        <div class="flow-node">
+          <div class="flow-node-box" style="border-color:var(--teal)">
+            👤 Онбординг
+            <div class="flow-node-sub">Профиль, интересы, стиль</div>
+          </div>
+        </div>
+        <div class="flow-arrow">
+          <div class="flow-arrow-line">→→→</div>
+          <div class="flow-arrow-label">профиль</div>
+        </div>
+        <div class="flow-node">
+          <div class="flow-node-box" style="border-color:var(--ml-accent)">
+            🤖 AI-Маршрутизатор
+            <div class="flow-node-sub">Генерация маршрута</div>
+            <div class="flow-node-ml"><span class="tech-tag ml"><span class="tech-tag-icon">⚡</span>ML</span></div>
+          </div>
+        </div>
+        <div class="flow-arrow">
+          <div class="flow-arrow-line">→→→</div>
+          <div class="flow-arrow-label">маршрут</div>
+        </div>
+        <div class="flow-node">
+          <div class="flow-node-box" style="border-color:var(--ml-accent)">
+            🧠 AI-Персонализация
+            <div class="flow-node-sub">Ранжирование POI</div>
+            <div class="flow-node-ml"><span class="tech-tag ml"><span class="tech-tag-icon">⚡</span>ML</span></div>
+          </div>
+        </div>
+        <div class="flow-arrow">
+          <div class="flow-arrow-line">→→→</div>
+          <div class="flow-arrow-label">рекоменд.</div>
+        </div>
+        <div class="flow-node">
+          <div class="flow-node-box" style="border-color:var(--orange)">
+            ✏️ Редактор
+            <div class="flow-node-sub">Drag-and-drop, варианты</div>
+            <div class="flow-node-ml"><span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span></div>
+          </div>
+        </div>
+        <div class="flow-arrow">
+          <div class="flow-arrow-line">→→→</div>
+          <div class="flow-arrow-label">финальный маршрут</div>
+        </div>
+        <div class="flow-node">
+          <div class="flow-node-box" style="border-color:var(--green)">
+            📋 Хаб поездки
+            <div class="flow-node-sub">Маршрут + чек-лист + брони</div>
+            <div class="flow-node-ml"><span class="tech-tag none">— Нет AI</span></div>
+          </div>
+        </div>
+        <div class="flow-arrow">
+          <div class="flow-arrow-line">→→→</div>
+          <div class="flow-arrow-label">paywall / Pro</div>
+        </div>
+        <div class="flow-node">
+          <div class="flow-node-box" style="border-color:var(--rose)">
+            💎 Монетизация
+            <div class="flow-node-sub">Free / Pro, комиссии</div>
+            <div class="flow-node-ml"><span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Branch: чек-лист -->
+      <div class="flow-branch">
+        <div style="display:flex;align-items:flex-start;gap:0;justify-content:center;width:100%">
+          <div style="width:160px"></div>
+          <div style="width:160px"></div>
+          <div style="display:flex;flex-direction:column;align-items:center;width:130px">
+            <div class="flow-vert-arrow">↓</div>
+            <div class="flow-vert-label">маршрут + профиль</div>
+          </div>
+          <div style="width:50px"></div>
+          <div style="width:130px"></div>
+          <div style="width:50px"></div>
+          <div style="width:130px"></div>
+        </div>
+        <div class="flow-branch-row">
+          <div style="width:160px"></div>
+          <div style="width:160px"></div>
+          <div class="flow-node">
+            <div class="flow-node-box" style="border-color:var(--rule-accent)">
+              ✅ AI-Чек-лист
+              <div class="flow-node-sub">Визы, вещи, здоровье</div>
+              <div class="flow-node-ml"><span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules + API</span></div>
+            </div>
+          </div>
+          <div class="flow-arrow">
+            <div class="flow-arrow-line">→→→</div>
+            <div class="flow-arrow-label">чек-лист → хаб</div>
+          </div>
+          <div class="flow-node">
+            <div class="flow-node-box" style="border-color:var(--rule-accent)">
+              🏨 Бронирования
+              <div class="flow-node-sub">Deep links, бюджет</div>
+              <div class="flow-node-ml"><span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span></div>
+            </div>
+          </div>
+          <div class="flow-arrow">
+            <div class="flow-arrow-line">→→→</div>
+            <div class="flow-arrow-label">брони → хаб</div>
+          </div>
+          <div class="flow-node">
+            <div class="flow-node-box" style="border-color:var(--ml-accent)">
+              🔭 Разведка мест
+              <div class="flow-node-sub">Рекомендации POI</div>
+              <div class="flow-node-ml"><span class="tech-tag ml"><span class="tech-tag-icon">⚡</span>ML</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER JOURNEY -->
+  <div class="journey-section" id="journey-anchor">
+    <div class="journey-title">Customer Journey — путь клиента через продукт</div>
+    <div class="journey-flow">
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--teal-l)">🔍</div>
+        <div class="journey-label" style="color:var(--teal-d)">Открытие</div>
+        <div class="journey-note">Лендинг, соцсети</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--teal-l)">👤</div>
+        <div class="journey-label" style="color:var(--teal-d)">Регистрация</div>
+        <div class="journey-note">Onboarding, профиль</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--orange-l)">🤖</div>
+        <div class="journey-label" style="color:var(--orange)">AI-маршрут</div>
+        <div class="journey-note">Генерация + POI</div>
+        <div class="journey-ml-dot" title="ML-точка"></div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--orange-l)">🧠</div>
+        <div class="journey-label" style="color:var(--orange)">Персонализация</div>
+        <div class="journey-note">Рекомендации, feedback</div>
+        <div class="journey-ml-dot" title="ML-точка"></div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--orange-l)">✏️</div>
+        <div class="journey-label" style="color:var(--orange)">Редактор</div>
+        <div class="journey-note">Drag-drop, варианты</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--blue-l)">✈️</div>
+        <div class="journey-label" style="color:var(--blue)">Бронирование</div>
+        <div class="journey-note">Deep links</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--rose-l)">💎</div>
+        <div class="journey-label" style="color:var(--rose)">Pro / Paywall</div>
+        <div class="journey-note">Подписка, триал</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--green-l)">📋</div>
+        <div class="journey-label" style="color:var(--green)">Подготовка</div>
+        <div class="journey-note">Чек-лист, документы</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--gold-l)">📍</div>
+        <div class="journey-label" style="color:var(--gold)">В дороге</div>
+        <div class="journey-note">Навигация, офлайн</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-node" style="background:var(--purple-l)">⭐</div>
+        <div class="journey-label" style="color:var(--purple)">После</div>
+        <div class="journey-note">Feedback → обучение ML</div>
+        <div class="journey-ml-dot" title="Данные для ML"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === MARKET SECTION: TAM / SAM / SOM === -->
+  <div class="zone-header" id="market-anchor" style="margin-top:40px">
+    <span class="zone-pill" style="background:var(--orange-l);color:var(--orange)">Рынок</span>
+    <div>
+      <div class="zone-title">Расчёт рынка: TAM → SAM → SOM</div>
+      <div class="zone-desc">Ёмкость рынка, рыночные ниши для GTM, сценарии достижимого SOM. Версия v2 — после комментариев ментора.</div>
+    </div>
+  </div>
+
+  <!-- Funnel TAM → SAM → SOM -->
+  <div class="market-funnel">
+    <div class="funnel-step">
+      <span class="funnel-tag tam">TAM</span>
+      <div class="funnel-money">3,9 млрд ₽</div>
+      <div class="funnel-units">975 000 пользователей</div>
+      <div class="funnel-method">Рынок AI-планировщиков путешествий в РФ. Top-down: $3,5 млрд глобально × $11/$900 ≈ $43 млн.</div>
+      <div class="funnel-share">100 % рынка</div>
+    </div>
+    <div class="funnel-step">
+      <span class="funnel-tag sam">SAM</span>
+      <div class="funnel-money">2,35 млрд ₽</div>
+      <div class="funnel-units">495 000 чел. + 2 574 орг.</div>
+      <div class="funnel-method">Сумма ёмкостей 4 ниш для GTM в горизонте 3 лет. Bottom-up: каскад фильтров от взрослого населения + B2B по уровням клиентов.</div>
+      <div class="funnel-share">60 % от TAM</div>
+    </div>
+    <div class="funnel-step">
+      <span class="funnel-tag som">SOM</span>
+      <div class="funnel-money">570 млн ₽</div>
+      <div class="funnel-units">103 700 чел. + 507 орг.</div>
+      <div class="funnel-method">Целевой захват к концу года 3. Подписки B2C 4 000 ₽/год + B2B чеки 80–2 000 тыс ₽/год + партнёрки 750 ₽/чел.</div>
+      <div class="funnel-share">15 % от TAM · ≥ 500 млн ₽ ✓</div>
+    </div>
+  </div>
+
+  <!-- Niches grid -->
+  <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;margin-top:8px">4 рыночные ниши для GTM-стратегии</div>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:14px">SAM сфокусирован на пользователях, готовых использовать <b>специализированные</b> AI-сервисы планирования путешествий (а не general-purpose AI или общие OTA-инструменты). Кликни на нишу, чтобы развернуть каскад расчёта и каналы привлечения.</div>
+
+  <div class="components-grid">
+
+    <div class="niche-card" onclick="toggleNiche(this)">
+      <div class="niche-num">1</div>
+      <div class="niche-card-top">
+        <div class="niche-name">Городские путешественники 28–39 лет</div>
+        <span class="niche-tag b2c">B2C · Фокус, год 1</span>
+      </div>
+      <div class="comp-desc">Самостоятельные путешественники 28–39 лет, формат «насыщенная многогородняя поездка» (2–4 города, 5–10 дней — международные/междугородние).</div>
+      <div class="niche-meta">
+        <div class="niche-meta-item">
+          <span class="niche-meta-label">Объём</span>
+          <span class="niche-meta-value">350 000 чел.</span>
+        </div>
+        <div class="niche-meta-item">
+          <span class="niche-meta-label">ARPU</span>
+          <span class="niche-meta-value">4 000 ₽/год</span>
+        </div>
+        <div class="niche-meta-item">
+          <span class="niche-meta-label">Ёмкость</span>
+          <span class="niche-meta-value niche-money">1,40 млрд ₽</span>
+        </div>
+      </div>
+      <div class="niche-toggle">подробности расчёта</div>
+      <div class="niche-cascade">
+        <div class="niche-cascade-title">Каскад фильтров (bottom-up)</div>
+        <div class="cascade-step"><span class="cascade-step-label">Взрослое население РФ (18+)</span><span class="cascade-step-val">121 000 000</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 16 % — доля 28–39 лет (Росстат)</span><span class="cascade-step-val">19 360 000</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 30 % — доход &gt; 80 тыс ₽/мес</span><span class="cascade-step-val">5 808 000</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 50 % — самостоятельные (ВЦИОМ)</span><span class="cascade-step-val">2 904 000</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 30 % — формат 2–4 города</span><span class="cascade-step-val">871 200</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 40 % — пользуются AI-apps (Statista 2025)</span><span class="cascade-step-val">348 480</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">Округлено</span><span class="cascade-step-val">350 000</span></div>
+        <div class="niche-channels">
+          <div class="niche-channels-title">Каналы привлечения (GTM)</div>
+          Travel-блогеры в Telegram · SEO «3 дня в Стамбуле / 7 дней в Италии» · App Store / RuStore / Google Play · Reels/TikTok · DTF, T-Журнал, Перито Медиа
+        </div>
+      </div>
+    </div>
+
+    <div class="niche-card" onclick="toggleNiche(this)">
+      <div class="niche-num">2</div>
+      <div class="niche-card-top">
+        <div class="niche-name">Автопутешественники 38–54 лет</div>
+        <span class="niche-tag b2c">B2C · Год 2</span>
+      </div>
+      <div class="comp-desc">Сложные автомаршруты по РФ и ближнему зарубежью (2–4 города, плечи 300–400 км/день, ночёвки, расход топлива).</div>
+      <div class="niche-meta">
+        <div class="niche-meta-item">
+          <span class="niche-meta-label">Объём</span>
+          <span class="niche-meta-value">85 000 чел.</span>
+        </div>
+        <div class="niche-meta-item">
+          <span class="niche-meta-label">ARPU</span>
+          <span class="niche-meta-value">4 000 ₽/год</span>
+        </div>
+        <div class="niche-meta-item">
+          <span class="niche-meta-label">Ёмкость</span>
+          <span class="niche-meta-value niche-money">340 млн ₽</span>
+        </div>
+      </div>
+      <div class="niche-toggle">подробности расчёта</div>
+      <div class="niche-cascade">
+        <div class="niche-cascade-title">Каскад фильтров (bottom-up)</div>
+        <div class="cascade-step"><span class="cascade-step-label">Взрослое население РФ (18+)</span><span class="cascade-step-val">121 000 000</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 27 % — доля 38–54 лет</span><span class="cascade-step-val">32 670 000</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 30 % — доход &gt; 100 тыс ₽/мес</span><span class="cascade-step-val">9 801 000</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 50 % — самостоятельные</span><span class="cascade-step-val">4 900 500</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 20 % — автотуристы (АТОР, Автостат)</span><span class="cascade-step-val">980 100</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 25 % — сложные автомаршруты 2–4 города</span><span class="cascade-step-val">245 025</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 35 % — пользуются planning apps</span><span class="cascade-step-val">85 758</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">Округлено</span><span class="cascade-step-val">85 000</span></div>
+        <div class="niche-channels">
+          <div class="niche-channels-title">Каналы привлечения (GTM)</div>
+          Drom.ru · Drive2.ru · Дзен · YouTube-блогеры · Партнёрства с АЗС (Лукойл, Газпромнефть) · Автоклубы · Автостраховые (Тинькофф Авто, Согаз)
+        </div>
+      </div>
+    </div>
+
+    <div class="niche-card" onclick="toggleNiche(this)">
+      <div class="niche-num">3</div>
+      <div class="niche-card-top">
+        <div class="niche-name">Семейные / групповые организаторы 35–48 лет</div>
+        <span class="niche-tag b2c">B2C · Год 3</span>
+      </div>
+      <div class="comp-desc">Семьи с детьми 5–14, группы друзей 3+ человек. Координация общих интересов и бюджета группы.</div>
+      <div class="niche-meta">
+        <div class="niche-meta-item">
+          <span class="niche-meta-label">Объём</span>
+          <span class="niche-meta-value">60 000 чел.</span>
+        </div>
+        <div class="niche-meta-item">
+          <span class="niche-meta-label">ARPU</span>
+          <span class="niche-meta-value">4 000 ₽/год</span>
+        </div>
+        <div class="niche-meta-item">
+          <span class="niche-meta-label">Ёмкость</span>
+          <span class="niche-meta-value niche-money">240 млн ₽</span>
+        </div>
+      </div>
+      <div class="niche-toggle">подробности расчёта</div>
+      <div class="niche-cascade">
+        <div class="niche-cascade-title">Каскад фильтров (bottom-up)</div>
+        <div class="cascade-step"><span class="cascade-step-label">Взрослое население РФ (18+)</span><span class="cascade-step-val">121 000 000</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 20 % — доля 35–48 лет</span><span class="cascade-step-val">24 200 000</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 28 % — доход &gt; 120 тыс ₽/мес</span><span class="cascade-step-val">6 776 000</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 50 % — самостоятельные</span><span class="cascade-step-val">3 388 000</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 30 % — организаторы семей/групп 3+</span><span class="cascade-step-val">1 016 400</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 15 % — многогородние семейные поездки</span><span class="cascade-step-val">152 460</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">× 40 % — пользуются AI-apps</span><span class="cascade-step-val">60 984</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">Округлено</span><span class="cascade-step-val">60 000</span></div>
+        <div class="niche-channels">
+          <div class="niche-channels-title">Каналы привлечения (GTM)</div>
+          Littleone · U-Mama · Babyblog · Мам-блогеры · Telegram-чаты родителей · Партнёрства со Слетать.ру (семейный туризм) и Tutu.ru Семейный
+        </div>
+      </div>
+    </div>
+
+    <div class="niche-card" onclick="toggleNiche(this)">
+      <div class="niche-num">4</div>
+      <div class="niche-card-top">
+        <div class="niche-name">Корпоративные клиенты, турагентства и Event/L&amp;D</div>
+        <span class="niche-tag b2b">B2B · Год 2–3</span>
+      </div>
+      <div class="comp-desc">7 подсегментов с разными чеками от 80 тыс до 2 млн ₽/год: корпоративные клиенты 3 уровней (малый/средний/крупный бизнес), турагентства white-label (локальные + федеральные сети), вузы и корп.университеты.</div>
+      <div class="niche-meta">
+        <div class="niche-meta-item">
+          <span class="niche-meta-label">Объём</span>
+          <span class="niche-meta-value">2 574 орг.</span>
+        </div>
+        <div class="niche-meta-item">
+          <span class="niche-meta-label">Средний чек</span>
+          <span class="niche-meta-value">~144 000 ₽/год</span>
+        </div>
+        <div class="niche-meta-item">
+          <span class="niche-meta-label">Ёмкость</span>
+          <span class="niche-meta-value niche-money">370 млн ₽</span>
+        </div>
+      </div>
+      <div class="niche-toggle">подробности расчёта</div>
+      <div class="niche-cascade">
+        <div class="niche-cascade-title">Подсегмент 4а — Корпоративные клиенты (3 уровня)</div>
+        <div class="cascade-step"><span class="cascade-step-label">4а-1. Малый бизнес 50–150 сотр.: 18 000 × 40% × 50% × 25%</span><span class="cascade-step-val">900 × 80 000 ₽</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">→ ёмкость</span><span class="cascade-step-val">72 000 000 ₽</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">4а-2. Средний бизнес 150–500 сотр.: 9 000 × 50% × 50% × 27%</span><span class="cascade-step-val">607 × 180 000 ₽</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">→ ёмкость</span><span class="cascade-step-val">109 260 000 ₽</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">4а-3. Крупный бизнес 500+ сотр.: 3 000 × 55% × 40% × 15%</span><span class="cascade-step-val">99 × 400 000 ₽</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">→ ёмкость</span><span class="cascade-step-val">39 600 000 ₽</span></div>
+
+        <div class="niche-cascade-title" style="margin-top:10px">Подсегмент 4б — Турагентства white-label</div>
+        <div class="cascade-step"><span class="cascade-step-label">4б-1. Локальные агентства: 5 000 × 30% × 20%</span><span class="cascade-step-val">300 × 150 000 ₽</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">→ ёмкость</span><span class="cascade-step-val">45 000 000 ₽</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">4б-2. Федеральные сети (TUI/Anex/Coral/Pegas/etc.)</span><span class="cascade-step-val">8 × 2 000 000 ₽</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">→ ёмкость</span><span class="cascade-step-val">16 000 000 ₽</span></div>
+
+        <div class="niche-cascade-title" style="margin-top:10px">Подсегмент 4в — Event/L&amp;D</div>
+        <div class="cascade-step"><span class="cascade-step-label">4в-1. Вузы: 700 × 50% × 60%</span><span class="cascade-step-val">210 × 100 000 ₽</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">→ ёмкость</span><span class="cascade-step-val">21 000 000 ₽</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">4в-2. Корп.университеты: 3 000 × 50% × 30%</span><span class="cascade-step-val">450 × 150 000 ₽</span></div>
+        <div class="cascade-step"><span class="cascade-step-label">→ ёмкость</span><span class="cascade-step-val">67 500 000 ₽</span></div>
+
+        <div class="cascade-step" style="margin-top:8px"><span class="cascade-step-label"><b>ИТОГО Ниша 4</b></span><span class="cascade-step-val"><b>2 574 орг. → 370 млн ₽</b></span></div>
+
+        <div class="niche-channels">
+          <div class="niche-channels-title">Каналы привлечения (GTM)</div>
+          B2B sales-команда с года 2 (выделенный enterprise-менеджер) · Конференции HR-Tech, Travel Russia, MICE · LinkedIn / Habr · PR в РБК Pro, Ведомости · Партнёрства со СберБизнесом, ТочкаБанком, АТОР · Тендеры Минобрнауки для вузов
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SAM Assembly: stacked horizontal bar -->
+  <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;margin-top:24px">Как складывается SAM из 4 ниш</div>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Каждая ниша — отдельный сегмент в общем рынке. Ниша 1 (городские путешественники) — основной драйвер: 60 % всего SAM. B2B-ниша (Ниша 4) — на втором месте по ёмкости (16 %) благодаря высоким годовым чекам в подсегментах среднего и крупного бизнеса.</div>
+
+  <div class="sam-stack-wrap">
+    <div class="sam-headline">
+      <div class="sam-headline-left">
+        <div class="sam-total-money">2,35 млрд ₽</div>
+        <span class="sam-total-pct">60 % от TAM</span>
+      </div>
+      <div class="sam-total-units">495 000 чел. (B2C) + 2 574 орг. (B2B)</div>
+    </div>
+
+    <div class="sam-stack" role="img" aria-label="Распределение SAM по 4 нишам">
+      <div class="sam-stack-seg sam-stack-seg-1" style="width:59.6%" title="Ниша 1: 1,4 млрд ₽">
+        <div class="sam-stack-seg-pct">59,6 %</div>
+        <div class="sam-stack-seg-name">Ниша 1 — Городские</div>
+      </div>
+      <div class="sam-stack-seg sam-stack-seg-2" style="width:14.5%" title="Ниша 2: 340 млн ₽">
+        <div class="sam-stack-seg-pct">14,5 %</div>
+        <div class="sam-stack-seg-name">Ниша 2 — Авто</div>
+      </div>
+      <div class="sam-stack-seg sam-stack-seg-3" style="width:10.2%" title="Ниша 3: 240 млн ₽">
+        <div class="sam-stack-seg-pct">10,2 %</div>
+        <div class="sam-stack-seg-name">Ниша 3 — Семьи</div>
+      </div>
+      <div class="sam-stack-seg sam-stack-seg-4" style="width:15.7%" title="Ниша 4: 370 млн ₽">
+        <div class="sam-stack-seg-pct">15,7 %</div>
+        <div class="sam-stack-seg-name">Ниша 4 — B2B</div>
+      </div>
+    </div>
+    <div class="sam-stack-axis">
+      <span>0 ₽</span>
+      <span>~1,2 млрд ₽</span>
+      <span>2,35 млрд ₽</span>
+    </div>
+
+    <div class="sam-details">
+      <div class="sam-detail b2c-1">
+        <div class="sam-detail-top">
+          <div class="sam-detail-name">Ниша 1 — Городские путешественники</div>
+          <span class="sam-detail-tag b2c">B2C · фокус</span>
+        </div>
+        <div class="sam-detail-formula"><b>350 000</b> чел. × <b>4 000 ₽</b> ARPU/год</div>
+        <div class="sam-detail-money">1,4 млрд ₽</div>
+        <div class="sam-detail-share">59,6 % SAM</div>
+      </div>
+
+      <div class="sam-detail b2c-2">
+        <div class="sam-detail-top">
+          <div class="sam-detail-name">Ниша 2 — Автопутешественники</div>
+          <span class="sam-detail-tag b2c">B2C · год 2</span>
+        </div>
+        <div class="sam-detail-formula"><b>85 000</b> чел. × <b>4 000 ₽</b> ARPU/год</div>
+        <div class="sam-detail-money">340 млн ₽</div>
+        <div class="sam-detail-share">14,5 % SAM</div>
+      </div>
+
+      <div class="sam-detail b2c-3">
+        <div class="sam-detail-top">
+          <div class="sam-detail-name">Ниша 3 — Семейные/групповые</div>
+          <span class="sam-detail-tag b2c">B2C · год 3</span>
+        </div>
+        <div class="sam-detail-formula"><b>60 000</b> чел. × <b>4 000 ₽</b> ARPU/год</div>
+        <div class="sam-detail-money">240 млн ₽</div>
+        <div class="sam-detail-share">10,2 % SAM</div>
+      </div>
+
+      <div class="sam-detail b2b">
+        <div class="sam-detail-top">
+          <div class="sam-detail-name">Ниша 4 — B2B (7 подсегментов)</div>
+          <span class="sam-detail-tag b2b">B2B · год 2–3</span>
+        </div>
+        <div class="sam-detail-formula"><b>2 574</b> орг. × <b>~144 000 ₽</b> ср. чек/год</div>
+        <div class="sam-detail-money">370 млн ₽</div>
+        <div class="sam-detail-share">15,7 % SAM</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="font-size:11px;color:var(--faint);font-style:italic;margin-top:10px;margin-bottom:6px;line-height:1.55">
+    <b style="color:var(--muted);font-style:normal">Почему B2B уже 16 % SAM (а не 4 %)?</b> Раньше B2B-ниша считалась с одним усреднённым чеком 70 тыс ₽. В новой версии разбили на 7 подсегментов с реалистичными чеками: малый бизнес 80 тыс, средний 180 тыс, крупный 400 тыс, локальные турагентства 150 тыс, федеральные сети 2 млн, вузы 100 тыс, корп.университеты 150 тыс. Это даёт средневзвешенный чек 144 тыс и SAM 370 млн ₽ — окупает разработку B2B-стека (corporate dashboard, multi-tenancy, API/SSO, биллинг для юрлиц).
+  </div>
+
+  <!-- SOM scenarios -->
+  <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;margin-top:24px">Сценарии достижимого рынка SOM (год 3)</div>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Подписочная выручка считается единым ARPU 4 000 ₽/год для B2C во всех сценариях. Партнёрские комиссии Travelpayouts с deep-links — выделенный поток выручки.</div>
+
+  <div class="scenario-switcher">
+    <button class="scenario-btn active" data-scenario="target" onclick="switchScenario('target',this)">Целевой</button>
+    <button class="scenario-btn" data-scenario="conservative" onclick="switchScenario('conservative',this)">Консервативный</button>
+  </div>
+
+  <div class="scenario-meta" id="scenario-meta">
+    <b>Целевой сценарий — для защиты и инвест.привлекательности.</b> Доли захвата ниш: <b>25 % / 12 % / 10 % B2C, 20 % B2B</b>. Реалистично при условии: 3 года активного маркетинга в Нише 1, сильное УТП full-cycle, сетевой эффект через групповой шеринг, активная партнёрская программа, выделенная B2B sales-команда с года 2. Партнёрские комиссии 750 ₽/чел./год.
+  </div>
+
+  <!-- SAM → SOM transition: funnel visualization -->
+  <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;margin-top:14px">Переход от SAM к SOM: какую долю каждой ниши захватываем за 3 года</div>
+  <div style="font-size:11.5px;color:var(--muted);margin-bottom:12px">Воронка для каждой ниши: SAM сверху → захват → SOM снизу. Длина SOM-полосы = доля захвата. Каждая ниша в собственной шкале (SAM = 100 %), чтобы малые сегменты были видны. Доли захвата обновляются при переключении сценария.</div>
+
+  <div class="transition-block">
+    <!-- SVG defs для градиентов воронки -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <linearGradient id="grad-b2c-1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f5ddc8"/>
+          <stop offset="100%" stop-color="#c85c00"/>
+        </linearGradient>
+        <linearGradient id="grad-b2c-2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c5d9e8"/>
+          <stop offset="100%" stop-color="#005f8c"/>
+        </linearGradient>
+        <linearGradient id="grad-b2c-3" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ddd0ed"/>
+          <stop offset="100%" stop-color="#6b31a8"/>
+        </linearGradient>
+        <linearGradient id="grad-b2b" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f3d6e8"/>
+          <stop offset="100%" stop-color="#b0357a"/>
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <!-- Niche 1 -->
+    <div class="transition-row b2c-1">
+      <div class="transition-row-head">
+        <div class="transition-row-name">Ниша 1 — Городские путешественники <span class="sam-detail-tag b2c">фокус</span></div>
+        <div style="text-align:right">
+          <div class="transition-row-cap" id="tc-1-cap-big">25 %</div>
+          <span class="transition-row-cap-label" id="tc-1-cap-lbl">захват за 3 года</span>
+        </div>
+      </div>
+      <div class="funnel-pair">
+        <div class="funnel-bar funnel-bar-sam" data-niche="b2c-1" style="width:100%">
+          <div class="funnel-bar-sam-fill"></div>
+          <div class="funnel-bar-text">
+            <span class="funnel-bar-label">SAM</span>
+            <span class="funnel-bar-units" id="tc-1-sam">350 000 чел.</span>
+          </div>
+          <span class="funnel-bar-units" style="position:relative;z-index:1;color:var(--muted);font-size:11px">1,4 млрд ₽</span>
+        </div>
+        <div class="funnel-svg-connector">
+          <svg viewBox="0 0 100 14" preserveAspectRatio="none">
+            <polygon points="0,0 100,0 62.5,14 37.5,14" fill="url(#grad-b2c-1)" id="tc-1-poly"/>
+          </svg>
+        </div>
+        <div class="funnel-bar funnel-bar-som" data-niche="b2c-1" id="tc-1-bar" style="width:25%">
+          <div class="funnel-bar-text">
+            <span class="funnel-bar-label">SOM</span>
+            <span class="funnel-bar-units" id="tc-1-som">87 500 чел.</span>
+          </div>
+          <span class="funnel-bar-units" id="tc-1-money" style="font-size:11px">350 млн ₽</span>
+        </div>
+      </div>
+      <div class="transition-rationale" id="tc-1-rat">3 года активного маркетинга в фокусной нише + сильный сетевой эффект через групповой шеринг. Бенчмарк: HeadHunter в зрелых нишах ~30–35 %, Skyeng ~20 %.</div>
+    </div>
+
+    <!-- Niche 2 -->
+    <div class="transition-row b2c-2">
+      <div class="transition-row-head">
+        <div class="transition-row-name">Ниша 2 — Автопутешественники <span class="sam-detail-tag b2c">расширение</span> <span style="font-size:10px;color:var(--faint);font-weight:500;font-style:italic">(24 % от Н1)</span></div>
+        <div style="text-align:right">
+          <div class="transition-row-cap" id="tc-2-cap-big">12 %</div>
+          <span class="transition-row-cap-label" id="tc-2-cap-lbl">захват за 2 года</span>
+        </div>
+      </div>
+      <div class="funnel-pair">
+        <div class="funnel-bar funnel-bar-sam" data-niche="b2c-2" style="width:100%">
+          <div class="funnel-bar-sam-fill"></div>
+          <div class="funnel-bar-text">
+            <span class="funnel-bar-label">SAM</span>
+            <span class="funnel-bar-units" id="tc-2-sam">85 000 чел.</span>
+          </div>
+          <span class="funnel-bar-units" style="position:relative;z-index:1;color:var(--muted);font-size:11px">340 млн ₽</span>
+        </div>
+        <div class="funnel-svg-connector">
+          <svg viewBox="0 0 100 14" preserveAspectRatio="none">
+            <polygon points="0,0 100,0 56,14 44,14" fill="url(#grad-b2c-2)" id="tc-2-poly"/>
+          </svg>
+        </div>
+        <div class="funnel-bar funnel-bar-som" data-niche="b2c-2" id="tc-2-bar" style="width:12%">
+          <div class="funnel-bar-text">
+            <span class="funnel-bar-label">SOM</span>
+            <span class="funnel-bar-units" id="tc-2-som">10 200</span>
+          </div>
+          <span class="funnel-bar-units" id="tc-2-money" style="font-size:10.5px">40,8 млн</span>
+        </div>
+      </div>
+      <div class="transition-rationale" id="tc-2-rat">Старт со 2-го года = только 2 года маркетинга. Сегмент консервативный (Яндекс.Карты + Excel — привычный стек), нужна спец.функция «Авто-маршрут». Партнёрства с АЗС и автоклубами дают канал.</div>
+    </div>
+
+    <!-- Niche 3 -->
+    <div class="transition-row b2c-3">
+      <div class="transition-row-head">
+        <div class="transition-row-name">Ниша 3 — Семейные/групповые организаторы <span class="sam-detail-tag b2c">расширение</span> <span style="font-size:10px;color:var(--faint);font-weight:500;font-style:italic">(17 % от Н1)</span></div>
+        <div style="text-align:right">
+          <div class="transition-row-cap" id="tc-3-cap-big">10 %</div>
+          <span class="transition-row-cap-label" id="tc-3-cap-lbl">захват за 1 год</span>
+        </div>
+      </div>
+      <div class="funnel-pair">
+        <div class="funnel-bar funnel-bar-sam" data-niche="b2c-3" style="width:100%">
+          <div class="funnel-bar-sam-fill"></div>
+          <div class="funnel-bar-text">
+            <span class="funnel-bar-label">SAM</span>
+            <span class="funnel-bar-units" id="tc-3-sam">60 000 чел.</span>
+          </div>
+          <span class="funnel-bar-units" style="position:relative;z-index:1;color:var(--muted);font-size:11px">240 млн ₽</span>
+        </div>
+        <div class="funnel-svg-connector">
+          <svg viewBox="0 0 100 14" preserveAspectRatio="none">
+            <polygon points="0,0 100,0 55,14 45,14" fill="url(#grad-b2c-3)" id="tc-3-poly"/>
+          </svg>
+        </div>
+        <div class="funnel-bar funnel-bar-som" data-niche="b2c-3" id="tc-3-bar" style="width:10%">
+          <div class="funnel-bar-text">
+            <span class="funnel-bar-label">SOM</span>
+            <span class="funnel-bar-units" id="tc-3-som">6 000</span>
+          </div>
+          <span class="funnel-bar-units" id="tc-3-money" style="font-size:10.5px">24 млн</span>
+        </div>
+      </div>
+      <div class="transition-rationale" id="tc-3-rat">Старт с 3-го года = только 1 год активной работы. Зато viral через групповой шеринг: каждый организатор приглашает 3–10 участников. Узкий сегмент, но высокая lifetime-лояльность.</div>
+    </div>
+
+    <!-- Niche 4 (B2B) — отдельная шкала, иначе будет невидимой -->
+    <div class="transition-row b2b">
+      <div class="transition-row-head">
+        <div class="transition-row-name">Ниша 4 — B2B (7 подсегментов) <span class="sam-detail-tag b2b">B2B</span> <span style="font-size:10px;color:var(--faint);font-weight:500;font-style:italic">(другая ед. — организации)</span></div>
+        <div style="text-align:right">
+          <div class="transition-row-cap" id="tc-4-cap-big">20 %</div>
+          <span class="transition-row-cap-label" id="tc-4-cap-lbl">средневзвешенный захват</span>
+        </div>
+      </div>
+      <div class="funnel-pair">
+        <div class="funnel-bar funnel-bar-sam" data-niche="b2b" style="width:100%">
+          <div class="funnel-bar-sam-fill"></div>
+          <div class="funnel-bar-text">
+            <span class="funnel-bar-label">SAM</span>
+            <span class="funnel-bar-units" id="tc-4-sam">2 574 орг.</span>
+          </div>
+          <span class="funnel-bar-units" style="position:relative;z-index:1;color:var(--muted);font-size:11px">370 млн ₽</span>
+        </div>
+        <div class="funnel-svg-connector">
+          <svg viewBox="0 0 100 14" preserveAspectRatio="none">
+            <polygon points="0,0 100,0 60,14 40,14" fill="url(#grad-b2b)" id="tc-4-poly"/>
+          </svg>
+        </div>
+        <div class="funnel-bar funnel-bar-som" data-niche="b2b" id="tc-4-bar" style="width:20%">
+          <div class="funnel-bar-text">
+            <span class="funnel-bar-label">SOM</span>
+            <span class="funnel-bar-units" id="tc-4-som">507 орг.</span>
+          </div>
+          <span class="funnel-bar-units" id="tc-4-money" style="font-size:11px">78 млн ₽</span>
+        </div>
+      </div>
+      <div class="transition-rationale" id="tc-4-rat">7 подсегментов с разными чеками: малый/средний/крупный бизнес 18–30 % захват (в маленьких подсегментах легче), локальные турагентства 15 %, федеральные сети 25 % (2 из 8 пилотов реалистично), вузы 18 %, корп.университеты 22 %. Средневзвешенный захват 19,7 % при выделенной B2B sales-команде с года 2.</div>
+    </div>
+  </div>
+
+  <div class="som-bars">
+    <div class="som-bar-row">
+      <div class="som-bar-name">
+        Ниша 1 — Городские
+        <span class="som-bar-name-sub" data-niche-meta="1"><b>87 500 чел.</b> · 25 % захвата</span>
+      </div>
+      <div class="som-bar-track">
+        <div class="som-bar-fill subscription" data-bar="1" style="width:61.4%">350 000 000 ₽</div>
+      </div>
+      <div class="som-bar-value" data-niche-val="1">350 млн ₽</div>
+    </div>
+    <div class="som-bar-row">
+      <div class="som-bar-name">
+        Ниша 2 — Авто
+        <span class="som-bar-name-sub" data-niche-meta="2"><b>10 200 чел.</b> · 12 % захвата</span>
+      </div>
+      <div class="som-bar-track">
+        <div class="som-bar-fill subscription" data-bar="2" style="width:7.2%">40,8 млн</div>
+      </div>
+      <div class="som-bar-value" data-niche-val="2">40,8 млн ₽</div>
+    </div>
+    <div class="som-bar-row">
+      <div class="som-bar-name">
+        Ниша 3 — Семейные
+        <span class="som-bar-name-sub" data-niche-meta="3"><b>6 000 чел.</b> · 10 % захвата</span>
+      </div>
+      <div class="som-bar-track">
+        <div class="som-bar-fill subscription" data-bar="3" style="width:4.2%">24 млн</div>
+      </div>
+      <div class="som-bar-value" data-niche-val="3">24 млн ₽</div>
+    </div>
+    <div class="som-bar-row">
+      <div class="som-bar-name">
+        Ниша 4 — B2B
+        <span class="som-bar-name-sub" data-niche-meta="4"><b>507 орг.</b> · ~20 % средневзв.</span>
+      </div>
+      <div class="som-bar-track">
+        <div class="som-bar-fill subscription" data-bar="4" style="width:13.7%">78 млн</div>
+      </div>
+      <div class="som-bar-value" data-niche-val="4">78 млн ₽</div>
+    </div>
+    <div class="som-bar-row">
+      <div class="som-bar-name">
+        Партнёрки (Travelpayouts)
+        <span class="som-bar-name-sub" data-niche-meta="partner"><b>103 700 чел.</b> × 750 ₽</span>
+      </div>
+      <div class="som-bar-track">
+        <div class="som-bar-fill partner" data-bar="partner" style="width:13.6%">77,8 млн</div>
+      </div>
+      <div class="som-bar-value" data-niche-val="partner">77,8 млн ₽</div>
+    </div>
+    <div class="som-bar-total">
+      <div class="som-bar-name">Итого SOM</div>
+      <div></div>
+      <div class="som-bar-value" id="som-total-value">570 млн ₽</div>
+    </div>
+    <div class="som-legend">
+      <div class="som-legend-item"><span class="som-legend-dot" style="background:var(--teal)"></span>Подписочная выручка</div>
+      <div class="som-legend-item"><span class="som-legend-dot" style="background:var(--orange)"></span>Партнёрские комиссии</div>
+    </div>
+  </div>
+
+  <!-- Partner commissions breakdown -->
+  <div class="partner-breakdown">
+    <div class="partner-breakdown-top" onclick="togglePartnerBreakdown(this.parentElement)">
+      <div style="flex:1">
+        <div class="partner-breakdown-title">
+          <span class="partner-breakdown-icon">🔗</span>
+          Откуда берётся партнёрская выручка <span id="partner-per-user-headline">(750 ₽/B2C-пользователь/год)</span>
+        </div>
+        <div class="partner-breakdown-sub">
+          Партнёрские комиссии — отдельный поток выручки от deep-links на бронирования (Booking, Aviasales, Ostrovok через Travelpayouts) и встроенных продуктов. Не включаются в подписочный ARPU.
+        </div>
+      </div>
+      <div class="partner-breakdown-toggle">расчёт</div>
+    </div>
+    <div class="partner-breakdown-content">
+      <div class="partner-formula" id="partner-formula">
+        <div class="partner-formula-row">
+          <div class="partner-formula-label">Доля активных пользователей, реально оформляющих бронирования через TripMind</div>
+          <div class="partner-formula-val" id="pf-active">30 %</div>
+        </div>
+        <div class="partner-formula-row">
+          <div class="partner-formula-label">× среднее число бронирований в год на активного пользователя</div>
+          <div class="partner-formula-val" id="pf-bookings">2,5 шт.</div>
+        </div>
+        <div class="partner-formula-row">
+          <div class="partner-formula-label">× средний чек одного бронирования (отель / билеты / трансфер)</div>
+          <div class="partner-formula-val" id="pf-avg">15 000 ₽</div>
+        </div>
+        <div class="partner-formula-row">
+          <div class="partner-formula-label">× средневзвешенная партнёрская комиссия<br><span style="font-size:10.5px;color:var(--faint)">Booking 4 %, Aviasales/билеты 3–6 %, Ostrovok 6 %, страховки 8–12 %</span></div>
+          <div class="partner-formula-val" id="pf-rate">5 %</div>
+        </div>
+        <div class="partner-formula-row">
+          <div class="partner-formula-label">× upsell-коэффициент: доп.продукты к базовой брони<br><span style="font-size:10.5px;color:var(--faint)">К каждому отелю/билету — страховка (комиссия 8–12 %), трансфер (8–10 %), экскурсия (10–15 %). Это поднимает среднюю комиссию с 5 % до ~6,7 %. Бенчмарк OTA: на 100 ₽ комиссии с отеля приходится 25–40 ₽ с доп.продуктов.</span></div>
+          <div class="partner-formula-val" id="pf-loss">~ 1,33×</div>
+        </div>
+        <div class="partner-formula-row total">
+          <div class="partner-formula-label">= партнёрская выручка на одного активного пользователя в год</div>
+          <div class="partner-formula-val" id="pf-result">750 ₽/чел./год</div>
+        </div>
+      </div>
+
+      <div class="partner-summary-grid">
+        <div class="partner-summary-card">
+          <div class="partner-summary-card-label">Итого SOM-партнёрки</div>
+          <div class="partner-summary-card-val" id="partner-total-money">77,8 млн ₽</div>
+          <span id="partner-total-formula">103 700 B2C-пользователей × 750 ₽</span>
+        </div>
+        <div class="partner-summary-card">
+          <div class="partner-summary-card-label">Доля партнёрок в SOM</div>
+          <div class="partner-summary-card-val" id="partner-share-of-som">15,2 %</div>
+          <span>Остальные 84,8 % — подписочная выручка (B2C 4 000 ₽/год + B2B 70 000 ₽/год)</span>
+        </div>
+      </div>
+
+      <div class="partner-sources">
+        <div class="partner-sources-title">Откуда взяты числа</div>
+        <b style="color:var(--text)">30 % активных:</b> бенчмарк travel-apps (Wanderlog, TripIt) — конверсия из MAU в реальное бронирование через продукт. <b style="color:var(--text)">2,5 бронирования/год:</b> поездки 3–5/год × 1–2 бронирования на поездку (отель + транспорт) с учётом, что не все идут через TripMind. <b style="color:var(--text)">Средний чек 15 000 ₽:</b> взвешенная оценка между билетами (8–25 тыс) и отелями (10–50 тыс). <b style="color:var(--text)">5 % комиссии:</b> Travelpayouts официальные ставки на отели и билеты (Booking 4 %, Ostrovok 6 %, Aviasales 3–6 %).
+        <br><br>
+        <b style="color:var(--text)">База 562 ₽ (консервативный сценарий)</b> = пользователь бронирует <i>только</i> отели и билеты через TripMind. Никаких допродаж — выручка ровно с базовых 5 % комиссии.
+        <br><br>
+        <b style="color:var(--text)">Целевой 750 ₽ через коэф. 1,33×.</b> К каждой базовой брони у пользователя в реальной поездке появляются доп.продукты, которые TripMind может предложить deep-links: туристическая страховка (комиссия Travelpayouts 8–12 %), трансфер из аэропорта (KiwiTaxi 8–10 %), экскурсии (Tripster 10–15 %), реже — каршеринг, симки, парковка. У этих категорий комиссии <b>выше</b> базовых 5 %, поэтому средневзвешенная комиссия по пользователю поднимается с 5 % до ~6,7 %. Бенчмарк OTA-индустрии (Skift, Phocuswright 2023–2024): на 100 ₽ комиссии с отеля приходится 25–40 ₽ с ancillary-продуктов; берём середину диапазона — <b>+33 %</b>.
+        <br><br>
+        <b style="color:var(--text)">Какой сценарий когда применять.</b> Целевой требует, чтобы к году 3 у TripMind были встроены интеграции со страховщиками, трансфер-сервисами и продавцами экскурсий, а UX подталкивал к покупке этих продуктов. Если интеграции не построены или конверсия в upsell низкая — действует консервативный сценарий 562 ₽.
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GTM Timeline -->
+  <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;margin-top:24px">GTM-таймлайн «от ниши к нише»</div>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Поэтапный выход на ниши с фокусом на одну в каждый момент времени. Стартуем с фокусной B2C-ниши, расширяемся через Авто и B2B на год 2, добавляем семейные поездки на год 3.</div>
+
+  <div class="gtm-timeline">
+    <div class="gtm-years">
+      <div class="gtm-year">
+        <div class="gtm-year-label">Год 1 · Фокус</div>
+        <div class="gtm-year-title">MVP + Пилот в Нише 1</div>
+        <div class="gtm-year-niches">
+          <span class="gtm-niche-pill active">▶ Ниша 1 — Городские 28–39</span>
+        </div>
+        <div class="gtm-year-target">
+          Цель года: <b>~10 000 платящих</b> · MRR 150K ₽ к мес. 6 · Product-market fit · ~40 млн ₽ годовой выручки
+        </div>
+      </div>
+      <div class="gtm-year">
+        <div class="gtm-year-label">Год 2 · Расширение</div>
+        <div class="gtm-year-title">+ Авто-маршруты, старт B2B</div>
+        <div class="gtm-year-niches">
+          <span class="gtm-niche-pill scaled">↗ Ниша 1 — масштабирование</span>
+          <span class="gtm-niche-pill active">▶ Ниша 2 — Авто 38–54</span>
+          <span class="gtm-niche-pill starting">⊕ Ниша 4 — B2B (sales-команда)</span>
+        </div>
+        <div class="gtm-year-target">
+          Цель года: <b>~50 000 платящих + 50 орг.</b> · Операционная окупаемость · ~220 млн ₽ годовой выручки
+        </div>
+      </div>
+      <div class="gtm-year">
+        <div class="gtm-year-label">Год 3 · Зрелость</div>
+        <div class="gtm-year-title">+ Семейные группы, B2B-зрелость</div>
+        <div class="gtm-year-niches">
+          <span class="gtm-niche-pill scaled">↗ Ниша 1 + Ниша 2</span>
+          <span class="gtm-niche-pill active">▶ Ниша 3 — Семейные 35–48</span>
+          <span class="gtm-niche-pill scaled">↗ Ниша 4 — B2B (зрелость)</span>
+        </div>
+        <div class="gtm-year-target">
+          Цель года (SOM): <b>103 700 чел. + 507 орг.</b> · <b>570 млн ₽</b> годовой выручки · ≥ 500 млн ₽ ✓
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paths to grow SOM beyond 510M -->
+  <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;margin-top:24px">Пути увеличения SOM после года 3</div>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Сверх целевых 570 млн ₽ — стратегические треки масштабирования.</div>
+  <div class="paths-grid">
+    <div class="path-card">
+      <div class="path-card-num">01</div>
+      <div class="path-card-title">CIS + EU экспансия B2B</div>
+      Расширение Ниши 4 на ближнее зарубежье и Европу. Визовая интеграция как ключевая ценность. <b>×3–4 ёмкость B2B-ниши.</b>
+    </div>
+    <div class="path-card">
+      <div class="path-card-num">02</div>
+      <div class="path-card-title">White-label с крупным OTA</div>
+      Партнёрство с Яндекс Путешествия / Aviasales / Ostrovok. Revenue share <b>5–10 %</b> от всех бронирований платформы.
+    </div>
+    <div class="path-card">
+      <div class="path-card-num">03</div>
+      <div class="path-card-title">Premium add-ons</div>
+      Премиум-маршруты с ручной экспертной модерацией · AI-консьерж 24/7 · Туристическое страхование как embedded-продукт.
+    </div>
+    <div class="path-card">
+      <div class="path-card-num">04</div>
+      <div class="path-card-title">API-монетизация</div>
+      Продажа AI-маршрутизатора (LangGraph + OR-Tools) как API другим travel-сервисам. B2B SaaS-инфраструктура.
+    </div>
+  </div>
+
+  <!-- Source link -->
+  <div style="margin-top:18px;padding:12px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);font-size:11px;color:var(--muted);line-height:1.6">
+    <b style="color:var(--text)">Методические замечания.</b> ARPU 4 000 ₽/год — единый для SAM и SOM (бенчмарк Wanderlog Pro $50/год ≈ 4 600 ₽, TripIt Pro $49/год ≈ 4 500 ₽). B2B-чек 70 000 ₽/год — отдельный расчёт «количество × годовой контракт». Партнёрские комиссии — выделенный поток. Все каскадные доли подписаны как факты (Росстат) или допущения (по аналогии). Подробнее — в документе <i>TripMind_Обоснование_TAM_SAM_SOM_v2.md</i> (паспорт проекта, лист 5).
+  </div>
+
+  <!-- ZONE 1: ВХОД И ОНБОРДИНГ -->
+  <div class="zone-header" id="zones-anchor" style="margin-top:32px">
+    <span class="zone-pill" style="background:var(--teal-l);color:var(--teal-d)">Зона 1</span>
+    <div>
+      <div class="zone-title">Вход и онбординг</div>
+      <div class="zone-desc">Первое касание пользователя с продуктом — от лендинга до заполнения профиля</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" data-phase="mvp" onclick="openDetail('landing')">
+      <span class="phase-tag mvp">MVP</span>
+      <div class="comp-icon">🏠</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Лендинг и маркетинговый сайт</div>
+        <span class="comp-badge" style="background:var(--teal-l);color:var(--teal-d)">Entry</span>
+      </div>
+      <div class="comp-desc">Первое касание. Объясняет ценность TripMind, показывает ключевые сценарии через живые демо и CTA на регистрацию.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Hero-блок с AI-демо маршрута</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Блок сравнения с TripIt, Wanderlog, ChatGPT</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">CTA на регистрацию + Telegram-бот</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag none">— Нет AI</span>
+      </div>
+      <div class="comp-connections">→ Регистрация → Онбординг</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" data-phase="mvp" onclick="openDetail('auth')">
+      <span class="phase-tag mvp">MVP</span>
+      <div class="comp-icon">🔐</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Регистрация и авторизация</div>
+        <span class="comp-badge" style="background:var(--teal-l);color:var(--teal-d)">Entry</span>
+      </div>
+      <div class="comp-desc">Быстрый вход через Google, Apple, VK ID, email. OAuth 2.0 + JWT. 152-ФЗ: ПД в Yandex Cloud (ФСТЭК УЗ-1). Не более 3 экранов до первого маршрута.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">OAuth 2.0: Google / Apple / VK ID / email</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Восстановление пароля и 2FA (масштабирование)</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag none">— Нет AI</span>
+      </div>
+      <div class="comp-connections">← Лендинг → Онбординг</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" data-phase="mvp" onclick="openDetail('onboarding')">
+      <span class="phase-tag mvp">MVP</span>
+      <div class="comp-icon">🎯</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Онбординг и профиль путешественника</div>
+        <span class="comp-badge" style="background:var(--teal-l);color:var(--teal-d)">Entry</span>
+      </div>
+      <div class="comp-desc">3-шаговый wizard: выбор стиля путешествий, интересов, бюджета. Данные используются ML-модулем персонализации.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Wizard: стиль, интересы, бюджет, роль</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Профиль: фото, история поездок, здоровье</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Данные передаются в AI-маршрутизатор и чек-лист</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag none">— Нет AI</span>
+      </div>
+      <div class="comp-connections">← Регистрация → AI-Маршрутизатор, AI-Персонализация</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 2: AI-ПЛАНИРОВАНИЕ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--orange-l);color:var(--orange)">Зона 2</span>
+    <div>
+      <div class="zone-title">AI-Планирование маршрута</div>
+      <div class="zone-desc">Ключевая ценность продукта — от AI-генерации до финального маршрута на карте</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" data-phase="mvp" onclick="openDetail('airoute')">
+      <span class="phase-tag mvp">MVP</span>
+      <div class="comp-icon">🤖</div>
+      <div class="comp-card-top">
+        <div class="comp-name">AI-Маршрутизатор (Core)</div>
+        <span class="comp-badge" style="background:var(--orange-l);color:var(--orange)">MVP Core</span>
+      </div>
+      <div class="comp-desc">Главный модуль. Генерирует маршрут по дням с POI. ML-модуль ранжирования POI + rule-based оптимизация порядка точек (TSP-эвристика).</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">ML: ранжирование POI по профилю (acceptance rate ≥35%)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: оптимизация маршрута (расстояния, часы работы)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Стек: LangGraph + OR-Tools (TSP/VRP) + Mistral/Llama 3 self-hosted</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Вход: профиль → Выход: маршрут → чек-лист, хаб</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag ml"><span class="tech-tag-icon">⚡</span>ML + Rules</span>
+      </div>
+      <div class="comp-connections">← Онбординг → Редактор, Чек-лист, Персонализация, Разведка</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" data-phase="mvp" onclick="openDetail('personalization')">
+      <span class="phase-tag mvp">MVP</span>
+      <div class="comp-icon">🧠</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Модуль AI-персонализации</div>
+        <span class="comp-badge" style="background:var(--ml-bg);color:var(--ml-accent);border:1px solid var(--ml-border)">ML Core</span>
+      </div>
+      <div class="comp-desc">Основная ML-точка проекта. Гибридный CF+CBF (Precision@10=0,312 на TripAdvisor). Self-hosted на Yandex Cloud. Ранжированные рекомендации с объяснениями и feedback-циклом.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">ML: collaborative filtering по профилю и истории</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Feedback-цикл: «подходит» / «не подходит»</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: шаблонные объяснения решений AI</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Метрика: CTR ≥35% к 6-й поездке</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag ml"><span class="tech-tag-icon">⚡</span>ML</span>
+      </div>
+      <div class="comp-connections">← Профиль, История → Маршрутизатор, Разведка, Чек-лист</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo" data-phase="post" onclick="openDetail('discover')">
+      <span class="phase-tag post">Post-MVP</span>
+      <div class="comp-icon">🔭</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Модуль разведки и открытия мест</div>
+        <span class="comp-badge" style="background:var(--orange-l);color:var(--orange)">Discovery</span>
+      </div>
+      <div class="comp-desc">AI-рекомендации POI для каждого города маршрута. Content-based + collaborative filtering. На MVP — агрегация рейтингов Google Places.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">ML: рекомендации POI по профилю (масштабирование)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules MVP: фильтрация по рейтингу, расстоянию, часам</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Топ-5 мест для каждого дня маршрута</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Добавление в маршрут одним тапом</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="tech-tag ml"><span class="tech-tag-icon">⚡</span>ML (масшт.)</span>
+      </div>
+      <div class="comp-connections">← Маршрут + Профиль → Редактор, Хаб поездки</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" data-phase="mvp" onclick="openDetail('editor')">
+      <span class="phase-tag mvp">MVP</span>
+      <div class="comp-icon">✏️</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Интерактивный редактор маршрута</div>
+        <span class="comp-badge" style="background:var(--orange-l);color:var(--orange)">Editor</span>
+      </div>
+      <div class="comp-desc">Drag-and-drop редактирование маршрута. Объяснения AI-решений (шаблонная генерация). Генерация 2–3 вариантов.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: инкрементальный пересчёт (TSP-эвристика)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: шаблонные объяснения решений</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: параметрическая генерация вариантов</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Экспорт в PDF, undo/redo</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span>
+      </div>
+      <div class="comp-connections">← AI-Маршрутизатор → Хаб, Чек-лист, Бронирования</div>
+    </div>
+
+    <div class="comp-card" data-segments="auto" data-phase="post" onclick="openDetail('automode')">
+      <span class="phase-tag post">Post-MVP</span>
+      <div class="comp-icon">🚗</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Режим «Авто-маршрут»</div>
+        <span class="comp-badge" style="background:var(--blue-l);color:var(--blue)">Auto-Mode</span>
+      </div>
+      <div class="comp-desc">Расчёт плеч, ночёвок, бензина. Rule-based алгоритм + API карт и АЗС. ML не требуется.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: алгоритм расчёта плеч (≤400 км/день)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Стек: Valhalla + OR-Tools VRP + Яндекс Maps Router</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Калькулятор бензина и ночёвок</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Ползунок «плотность дня»: 200–500 км</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules + API</span>
+      </div>
+      <div class="comp-connections">← Маршрутизатор → Чек-лист, Бронирования</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,group" data-phase="mvp" onclick="openDetail('personalcab')">
+      <span class="phase-tag mvp">MVP</span>
+      <div class="comp-icon">📂</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Хаб поездки (Единая платформа)</div>
+        <span class="comp-badge" style="background:var(--orange-l);color:var(--orange)">Dashboard</span>
+      </div>
+      <div class="comp-desc">Центральный хаб: маршрут + чек-лист + бронирования + заметки в одном интерфейсе. Платформенный компонент, ML отсутствует.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Все поездки, черновики, wishlist</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Офлайн-доступ, синхронизация устройств</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Экспорт PDF, импорт бронирований из email</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag none">— Нет AI</span>
+      </div>
+      <div class="comp-connections">← Маршрутизатор, Чек-лист, Бронирования → Навигация</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,group" data-phase="post" onclick="openDetail('smarttable')">
+      <span class="phase-tag post">Post-MVP</span>
+      <div class="comp-icon">📊</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Умная таблица поездки</div>
+        <span class="comp-badge" style="background:var(--orange-l);color:var(--orange)">Table</span>
+      </div>
+      <div class="comp-desc">Привычный табличный вид (день → город → отель) с AI-заполнением и картой. Импорт из Excel.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">ML: AI-заполнение из модуля персонализации</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: парсинг Excel, синхронизация с картой</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Автоматический чек-лист из данных таблицы</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag ml"><span class="tech-tag-icon">⚡</span>ML + Rules</span>
+      </div>
+      <div class="comp-connections">← Excel импорт, Персонализация → Хаб, Чек-лист</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 3: БРОНИРОВАНИЕ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--blue-l);color:var(--blue)">Зона 3</span>
+    <div>
+      <div class="zone-title">Бронирование и логистика</div>
+      <div class="zone-desc">Агрегация предложений и deep-link интеграции с OTA-сервисами</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" data-phase="mvp" onclick="openDetail('booking')">
+      <span class="phase-tag mvp">MVP</span>
+      <div class="comp-icon">🏨</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Агрегатор бронирований</div>
+        <span class="comp-badge" style="background:var(--blue-l);color:var(--blue)">Booking</span>
+      </div>
+      <div class="comp-desc">Deep-links в Booking.com, Ostrovok, Airbnb с предзаполненными параметрами. Семейные фильтры и калькулятор бюджета.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: предзаполнение параметров из маршрута</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: калькулятор семейного бюджета</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Подтверждения → Хаб поездки</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span>
+      </div>
+      <div class="comp-connections">← Маршрут (даты, города) → Хаб поездки</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,group" data-phase="post" onclick="openDetail('budget')">
+      <span class="phase-tag post">Post-MVP</span>
+      <div class="comp-icon">💰</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Умная таблица бюджета</div>
+        <span class="comp-badge" style="background:var(--blue-l);color:var(--blue)">Budget</span>
+      </div>
+      <div class="comp-desc">Автоматически формируемая таблица расходов на основе маршрута и бронирований.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: автоимпорт из бронирований</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Разделение расходов в группе (split)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Экспорт в Excel / PDF</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span>
+      </div>
+      <div class="comp-connections">← Бронирования, Маршрут → Хаб поездки</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 4: СОВМЕСТНОЕ ПЛАНИРОВАНИЕ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--purple-l);color:var(--purple)">Зона 4</span>
+    <div>
+      <div class="zone-title">Совместное планирование</div>
+      <div class="zone-desc">Real-time коллаборация для групп и семейных поездок</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="group" data-phase="post" onclick="openDetail('collab')">
+      <span class="phase-tag post">Post-MVP</span>
+      <div class="comp-icon">👥</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Модуль совместного планирования</div>
+        <span class="comp-badge" style="background:var(--purple-l);color:var(--purple)">Collab</span>
+      </div>
+      <div class="comp-desc">Real-time workspace (WebSocket). Голосование за активности, распределение задач из чек-листа. ML не требуется.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: WebSocket-синхронизация, голосование</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Роли: организатор, участник</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Назначение задач из чек-листа</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span>
+      </div>
+      <div class="comp-connections">← Маршрут организатора → Согласованный маршрут, Хаб</div>
+    </div>
+
+    <div class="comp-card" data-segments="group" data-phase="post" onclick="openDetail('familyroute')">
+      <span class="phase-tag post">Post-MVP</span>
+      <div class="comp-icon">👨‍👩‍👧</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Семейный / групповой AI-маршрутизатор</div>
+        <span class="comp-badge" style="background:var(--purple-l);color:var(--purple)">Family</span>
+      </div>
+      <div class="comp-desc">Балансировка нагрузки (≤3 POI/день с детьми), family-friendly фильтр. Rule-based правила + потенциальная ML-точка на масштабировании.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: балансировка ≤3 POI/день, чередование</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: family-friendly фильтр (теги Google Places)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">ML (масшт.): оптимизация под множество профилей</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span>
+      </div>
+      <div class="comp-connections">← Профили участников → Сбалансированный маршрут → Хаб</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 5: ПОДГОТОВКА К ПОЕЗДКЕ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--green-l);color:var(--green)">Зона 5</span>
+    <div>
+      <div class="zone-title">Подготовка к поездке</div>
+      <div class="zone-desc">Документы, чек-листы, здоровье, визы, страховки</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" data-phase="mvp" onclick="openDetail('checklist')">
+      <span class="phase-tag mvp">MVP</span>
+      <div class="comp-icon">✅</div>
+      <div class="comp-card-top">
+        <div class="comp-name">AI-Чек-лист подготовки</div>
+        <span class="comp-badge" style="background:var(--green-l);color:var(--green)">Checklist</span>
+      </div>
+      <div class="comp-desc">Персонализированный чек-лист: визы, вещи, здоровье, организация. Rule-based генерация на основе маршрута + API данных.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: визы, дедлайны — база данных + API</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: погода → одежда (температурные диапазоны)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Push-напоминания (−45, −14, −7 дней)</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Статусы, дедлайны, критичность задач</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules + API</span>
+      </div>
+      <div class="comp-connections">← Маршрут + Профиль → Хаб поездки, Напоминания</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,group" data-phase="post" onclick="openDetail('docs')">
+      <span class="phase-tag post">Post-MVP</span>
+      <div class="comp-icon">📄</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Хранилище документов и визового контроля</div>
+        <span class="comp-badge" style="background:var(--green-l);color:var(--green)">Docs</span>
+      </div>
+      <div class="comp-desc">Безопасное хранение паспортов, виз, страховок. AI-парсинг из фото, напоминания об истечении.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: проверка визовых требований по стране</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">ML: OCR-парсинг паспорта из фото</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Офлайн-доступ к документам</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules + OCR</span>
+      </div>
+      <div class="comp-connections">← Маршрут → Чек-лист, Хаб поездки</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" data-phase="mvp" onclick="openDetail('notifications')">
+      <span class="phase-tag mvp">MVP</span>
+      <div class="comp-icon">🔔</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Adaptive Reminder System</div>
+        <span class="comp-badge" style="background:var(--green-l);color:var(--green)">Push</span>
+      </div>
+      <div class="comp-desc">Умная система уведомлений: Telegram-бот + Push + Email. Адаптивное расписание.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Rules: расписание по дедлайнам чек-листа</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Telegram-бот, Push, Email</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Алерты: изменение цен, погода</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span>
+      </div>
+      <div class="comp-connections">← Чек-лист, Live-данные → Пользователь</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 6: ВО ВРЕМЯ ПОЕЗДКИ -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--gold-l);color:var(--gold)">Зона 6</span>
+    <div>
+      <div class="zone-title">Во время поездки</div>
+      <div class="zone-desc">Навигация, офлайн-режим, ситуативная помощь и live-данные</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" data-phase="post" onclick="openDetail('nav')">
+      <span class="phase-tag post">Post-MVP</span>
+      <div class="comp-icon">🗺️</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Навигация и офлайн-карты</div>
+        <span class="comp-badge" style="background:var(--gold-l);color:var(--gold)">Navigation</span>
+      </div>
+      <div class="comp-desc">Маршрут на карте с офлайн-доступом. MapLibre GL JS + Yandex Maps API. Офлайн через PMTiles.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Офлайн-загрузка карт региона</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Открытие в навигаторе</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Актуальные часы работы (live)</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag none">— Нет AI</span>
+      </div>
+      <div class="comp-connections">← Хаб поездки → Пользователь в дороге</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" data-phase="post" onclick="openDetail('livedata')">
+      <span class="phase-tag post">Post-MVP</span>
+      <div class="comp-icon">⚡</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Live-данные и ситуационный модуль</div>
+        <span class="comp-badge" style="background:var(--gold-l);color:var(--gold)">Live</span>
+      </div>
+      <div class="comp-desc">Real-time данные: погода, курсы валют, транспорт, VPN-рекомендации, эпид-обстановка.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">API: OpenWeatherMap, ЦБ РФ/ECB, Sherpa (визы), WHO</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Push-алерты при критических изменениях</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Рекомендации по адаптации маршрута</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules + API</span>
+      </div>
+      <div class="comp-connections">← Маршрут → Напоминания, Карта</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 7: КОММЕРЧЕСКИЙ КОНТУР -->
+  <div class="zone-header">
+    <span class="zone-pill" style="background:var(--rose-l);color:var(--rose)">Зона 7</span>
+    <div>
+      <div class="zone-title">Коммерческий контур и монетизация</div>
+      <div class="zone-desc">Модуль, обеспечивающий финансовую устойчивость продукта — подписка, партнёрские комиссии, B2B</div>
+    </div>
+  </div>
+  <div class="components-grid">
+
+    <div class="comp-card" data-segments="solo,auto,group" data-phase="mvp" onclick="openDetail('monetization')">
+      <span class="phase-tag mvp">MVP</span>
+      <div class="comp-icon">💎</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Модуль монетизации</div>
+        <span class="comp-badge" style="background:var(--rose-l);color:var(--rose)">Revenue</span>
+      </div>
+      <div class="comp-desc">Freemium-модель (Free / Pro 990 ₽/мес). Paywall с 7-дневным триалом, партнёрские комиссии с бронирований (3–8%), реферальная программа.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Paywall: Free vs Pro с демо расширенных функций</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Подписка: ЮKassa + Adapty / App Store / RuStore</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Партнёрский трекинг: deep links → комиссия 3–8%</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Реферальная программа: месяц Pro за приглашение</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">B2B: white-label, API (post-MVP)</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--orange-l);color:var(--orange)">Solo</span>
+        <span class="seg-tag" style="background:var(--blue-l);color:var(--blue)">Auto</span>
+        <span class="seg-tag" style="background:var(--purple-l);color:var(--purple)">Group</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules + A/B</span>
+      </div>
+      <div class="comp-connections">← Все компоненты (ограничения Free) → MRR, LTV, партнёрская выручка</div>
+    </div>
+
+    <div class="comp-card" data-segments="solo,auto,group" data-phase="post" onclick="openDetail('analytics')">
+      <span class="phase-tag post">Post-MVP</span>
+      <div class="comp-icon">📈</div>
+      <div class="comp-card-top">
+        <div class="comp-name">Аналитика монетизации</div>
+        <span class="comp-badge" style="background:var(--rose-l);color:var(--rose)">Analytics</span>
+      </div>
+      <div class="comp-desc">Дашборд бизнес-метрик: MRR, конверсия Free→Pro, LTV, churn rate, партнёрская выручка. A/B-тесты paywall.</div>
+      <div class="comp-features">
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">MRR / ARR трекинг в реальном времени</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">Воронка: регистрация → триал → подписка</span></div>
+        <div class="feat"><span class="feat-dot"></span><span class="feat-txt">ML (post-MVP): предиктивная модель churn</span></div>
+      </div>
+      <div class="comp-footer">
+        <span class="seg-tag" style="background:var(--rose-l);color:var(--rose)">Internal</span>
+        <span class="tech-tag rule"><span class="tech-tag-icon">⚙</span>Rules</span>
+      </div>
+      <div class="comp-connections">← Модуль монетизации → Бизнес-решения</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 8: ИНФРАСТРУКТУРА -->
+  <div class="zone-header" id="infra-anchor">
+    <span class="zone-pill" style="background:var(--red-l);color:var(--red)">Зона 8</span>
+    <div>
+      <div class="zone-title">Инфраструктура и обеспечивающий слой</div>
+      <div class="zone-desc">Невидимые компоненты, обеспечивающие работу продукта. AI-ядро распределено по клиентским компонентам.</div>
+    </div>
+  </div>
+  <div class="infra-grid">
+
+    <div class="infra-card">
+      <div class="infra-name">🧠 ML-модуль персонализации</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Основная ML-точка: collaborative filtering, обучение на feedback. Обслуживает маршрутизатор, разведку мест, умную таблицу.</div>
+      <div class="infra-stack">
+        <span class="stack-tag" style="background:var(--ml-bg);color:var(--ml-accent);border-color:var(--ml-border)">ML Core</span>
+        <span class="stack-tag">LangGraph</span><span class="stack-tag">Mistral/Llama 3</span><span class="stack-tag">GigaChat</span><span class="stack-tag">CF+CBF</span><span class="stack-tag">OR-Tools</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">🔌 API Orchestration Layer</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Единая точка интеграции с внешними сервисами</div>
+      <div class="infra-stack">
+        <span class="stack-tag">Google Places</span><span class="stack-tag">Yandex Maps API</span><span class="stack-tag">Sherpa API</span><span class="stack-tag">OpenWeatherMap</span><span class="stack-tag">Booking</span><span class="stack-tag">Aviasales</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">🗄️ Backend & Data Layer</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Основной бэкенд, БД, хранилище</div>
+      <div class="infra-stack">
+        <span class="stack-tag">FastAPI</span><span class="stack-tag">PostgreSQL + PostGIS</span><span class="stack-tag">Neo4j</span><span class="stack-tag">Apache Jena (OWL2)</span><span class="stack-tag">Redis</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">⚛️ Frontend Web App</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">SPA-приложение, PWA для офлайн-доступа</div>
+      <div class="infra-stack">
+        <span class="stack-tag">Next.js</span><span class="stack-tag">React</span><span class="stack-tag">TypeScript</span><span class="stack-tag">MapLibre GL JS</span><span class="stack-tag">PWA</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">🤖 Telegram Bot</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Уведомления + Mini App</div>
+      <div class="infra-stack">
+        <span class="stack-tag">Telegram Bot API</span><span class="stack-tag">Mini App</span><span class="stack-tag">OneSignal</span><span class="stack-tag">RuStore Push</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">🔒 Auth & Security</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Аутентификация, шифрование, 152-ФЗ</div>
+      <div class="infra-stack">
+        <span class="stack-tag">JWT</span><span class="stack-tag">OAuth 2.0</span><span class="stack-tag">AES-256</span><span class="stack-tag">152-ФЗ (УЗ-2)</span><span class="stack-tag">Yandex Cloud</span><span class="stack-tag">ФСТЭК</span>
+      </div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-name">💳 Billing & Payments</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Управление подписками, платежи, партнёрский трекинг</div>
+      <div class="infra-stack">
+        <span class="stack-tag" style="background:var(--rose-l);color:var(--rose);border-color:var(--rose)">Revenue Core</span>
+        <span class="stack-tag">ЮKassa</span><span class="stack-tag">App Store IAP</span><span class="stack-tag">RuStore Billing</span><span class="stack-tag">UTM Tracking</span><span class="stack-tag">152-ФЗ</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- INFRASTRUCTURE COST SUMMARY -->
+  <div style="margin:0 32px 24px;padding:18px 20px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);font-size:12px">
+    <div style="font-weight:700;color:var(--teal);margin-bottom:10px;font-size:14px">💰 Смета MVP-инфраструктуры — Yandex Cloud (6 месяцев)</div>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:5px 20px;color:var(--muted);max-width:480px">
+      <span>Managed PostgreSQL (s3-c2-m8, 50GB SSD)</span><span style="text-align:right;font-variant-numeric:tabular-nums">24 600 ₽</span>
+      <span>2× Backend VM (2 vCPU, 8GB RAM)</span><span style="text-align:right;font-variant-numeric:tabular-nums">48 360 ₽</span>
+      <span>Managed Valkey / Redis (hm3-c2-m8)</span><span style="text-align:right;font-variant-numeric:tabular-nums">28 200 ₽</span>
+      <span>Object Storage (100 GB)</span><span style="text-align:right;font-variant-numeric:tabular-nums">1 200 ₽</span>
+      <span>Yandex Maps JS API + Geocoder</span><span style="text-align:right;font-variant-numeric:tabular-nums">124 800 ₽</span>
+      <span>Google Places API (базовое)</span><span style="text-align:right;font-variant-numeric:tabular-nums">28 500 ₽</span>
+      <span>OneSignal / Travelpayouts / Sherpa</span><span style="text-align:right;color:var(--green)">бесплатно</span>
+      <span style="border-top:1px solid var(--border);padding-top:6px;font-weight:600;color:var(--text)">Итого Вариант А (без GPU)</span>
+      <span style="border-top:1px solid var(--border);padding-top:6px;text-align:right;font-weight:700;color:var(--teal);font-size:14px">~256 000 ₽</span>
+      <span>+ GPU T4 для self-hosted LLM</span><span style="text-align:right;color:var(--orange);font-variant-numeric:tabular-nums">+660 000 ₽</span>
+      <span style="font-weight:600;color:var(--text)">Итого Вариант Б (с GPU T4)</span>
+      <span style="text-align:right;font-weight:700;color:var(--orange);font-size:14px">~916 000 ₽</span>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:12px;flex-wrap:wrap">
+      <div style="padding:6px 12px;background:var(--green-l);border:1px solid var(--green);border-radius:20px;font-size:11px;font-weight:600;color:var(--green)">
+        🎁 Yandex Cloud Boost — грант до 1 000 000 ₽
+      </div>
+      <div style="padding:6px 12px;background:var(--teal-l);border:1px solid var(--teal);border-radius:20px;font-size:11px;font-weight:600;color:var(--teal)">
+        🎓 Студенческий стартап — грант 1 000 000 ₽
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:var(--faint)">
+      Разработка MVP (11 компонентов, ~40 нед.): 900 000 ₽ · ФСТЭК УЗ-1 · 152-ФЗ compliant
+    </div>
+  </div>
+
+  <div style="height:48px"></div>
+</main>
+</div>
+
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detailPanel">
+    <button class="detail-close" onclick="closeDetailBtn()">✕</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<!-- SCROLL TOP -->
+<button class="scroll-top" id="scrollTop" onclick="scrollToTop()" aria-label="Наверх">↑</button>
+
+<script>
+// Theme toggle
+(function(){
+  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
+  let d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  r.setAttribute('data-theme',d);
+  if(t)t.addEventListener('click',()=>{
+    d=d==='dark'?'light':'dark';
+    r.setAttribute('data-theme',d);
+    t.innerHTML=d==='dark'
+      ?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      :'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  });
+})();
+
+// Filter by segment
+function filterCards(seg, btn) {
+  document.querySelectorAll('[data-filter]').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.comp-card').forEach(card=>{
+    if(seg==='all'){card.classList.remove('hidden');return;}
+    const segs=(card.dataset.segments||'').split(',');
+    card.classList.toggle('hidden',!segs.includes(seg));
+  });
+}
+
+// Filter by phase (MVP / Post-MVP)
+function filterPhase(phase, btn) {
+  document.querySelectorAll('[data-phase-filter]').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.comp-card').forEach(card=>{
+    if(phase==='all'){
+      card.classList.remove('phase-dimmed');
+    } else {
+      const cardPhase = card.dataset.phase || '';
+      card.classList.toggle('phase-dimmed', cardPhase !== phase);
+    }
+  });
+}
+
+// Detail data — updated to match БФТ v2
+const details = {
+  landing:{phase:'mvp',name:'Лендинг и маркетинговый сайт',zone:'Зона 1 — Вход и онбординг',
+    problem:'Пользователь не понимает, чем TripMind отличается от ChatGPT и Wanderlog.',
+    solution:'Интерактивный лендинг с живым AI-демо маршрута, блоком сравнения конкурентов и CTA.',
+    inputs:['Анонимный пользователь из органики/рекламы'],
+    outputs:['Регистрация','Переход в Telegram-бот'],
+    jtbd:'Когда я вижу новый travel-инструмент, хочу за 30 сек понять — он лучше ChatGPT?',
+    quality:'Загрузка LCP < 1.5 сек. Core Web Vitals: зелёная зона.',
+    result:'Конверсия в регистрацию ≥ 8%.',
+    ml_type:'none',ml_detail:'',
+    connections:'Лендинг → Регистрация → Онбординг'},
+
+  auth:{phase:'mvp',name:'Регистрация и авторизация',zone:'Зона 1 — Вход и онбординг',
+    problem:'Friction при регистрации снижает конверсию.',
+    solution:'One-click вход через Telegram, Google, Apple. Не более 3 кликов до маршрута.',
+    inputs:['Лендинг / реферальная ссылка','OAuth 2.0 (Google/Apple/VK ID/email)'],
+    outputs:['Профиль пользователя (Yandex Cloud)','Начат онбординг','JWT + refresh tokens'],
+    jtbd:'Хочу зарегистрироваться без форм — просто «Войти через Telegram».',
+    quality:'Time-to-registered < 30 сек.',
+    result:'Конверсия «лендинг → зарег.» ≥ 55%.',
+    ml_type:'none',ml_detail:'',
+    connections:'← Лендинг → Онбординг'},
+
+  onboarding:{phase:'mvp',name:'Онбординг и профиль путешественника',zone:'Зона 1 — Вход и онбординг',
+    problem:'Без данных о пользователе AI даёт generic-рекомендации.',
+    solution:'3-шаговый wizard: стиль, интересы, бюджет. Данные сразу используются ML-модулем персонализации.',
+    inputs:['Завершённая регистрация'],
+    outputs:['Профиль путешественника → AI-Маршрутизатор','Профиль → Модуль AI-персонализации'],
+    jtbd:'Хочу настроить один раз — и пусть AI знает мои предпочтения.',
+    quality:'Completion rate ≥ 80%. Время < 2 мин.',
+    result:'Релевантность первого маршрута +40% vs без профиля.',
+    ml_type:'none',ml_detail:'Данные профиля являются входом для ML-модуля персонализации. Сам онбординг — платформенный компонент без ML.',
+    connections:'← Регистрация → AI-Маршрутизатор, AI-Персонализация, Чек-лист'},
+
+  airoute:{phase:'mvp',name:'AI-Маршрутизатор (Core)',zone:'Зона 2 — AI-Планирование',
+    problem:'Маршрут по дням с учётом десятков факторов занимает 10–15 часов ручной работы.',
+    solution:'ML-модуль ранжирования POI + rule-based оптимизация порядка точек (TSP-эвристика) + API (погода, расписания).',
+    inputs:['Профиль пользователя из онбординга','Параметры поездки: города, даты, интересы, темп'],
+    outputs:['Маршрут по дням на карте → Редактор','Маршрут → AI-Чек-лист','Маршрут → Бронирования','Маршрут → Модуль разведки'],
+    jtbd:'Я как самостоятельный путешественник хочу ввести параметры поездки и получить готовый маршрут по дням с визуализацией на карте.',
+    quality:'MVP: генерация ≤15 сек для 15 точек. Доля ручных правок ≤30%. 20 приоритетных направлений. Масштабирование: ≤10 сек, ≤20% правок, 100+ направлений.',
+    result:'Сокращение планирования с 10–15ч до 3–5ч. Acceptance rate POI ≥35%. Доля завершённых сценариев ≥60%.',
+    ml_type:'ml',
+    ml_detail:'ML-модуль ранжирования POI: вход — профиль, история, feedback; выход — ранжированный список POI; метрика — acceptance rate ≥35%.',
+    rule_detail:'Оптимизация: Google OR-Tools (TSP/VRP с временными окнами <1 сек для 50–100 точек). LLM: Mistral/Llama 3 self-hosted через vLLM или YandexGPT API. Погода — OpenWeatherMap. POI — Google Places + Yandex Geosearch.',
+    connections:'← Онбординг (профиль) → Редактор, Чек-лист, Бронирования, Разведка, Персонализация'},
+
+  personalization:{phase:'mvp',name:'Модуль AI-персонализации',zone:'Зона 2 — AI-Планирование',
+    problem:'Существующие «единые решения» не работают — пробовали и разочаровались (TripIt, Wanderlog).',
+    solution:'Гибридный CF+CBF (Precision@10=0,312, HITRS 2025). Self-hosted на Yandex Cloud для 152-ФЗ. Ранжированные рекомендации с текстовыми объяснениями. План масштабирования: LightGCN (MAP@10 +22% vs NCF).',
+    inputs:['Профиль пользователя','История поездок','Принятые/отклонённые рекомендации','Контекст поездки'],
+    outputs:['Ранжированный список рекомендованных POI','Приоритетные действия по подготовке','Текстовые объяснения: «Рекомендуем музей — вы 3 раза выбирали художественные музеи»'],
+    jtbd:'Я как путешественник хочу получить персонализированные рекомендации с объяснением логики выбора.',
+    quality:'MVP: ≤30% правок (cold start), объяснимость ≥70%. Масштабирование: CTR ≥35% к 6-й поездке, объяснимость ≥90%.',
+    result:'Acceptance rate ≥20% (MVP), ≥35% (после 3+ поездок). Конверсия в принятый маршрут ≥40%.',
+    ml_type:'ml',
+    ml_detail:'Основная ML-точка: гибридный CF+CBF. CF обнаруживает скрытые паттерны, CBF решает cold start через признаки POI (категория, гео, рейтинг). Обучение на feedback. Метрики: acceptance rate ≥35%, CTR, Precision@10. Self-hosted Yandex Cloud (152-ФЗ).',
+    rule_detail:'Объяснения решений AI — шаблонная генерация текста на основе правил и атрибутов (rule-based). Фильтрация по часам работы — rule-based + API.',
+    connections:'← Профиль, История → Маршрутизатор, Разведка мест, Умная таблица, Чек-лист'},
+
+  discover:{phase:'post',name:'Модуль разведки и открытия мест',zone:'Зона 2 — AI-Планирование',
+    problem:'Разведка незнакомых мест: TripAdvisor не структурирован, YouTube требует ручной работы.',
+    solution:'AI-рекомендации POI для каждого города маршрута. На MVP — агрегация рейтингов Google Places (rule-based). На масштабировании — content-based + collaborative filtering.',
+    inputs:['Маршрут (города, дни)','Профиль (стиль, интересы)','Данные Google Places / Foursquare'],
+    outputs:['Топ-5 мест для каждого дня','Карточки: фото, рейтинг, часы','Добавление в маршрут одним тапом'],
+    jtbd:'Я как путешественник хочу получить структурированный список POI, персонализированный под мой стиль.',
+    quality:'MVP: релевантность ≥60%, 20 направлений, загрузка ≤3 сек. Масштабирование: ≥80%, 50M+ POI, NLP-анализ отзывов.',
+    result:'Сокращение разведки с 3–5ч до 30–60 мин. Доля добавленных POI ≥25%. CSAT ≥75%.',
+    ml_type:'ml',
+    ml_detail:'ML (масштабирование): content-based + collaborative filtering на основе профиля и feedback. На MVP — агрегация рейтингов из Google Places (rule-based).',
+    rule_detail:'Фильтрация по расстоянию, часам работы, рейтингу — rule-based.',
+    connections:'← Маршрут + Профиль + Персонализация → Редактор, Хаб поездки'},
+
+  editor:{phase:'mvp',name:'Интерактивный редактор маршрута',zone:'Зона 2 — AI-Планирование',
+    problem:'AI-решения (ChatGPT) работают как «чёрный ящик» без возможности контроля.',
+    solution:'Drag-and-drop на карте + объяснения AI-решений (шаблонные тексты) + 2–3 варианта маршрута.',
+    inputs:['AI-сгенерированный маршрут из маршрутизатора'],
+    outputs:['Финализированный маршрут → Хаб поездки','Маршрут → Чек-лист','Экспорт PDF'],
+    jtbd:'Я как опытный путешественник хочу видеть маршрут на карте с возможностью редактирования и понимать логику AI.',
+    quality:'MVP: drag-drop ≤300 мс, пересчёт ≤5 сек, объяснения ≥50%. Масштабирование: ≤200 мс, ≤3 сек, ≥90%.',
+    result:'Конверсия «сгенерированный → принятый» ≥75%. Среднее количество правок ≤5.',
+    ml_type:'rule',
+    ml_detail:'',
+    rule_detail:'Инкрементальный пересчёт — rule-based оптимизация (TSP). Объяснения — шаблонная генерация текста. Варианты — параметрическая генерация (разный темп → разные маршруты).',
+    connections:'← AI-Маршрутизатор → Хаб поездки, Чек-лист, Бронирования'},
+
+  automode:{phase:'post',name:'Режим «Авто-маршрут»',zone:'Зона 2 — AI-Планирование',
+    problem:'Расчёт логистики между городами (плечи, бензин, ночёвки) — ручная кропотливая работа.',
+    solution:'Rule-based алгоритм расчёта плеч + API карт и АЗС. ML не требуется.',
+    inputs:['Города маршрута, тип авто, средний расход'],
+    outputs:['Автомаршрут с плечами → Чек-лист','Точки ночёвок → Бронирования','Бюджет → Хаб'],
+    jtbd:'Я как автопутешественник хочу получить оптимизированный маршрут с расчётом плеч и затрат на бензин.',
+    quality:'MVP: погрешность ≤5%, расчёт ≤20 сек, ≥90% маршрутов ≤400 км/день. Масштабирование: цены АЗС ≤1ч, ≤15 сек.',
+    result:'Экономия 8–12ч. Доля «реалистичных» маршрутов ≥75%. Конверсия в бронирование ≥20%.',
+    ml_type:'rule',
+    ml_detail:'',
+    rule_detail:'Valhalla (MIT, Dynamic Costing, 4–8x меньше RAM vs OSRM) + OR-Tools VRP (ограничения 400 км/день через AddDimension). Яндекс Maps Router для проверки пробок. Self-hosted, полный офлайн.',
+    connections:'← Маршрутизатор (города) → Чек-лист, Бронирования жилья'},
+
+  personalcab:{phase:'mvp',name:'Хаб поездки (Единая платформа)',zone:'Зона 2 — AI-Планирование',
+    problem:'Переключение между 10+ приложениями — потеря времени, дублирование, потеря данных.',
+    solution:'Единый интерфейс: маршрут + чек-лист + бронирования + заметки. Офлайн. Экспорт PDF.',
+    inputs:['Маршрут из редактора','Чек-лист','Подтверждения бронирований','Заметки'],
+    outputs:['Единый dashboard поездки','PDF-экспорт','Push-напоминания','Данные → Навигация'],
+    jtbd:'Я как путешественник хочу видеть маршрут, бронирования, чек-лист и заметки в одном интерфейсе.',
+    quality:'MVP: загрузка ≤2 сек, офлайн 100%, синхронизация ≤3 сек. Масштабирование: ≤1.5 сек, 2FA, NPS ≥60.',
+    result:'Сервисов: с 10–15 до 1. Доля сценариев без выхода в другие сервисы ≥60%. Retention ≥40%.',
+    ml_type:'none',ml_detail:'Платформенный инфраструктурный компонент. ML отсутствует.',
+    connections:'← Маршрутизатор, Чек-лист, Бронирования, Редактор → Навигация, PDF-экспорт'},
+
+  smarttable:{phase:'post',name:'Умная таблица поездки',zone:'Зона 2 — AI-Планирование',
+    problem:'Имеющиеся инструменты (Excel, Google Tasks) работают, но не интегрированы.',
+    solution:'Табличный вид (день → город → отель) + AI-заполнение из модуля персонализации + карта + импорт из Excel.',
+    inputs:['Excel-файл (импорт) или создание с нуля','Рекомендации из модуля персонализации'],
+    outputs:['Маршрут на карте','Автоматический чек-лист','Экспорт PDF'],
+    jtbd:'Я как путешественник, привыкший к Excel, хочу вести план в табличном формате с AI-подсказками.',
+    quality:'MVP: парсинг ≥80% шаблонов, синхронизация ≤2 сек, освоение ≤15 мин. Масштабирование: ≥90%, ≤1 сек.',
+    result:'Переход с Excel: ≥40% после 1-й поездки. Сокращение ручных операций с 2–3ч до <15 мин.',
+    ml_type:'ml',
+    ml_detail:'AI-заполнение ячеек — ML-модуль рекомендаций (тот же, что в модуле персонализации).',
+    rule_detail:'Импорт/парсинг Excel — rule-based парсер. Синхронизация таблица↔карта — rule-based.',
+    connections:'← Excel, Персонализация → Хаб поездки, Чек-лист'},
+
+  booking:{phase:'mvp',name:'Агрегатор бронирований',zone:'Зона 3 — Бронирование и логистика',
+    problem:'Бронирование для нескольких человек — сравнение вариантов, учёт разных потребностей.',
+    solution:'Deep links на Booking/Ostrovok/Airbnb с предзаполненными параметрами. Семейные фильтры. Калькулятор бюджета.',
+    inputs:['Точки ночёвок из маршрута','Количество участников, дети'],
+    outputs:['Ссылки на бронирование → OTA','Подтверждения → Хаб поездки'],
+    jtbd:'Я как организатор семейной поездки хочу подобрать жильё с семейными фильтрами прямо из маршрута.',
+    quality:'MVP: Booking + Ostrovok, предзаполнение 100%, RUB/EUR/USD. Масштабирование: + Airbnb, Marriott, real-time цены.',
+    result:'Перебронирования: с 12 до ≤3. Поиск жилья: с 4–6ч до 30–60 мин. Конверсия deep link ≥15%.',
+    ml_type:'rule',ml_detail:'',
+    rule_detail:'Предзаполнение параметров, фильтрация, калькулятор — rule-based логика. Сортировка по релевантности — потенциальная ML-точка (масштабирование).',
+    connections:'← Маршрут (даты, города, участники) → Хаб поездки (подтверждения)'},
+
+  budget:{phase:'post',name:'Умная таблица бюджета',zone:'Зона 3 — Бронирование и логистика',
+    problem:'Ведение Excel-бюджета на 250 строк занимает 2-3 часа.',
+    solution:'Автоматическая таблица на основе маршрута и бронирований. Split для группы.',
+    inputs:['Подтверждения бронирований','Маршрут с локациями'],
+    outputs:['Таблица расходов','Экспорт Excel/PDF','Split для группы → Хаб'],
+    jtbd:'Хочу видеть все расходы автоматически, без ручного ввода.',
+    quality:'Автозаполнение из email: точность ≥ 90%. Экспорт < 2 сек.',
+    result:'Экономия 2-3 ч. 80% не открывают Excel после внедрения.',
+    ml_type:'rule',ml_detail:'',
+    rule_detail:'Автоимпорт из бронирований, категоризация расходов — rule-based.',
+    connections:'← Бронирования, Маршрут → Хаб поездки'},
+
+  collab:{phase:'post',name:'Модуль совместного планирования',zone:'Зона 4 — Совместное планирование',
+    problem:'Планирование для группы — информация теряется в чатах, согласование хаотичное.',
+    solution:'Real-time workspace (WebSocket). Голосование за активности. Распределение задач из чек-листа.',
+    inputs:['Маршрут организатора','Приглашение участников по ссылке/email'],
+    outputs:['Согласованный маршрут → Хаб','Распределённые задачи → Чек-лист'],
+    jtbd:'Я как организатор групповой поездки хочу пригласить участников в единое пространство планирования.',
+    quality:'MVP: задержка ≤1 сек, до 10 участников. Масштабирование: ≤500 мс, до 20, 99.9% uptime.',
+    result:'Сообщения в чатах: −60%. Автоматизировано ≥50% координации. CSAT организатора ≥80%.',
+    ml_type:'rule',ml_detail:'',
+    rule_detail:'Синхронизация, голосование, назначение задач — rule-based + WebSocket. ML не требуется.',
+    connections:'← Маршрут организатора → Согласованный маршрут → Хаб, Чек-лист'},
+
+  familyroute:{phase:'post',name:'Семейный / групповой AI-маршрутизатор',zone:'Зона 4 — Совместное планирование',
+    problem:'Маршрут не учитывает потребности всех участников (дети устают, разные интересы).',
+    solution:'Балансировка нагрузки (≤3 POI/день с детьми), family-friendly фильтр на основе тегов Google Places, чередование дней.',
+    inputs:['Профили всех участников (возраст, интересы)','Базовый маршрут из маршрутизатора'],
+    outputs:['Сбалансированный маршрут → Хаб','Метки: «для детей 5–10 лет»'],
+    jtbd:'Я как организатор семейной поездки хочу задать профиль каждого участника и получить маршрут для всех.',
+    quality:'MVP: family-friendly ≥80%, балансировка ≥90%, генерация ≤20 сек. Масштабирование: ≥90%, ≥95%, ≤15 сек.',
+    result:'«Лучше, чем сам»: ≥60% (MVP), ≥80% (масшт.). Изменения после согласования ≤2.',
+    ml_type:'rule',
+    ml_detail:'',
+    rule_detail:'Балансировка (≤3 POI/день, чередование) — rule-based правила. Family-friendly фильтр — теги из Google Places (rule-based). Компромисс интересов группы — потенциальная ML-точка (масштабирование).',
+    connections:'← Профили участников + Маршрутизатор → Сбалансированный маршрут → Хаб'},
+
+  checklist:{phase:'mvp',name:'AI-Чек-лист подготовки',zone:'Зона 5 — Подготовка к поездке',
+    problem:'Забытые детали подготовки приводят к ошибкам и потерям 2–5 тыс. руб./поездку.',
+    solution:'Rule-based генерация чек-листа: визы (база + API), погода→одежда (температурные диапазоны), push-напоминания.',
+    inputs:['Завершённый маршрут','Профиль пользователя (гражданство, здоровье)'],
+    outputs:['Чек-лист (4 блока: документы, вещи, здоровье, организация) → Хаб','Push-напоминания → Reminder System'],
+    jtbd:'Я как путешественник хочу получить автоматический чек-лист подготовки на основе маршрута.',
+    quality:'MVP: визы ≥95% для 20 направлений, генерация ≤5 сек, push ≥95%. Масштабирование: 190+ стран, ≥99%, ≥98%.',
+    result:'«Забытые» элементы: с 30–40% до <10%. Завершённые чек-листы ≥50%. CSAT ≥80%.',
+    ml_type:'rule',
+    ml_detail:'',
+    rule_detail:'Визы, дедлайны — rule-based база + API консульских данных. Погода→одежда — rule-based (температурные диапазоны → категории). Персонализация приоритетов — потенциальная ML-точка (масштабирование).',
+    connections:'← Маршрут + Профиль → Хаб поездки, Reminder System'},
+
+  docs:{phase:'post',name:'Хранилище документов и визового контроля',zone:'Зона 5 — Подготовка к поездке',
+    problem:'Сканы паспортов в Telegram — неудобно искать в аэропорту.',
+    solution:'Зашифрованное хранилище с OCR-парсингом из фото и напоминаниями об истечении.',
+    inputs:['Фото/скан документа','Данные маршрута для визовых требований'],
+    outputs:['База документов → Хаб поездки','Напоминания → Reminder System','Офлайн-доступ'],
+    jtbd:'Хочу сохранить документы один раз и иметь доступ офлайн.',
+    quality:'AES-256 шифрование (152-ФЗ УЗ-2 для медданных). Офлайн < 5 сек. OCR точность ≥ 92%. Yandex Cloud ФСТЭК.',
+    result:'0 потерянных документов. Поиск: 3 сек vs 5 мин.',
+    ml_type:'rule',ml_detail:'',
+    rule_detail:'Визовые требования — rule-based база. OCR-парсинг — внешний ML-сервис (не собственная модель).',
+    connections:'← Маршрут → Чек-лист, Хаб поездки'},
+
+  notifications:{phase:'mvp',name:'Adaptive Reminder System',zone:'Зона 5 — Подготовка к поездке',
+    problem:'Стандартные напоминания — спам. Игнорируются. Но потом забывается важное.',
+    solution:'Расписание по дедлайнам чек-листа. Telegram-бот + Push + Email.',
+    inputs:['Маршрут с датами','Прогресс чек-листа','Live-данные'],
+    outputs:['Telegram-сообщения','Push-уведомления → Пользователь'],
+    jtbd:'Хочу получать только важные уведомления — ровно когда они нужны.',
+    quality:'Telegram open rate > 60%. Push CTR > 15%. ≤2 уведомления/день.',
+    result:'On-time task completion +55%. Unsubscribe < 3%.',
+    ml_type:'rule',ml_detail:'',
+    rule_detail:'Расписание уведомлений — rule-based (дедлайны чек-листа, обратный отсчёт).',
+    connections:'← Чек-лист, Live-данные → Пользователь (Telegram, Push, Email)'},
+
+  nav:{phase:'post',name:'Навигация и офлайн-карты',zone:'Зона 6 — Во время поездки',
+    problem:'В роуминге дорого, а без интернета карты не работают.',
+    solution:'MapLibre GL JS (BSD-2) + офлайн через PMTiles/MBTiles. Yandex Maps API для геокодинга и пробок в РФ. Серверный рендеринг: Martin v1.0.',
+    inputs:['Финальный маршрут из Хаба поездки','Геолокация (опционально)'],
+    outputs:['Офлайн-карта с точками','Открытие в навигаторе'],
+    jtbd:'Хочу иметь весь маршрут офлайн.',
+    quality:'Офлайн-загрузка < 30 сек. POI ≤ 24 ч. Кэш < 50 МБ.',
+    result:'80% используют офлайн. Жалобы «потерялся» −70%.',
+    ml_type:'none',ml_detail:'Платформенный компонент. ML отсутствует.',
+    connections:'← Хаб поездки (маршрут) → Пользователь в дороге'},
+
+  livedata:{phase:'post',name:'Live-данные и ситуационный модуль',zone:'Зона 6 — Во время поездки',
+    problem:'Узнаю о проблемах постфактум: объект закрыт, курс поменялся.',
+    solution:'Real-time агрегация из API (погода, валюта, транспорт). Push-алерты.',
+    inputs:['Маршрут с локациями','Подписки на алерты'],
+    outputs:['Push при изменениях → Reminder System','Данные на карте → Навигация'],
+    jtbd:'Хочу узнать о закрытии музея до того, как приеду.',
+    quality:'Погода 3ч, курс 1ч, транспорт 15 мин.',
+    result:'Предотвращение «сюрпризов» в 85%. NPS +8 пунктов.',
+    ml_type:'rule',ml_detail:'',
+    rule_detail:'Агрегация из внешних API, пороговые алерты — rule-based.',
+    connections:'← Маршрут → Напоминания, Навигация, Карта'},
+
+  monetization:{phase:'mvp',name:'Модуль монетизации (Коммерческий контур)',zone:'Зона 7 — Коммерческий контур',
+    problem:'Продукт не содержит компонента, обеспечивающего коммерческую устойчивость. Без встроенного коммерческого контура TripMind остаётся полезным сервисом, но не жизнеспособным бизнесом.',
+    solution:'Многоуровневая модель монетизации: Freemium-подписка (Free / Pro 990 руб./мес), партнёрские комиссии с бронирований через deep links (3–8%), реферальная программа, B2B-интеграция (post-MVP).',
+    inputs:['Регистрация пользователя','Использование продукта (все компоненты)','Переходы по deep links на агрегаторы'],
+    outputs:['Платная подписка Pro → MRR','Партнёрская комиссия → Revenue','Реферальные приглашения → Рост базы','B2B-контракты (post-MVP)'],
+    jtbd:'Я как владелец продукта хочу иметь встроенный коммерческий контур, обеспечивающий устойчивую бизнес-модель.',
+    quality:'MVP: конверсия Free→Pro ≥5%, MRR ≥150 000 руб. к 6 мес., CTR deep links ≥8%, trial-to-paid ≥15%, churn ≤8%/мес. Масштабирование: конверсия ≥10%, ARPU ≥250 руб./мес, LTV/CAC ≥3.',
+    result:'MRR ≥150 000 руб. к 6 мес., ≥500 000 руб. к 12 мес. LTV подписчика ~8 000 руб. Партнёрская выручка ≥50 000 руб./мес. Breakeven к 12–18 мес. 68% респондентов готовы платить (кастдев).',
+    ml_type:'rule',
+    ml_detail:'ML (post-MVP): предиктивная модель churn для проактивных retention-кампаний (после накопления данных ≥6 мес). Персонализация paywall через A/B-тесты.',
+    rule_detail:'Логика ограничений Free-плана, управление подписками, триал-период — rule-based. Трекинг партнёрских переходов — rule-based + UTM-метки. Paywall-показ — rule-based (после генерации маршрута, перед экспортом).',
+    connections:'← Все компоненты (ограничения Free) → Бронирования (комиссии), Аналитика (MRR, LTV)'},
+
+  analytics:{phase:'post',name:'Аналитика монетизации',zone:'Зона 7 — Коммерческий контур',
+    problem:'Без аналитики коммерческих метрик невозможно управлять юнит-экономикой и оптимизировать воронку конверсии.',
+    solution:'Дашборд бизнес-метрик: MRR, конверсия Free→Pro, LTV, churn rate, партнёрская выручка. A/B-тесты paywall.',
+    inputs:['Данные подписок из модуля монетизации','Трекинг переходов по deep links','Поведенческие данные пользователей'],
+    outputs:['Дашборд MRR / ARR / LTV / Churn','Воронка: регистрация → триал → подписка','Отчёты для инвесторов'],
+    jtbd:'Я как владелец продукта хочу видеть ключевые бизнес-метрики в реальном времени для принятия решений.',
+    quality:'Обновление метрик ≤1 час. A/B-тесты с stat. significance ≥95%. Доступность дашборда 99.9%.',
+    result:'Прозрачная юнит-экономика. Оптимизация paywall +20% конверсии за 3 мес A/B-тестирования.',
+    ml_type:'rule',
+    ml_detail:'ML (post-MVP): предиктивная модель churn — прогноз оттока подписчиков для проактивных retention-кампаний.',
+    rule_detail:'Агрегация метрик, построение воронок, когортный анализ — rule-based + SQL. A/B-тесты — статистический движок.',
+    connections:'← Модуль монетизации → Бизнес-решения, Retention-кампании'}
+};
+
+function openDetail(id) {
+  const d = details[id];
+  if(!d) return;
+
+  let mlSection = '';
+  if(d.ml_type === 'ml') {
+    mlSection = `
+      <div class="detail-section">
+        <div class="detail-section-title">Технология: ML + Rule-based</div>
+        ${d.ml_detail ? `<div class="detail-ml-box"><div class="detail-ml-title">⚡ ML-компонент</div><div class="detail-ml-text">${d.ml_detail}</div></div>` : ''}
+        ${d.rule_detail ? `<div class="detail-rule-box"><div class="detail-rule-title">⚙ Rule-based часть</div><div class="detail-rule-text">${d.rule_detail}</div></div>` : ''}
+      </div>`;
+  } else if(d.ml_type === 'rule') {
+    mlSection = `
+      <div class="detail-section">
+        <div class="detail-section-title">Технология: Rule-based + API</div>
+        ${d.rule_detail ? `<div class="detail-rule-box"><div class="detail-rule-title">⚙ Rule-based</div><div class="detail-rule-text">${d.rule_detail}</div></div>` : ''}
+        ${d.ml_detail ? `<div class="detail-ml-box"><div class="detail-ml-title">⚡ ML-перспектива</div><div class="detail-ml-text">${d.ml_detail}</div></div>` : ''}
+      </div>`;
+  } else if(d.ml_detail) {
+    mlSection = `
+      <div class="detail-section">
+        <div class="detail-section-title">Технология</div>
+        <div class="detail-text">${d.ml_detail}</div>
+      </div>`;
+  }
+
+  const phaseBadge = d.phase === 'mvp' 
+    ? '<span class="phase-tag mvp" style="position:static;display:inline-block;margin-left:8px;vertical-align:middle">MVP</span>'
+    : '<span class="phase-tag post" style="position:static;display:inline-block;margin-left:8px;vertical-align:middle">Post-MVP</span>';
+
+  const html = `
+    <div class="detail-name">${d.name} ${phaseBadge}</div>
+    <div class="detail-zone" style="color:var(--teal)">${d.zone}</div>
+    <div class="detail-section">
+      <div class="detail-section-title">Проблема потребителя</div>
+      <div class="detail-text">${d.problem}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">User Story / Предлагаемое решение</div>
+      <div class="detail-text"><em style="color:var(--muted)">${d.jtbd}</em></div>
+      <div class="detail-text" style="margin-top:8px">${d.solution}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Входы компонента</div>
+      <ul class="detail-list">${d.inputs.map(i=>`<li>${i}</li>`).join('')}</ul>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Выходы компонента</div>
+      <ul class="detail-list">${d.outputs.map(i=>`<li>${i}</li>`).join('')}</ul>
+    </div>
+    ${mlSection}
+    <div class="detail-section">
+      <div class="detail-section-title">Требования к качеству (MVP / масштабирование)</div>
+      <div class="detail-text">${d.quality}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Конечный результат / Эффекты</div>
+      <div class="detail-text">${d.result}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-conn-box">
+        <div class="detail-conn-title">↔ Взаимосвязи с другими компонентами</div>
+        <div class="detail-conn-text">${d.connections}</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('detailContent').innerHTML = html;
+  document.getElementById('detailOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail(e) {
+  if(e.target === document.getElementById('detailOverlay')) closeDetailBtn();
+}
+function closeDetailBtn() {
+  document.getElementById('detailOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Helper: проверка мобильного режима (соответствует media-query)
+function isMobile(){ return window.matchMedia('(max-width:768px)').matches; }
+
+// Toggle sidebar drawer (только мобильный)
+function toggleSidebar(){
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sidebarOverlay');
+  const isOpen = sb.classList.toggle('open');
+  ov.classList.toggle('open', isOpen);
+  document.body.classList.toggle('sidebar-open', isOpen);
+}
+
+// Scroll top — на мобильном скролл через window, на десктопе через main
+const main = document.getElementById('main-content');
+const scrollBtn = document.getElementById('scrollTop');
+
+function getScroller(){ return isMobile() ? window : main; }
+function getScrollTop(){ return isMobile() ? (window.pageYOffset || document.documentElement.scrollTop) : main.scrollTop; }
+
+(isMobile() ? window : main).addEventListener('scroll', ()=>{
+  scrollBtn.classList.toggle('visible', getScrollTop() > 300);
+});
+// Дублируем подписку при изменении размера окна
+window.addEventListener('resize', ()=>{
+  // При смене мобильный↔десктоп закрываем drawer
+  if(!isMobile()){
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+    document.body.classList.remove('sidebar-open');
+  }
+});
+
+function scrollToTop(){
+  if(isMobile()) window.scrollTo({top:0,behavior:'smooth'});
+  else main.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Smooth scroll to section by id (универсальный — работает в обоих режимах)
+function scrollToSection(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  // Если открыт мобильный drawer — закрываем перед скроллом
+  const sb = document.getElementById('sidebar');
+  if(sb.classList.contains('open')) toggleSidebar();
+  // Небольшая задержка чтобы drawer успел закрыться
+  setTimeout(()=>{
+    if(isMobile()){
+      const headerH = document.querySelector('.header').offsetHeight + 8;
+      const tabsEl = document.querySelector('.mobile-tabs');
+      const tabsH = tabsEl ? tabsEl.offsetHeight : 0;
+      const top = el.getBoundingClientRect().top + window.pageYOffset - headerH - tabsH - 4;
+      window.scrollTo({top, behavior:'smooth'});
+    } else {
+      const offset = el.getBoundingClientRect().top - main.getBoundingClientRect().top + main.scrollTop - 12;
+      main.scrollTo({top: offset, behavior:'smooth'});
+    }
+  }, 50);
+}
+
+// Toggle niche card details
+function toggleNiche(card){
+  card.classList.toggle('expanded');
+}
+
+// Toggle partner breakdown (выпадающий блок «откуда 750 ₽»)
+function togglePartnerBreakdown(el){
+  el.classList.toggle('expanded');
+}
+
+// Switch SOM scenario
+const scenarios = {
+  target: {
+    meta: '<b>Целевой сценарий — для защиты и инвест.привлекательности.</b> Доли захвата ниш: <b>25 % / 12 % / 10 % B2C, 15–30 % по 7 подсегментам B2B (средневзвешенный ~20 %)</b>. Реалистично при условии: 3 года активного маркетинга в Нише 1, сильное УТП full-cycle, выделенная B2B sales-команда с года 2, интеграции со страховщиками для upsell. Партнёрские комиссии 750 ₽/чел./год.',
+    bars: {
+      '1': {users:'87 500 чел.', capture:'25 % захвата', value:350_000_000, valLabel:'350 млн ₽',  width:61.4, inner:'350 000 000 ₽'},
+      '2': {users:'10 200 чел.', capture:'12 % захвата', value: 40_800_000, valLabel:'40,8 млн ₽', width: 7.2, inner:'40,8 млн'},
+      '3': {users: '6 000 чел.', capture:'10 % захвата', value: 24_000_000, valLabel:'24 млн ₽',   width: 4.2, inner:'24 млн'},
+      '4': {users:    '507 орг.', capture:'~20 % средневзв.', value: 78_000_000, valLabel:'78 млн ₽', width:13.7, inner:'78 млн'},
+      'partner': {users:'103 700 чел.', capture:'× 750 ₽', value: 77_775_000, valLabel:'77,8 млн ₽', width:13.6, inner:'77,8 млн'}
+    },
+    total: '570 млн ₽',
+    // Поля для блока расчёта партнёрок
+    partner: {
+      headline: '(750 ₽/B2C-пользователь/год)',
+      pf: { active: '30 %', bookings: '2,5 шт.', avg: '15 000 ₽', rate: '5 %', loss: '~ 1,33×', result: '750 ₽/чел./год' },
+      totalMoney: '77,8 млн ₽',
+      totalFormula: '103 700 B2C-пользователей × 750 ₽',
+      shareOfSom: '13,6 %'
+    },
+    // Поля для transition-funnel SAM→SOM
+    transition: {
+      '1': {sam:'350 000 чел.', capPct:'25 %', capLbl:'захват за 3 года', som:'87 500 чел.', money:'350 млн ₽', somWidth:25, polyL:37.5, polyR:62.5, rat:'3 года активного маркетинга в фокусной нише + сильный сетевой эффект через групповой шеринг. Бенчмарк: HeadHunter в зрелых нишах ~30–35 %, Skyeng ~20 %.'},
+      '2': {sam:'85 000 чел.',  capPct:'12 %', capLbl:'захват за 2 года', som:'10 200 чел.', money:'40,8 млн ₽', somWidth:12, polyL:44.0, polyR:56.0, rat:'Старт со 2-го года = только 2 года маркетинга. Сегмент консервативный (Яндекс.Карты + Excel — привычный стек), нужна спец.функция «Авто-маршрут». Партнёрства с АЗС и автоклубами дают канал.'},
+      '3': {sam:'60 000 чел.',  capPct:'10 %', capLbl:'захват за 1 год',  som:'6 000 чел.',  money:'24 млн ₽',   somWidth:10, polyL:45.0, polyR:55.0, rat:'Старт с 3-го года = только 1 год активной работы. Зато viral через групповой шеринг: каждый организатор приглашает 3–10 участников. Узкий сегмент, но высокая lifetime-лояльность.'},
+      '4': {sam:'2 574 орг.',   capPct:'20 %', capLbl:'средневзвешенный захват', som:'507 орг.', money:'78 млн ₽',  somWidth:20, polyL:40.0, polyR:60.0, rat:'7 подсегментов с разными чеками: малый/средний/крупный бизнес 18–30 % захват, локальные турагентства 15 %, федеральные сети 25 % (2 из 8), вузы 18 %, корп.университеты 22 %. Средневзвешенный 19,7 % при выделенной B2B sales-команде с года 2.'}
+    }
+  },
+  conservative: {
+    meta: '<b>Консервативный сценарий — риск-сценарий для финмодели.</b> Доли захвата ниш: <b>10 % / 6 % / 5 % B2C, 6–12 % по подсегментам B2B (~9 % средневзв.)</b>. Применяем при: задержке выхода Ниш 2 и 3, ограниченном маркетинговом бюджете, slow B2B sales (только 1 enterprise-менеджер). Партнёрские комиссии 562 ₽/чел./год.',
+    bars: {
+      '1': {users:'35 000 чел.', capture:'10 % захвата', value:140_000_000, valLabel:'140 млн ₽',  width:61.2, inner:'140 000 000 ₽'},
+      '2': {users: '5 100 чел.', capture: '6 % захвата', value: 20_400_000, valLabel:'20,4 млн ₽', width: 8.9, inner:'20,4 млн'},
+      '3': {users: '3 000 чел.', capture: '5 % захвата', value: 12_000_000, valLabel:'12 млн ₽',   width: 5.2, inner:'12 млн'},
+      '4': {users:    '222 орг.', capture: '~9 % средневзв.', value: 32_000_000, valLabel:'32 млн ₽', width:14.0, inner:'32 млн'},
+      'partner': {users:'43 100 чел.', capture:'× 562 ₽', value: 24_222_000, valLabel:'24,2 млн ₽', width:10.6, inner:'24,2 млн'}
+    },
+    total: '~229 млн ₽',
+    partner: {
+      headline: '(562 ₽/B2C-пользователь/год)',
+      pf: { active: '30 %', bookings: '2,5 шт.', avg: '15 000 ₽', rate: '5 %', loss: '1,0× (без upsell)', result: '562 ₽/чел./год' },
+      totalMoney: '24,2 млн ₽',
+      totalFormula: '43 100 B2C-пользователей × 562 ₽',
+      shareOfSom: '10,6 %'
+    },
+    transition: {
+      '1': {sam:'350 000 чел.', capPct:'10 %', capLbl:'захват за 3 года', som:'35 000 чел.', money:'140 млн ₽', somWidth:10, polyL:45.0, polyR:55.0, rat:'Базовый сценарий маркетинга без сетевого эффекта. Реакция Яндекс Путешествий ограничивает рост. Достижимо при минимальном маркетинговом бюджете и focus на органике.'},
+      '2': {sam:'85 000 чел.',  capPct: '6 %', capLbl:'захват за 2 года', som:'5 100 чел.',  money:'20,4 млн ₽', somWidth: 6, polyL:47.0, polyR:53.0, rat:'Задержка запуска авто-функций на 6+ месяцев. Конкуренция со стороны автонавигаторов. Реалистично, если партнёрства с АЗС не сработали.'},
+      '3': {sam:'60 000 чел.',  capPct: '5 %', capLbl:'захват за 1 год',  som:'3 000 чел.',  money:'12 млн ₽',   somWidth: 5, polyL:47.5, polyR:52.5, rat:'Семейные функции запущены поздно или сырыми. Viral-эффект слабее ожидаемого. Минимально достаточно для подтверждения концепции.'},
+      '4': {sam:'2 574 орг.',   capPct: '~9 %', capLbl:'средневзв. захват', som:'222 орг.',  money:'32 млн ₽',  somWidth: 9, polyL:45.5, polyR:54.5, rat:'B2B-направление развивается медленнее: только 1 enterprise-менеджер. Длинные sales cycle усугубляются. Доли по подсегментам: 8/10/12/6/12/8/10 %.'}
+    }
+  }
+};
+
+function switchScenario(name, btn){
+  document.querySelectorAll('.scenario-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const s = scenarios[name];
+  document.getElementById('scenario-meta').innerHTML = s.meta;
+
+  // Update bars
+  Object.entries(s.bars).forEach(([key, data])=>{
+    const meta = document.querySelector(`[data-niche-meta="${key}"]`);
+    if(meta) meta.innerHTML = `<b>${data.users}</b> · ${data.capture}`;
+    const bar = document.querySelector(`[data-bar="${key}"]`);
+    if(bar){
+      bar.style.width = data.width + '%';
+      bar.textContent = data.inner;
+    }
+    const val = document.querySelector(`[data-niche-val="${key}"]`);
+    if(val) val.textContent = data.valLabel;
+  });
+  document.getElementById('som-total-value').textContent = s.total;
+
+  // Update partner breakdown block
+  if(s.partner){
+    const p = s.partner;
+    const $ = (id) => document.getElementById(id);
+    if($('partner-per-user-headline')) $('partner-per-user-headline').textContent = p.headline;
+    if($('pf-active')) $('pf-active').textContent = p.pf.active;
+    if($('pf-bookings')) $('pf-bookings').textContent = p.pf.bookings;
+    if($('pf-avg')) $('pf-avg').textContent = p.pf.avg;
+    if($('pf-rate')) $('pf-rate').textContent = p.pf.rate;
+    if($('pf-loss')) $('pf-loss').textContent = p.pf.loss;
+    if($('pf-result')) $('pf-result').textContent = p.pf.result;
+    if($('partner-total-money')) $('partner-total-money').textContent = p.totalMoney;
+    if($('partner-total-formula')) $('partner-total-formula').textContent = p.totalFormula;
+    if($('partner-share-of-som')) $('partner-share-of-som').textContent = p.shareOfSom;
+  }
+
+  // Update SAM→SOM funnel visualization
+  if(s.transition){
+    const $ = (id) => document.getElementById(id);
+    Object.entries(s.transition).forEach(([key, t])=>{
+      // Текстовые поля
+      if($(`tc-${key}-sam`)) $(`tc-${key}-sam`).textContent = t.sam;
+      if($(`tc-${key}-som`)) $(`tc-${key}-som`).textContent = t.som;
+      if($(`tc-${key}-cap-big`)) $(`tc-${key}-cap-big`).textContent = t.capPct;
+      if($(`tc-${key}-cap-lbl`)) $(`tc-${key}-cap-lbl`).textContent = t.capLbl;
+      if($(`tc-${key}-money`)) $(`tc-${key}-money`).textContent = t.money;
+      if($(`tc-${key}-rat`)) $(`tc-${key}-rat`).textContent = t.rat;
+      // Ширина SOM-полосы
+      const bar = $(`tc-${key}-bar`);
+      if(bar) bar.style.width = t.somWidth + '%';
+      // Polygon-точки воронки
+      const poly = $(`tc-${key}-poly`);
+      if(poly) poly.setAttribute('points', `0,0 100,0 ${t.polyR},14 ${t.polyL},14`);
+    });
+  }
+}
+
+// Keyboard close
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetailBtn();});
+</script>
+</body>
+</html>
